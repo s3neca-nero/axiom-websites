@@ -1,380 +1,693 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import StatsCurve from '../components/StatsCurve.astro';
-import '@axiom/ui/stats-curve.css';
-import { hero, stats, buildSteps, portfolio, news } from '../data/site';
-
-const universities = [
-  'University of Sydney',
-  'UNSW Sydney',
-  'Monash University',
-  'Griffith University',
-  'ANZAC Research Institute',
-  'Sydney Local Health District',
-];
-
+// Proto Axiom — Landing splash
+// Self-contained, full-viewport hero with helix → constellation → helix animation.
+// Bypasses BaseLayout intentionally: this page has its own chrome (logo + hamburger).
+// The detailed marketing home that previously lived here is preserved at
+// src/_archive/home-detailed.astro.
+const title = 'Proto Axiom';
+const description =
+  'Proto Axiom — Australian biotech company creation. Eight portfolio companies. Permanent capital. Pharma-grade execution.';
+const canonical = `https://protoaxiom.com${Astro.url.pathname}`;
+const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg';
 ---
-<BaseLayout title="Proto Axiom — Australian biotech company creation" active="home">
-  <!-- Hero (variant A) -->
-  <section class="pa-hero-a">
-    <div class="pa-wrap">
-      <div class="pa-hero-a__stamp">
-        <span>EST. 2021 · SYDNEY</span>
-        <span class="dot"></span>
-        <span>HOLDING COMPANY · PERMANENT CAPITAL</span>
-        <span class="dot"></span>
-        <span>A$45M AUM · 8 PORTFOLIO COMPANIES</span>
-      </div>
-      <div class="pa-hero-a__grid">
-        <div class="pa-hero-a__head">
-          <div class="pa-eyebrow">{hero.eyebrow}</div>
-          <h1 class="pa-hero-a__title">
-            We build biotech companies <em>in Australia.</em>
-          </h1>
-          <p class="pa-hero-a__lead">{hero.lead}</p>
-          <div class="pa-hero-a__cta">
-            <a class="pa-btn pa-btn--primary" href="/investment">
-              Our investment process <span class="pa-arrow">→</span>
-            </a>
-            <a class="pa-btn pa-btn--ghost" href="/#portfolio">View portfolio</a>
-          </div>
-        </div>
-        <div class="pa-hero-a__visual">
-          <img
-            src="/images/photography/cogger-hunt-endo-axiom.jpg"
-            alt="Prof Victoria Cogger and A/Prof Nicholas Hunt, co-founders of Endo Axiom, in the lab"
-          />
-          <div class="pa-hero-a__caption">
-            INSIDE THE LAB · ENDO AXIOM · CO‑FOUNDERS PROF VICTORIA COGGER &amp; A/PROF NICHOLAS HUNT
-          </div>
-        </div>
-      </div>
-      <div class="pa-unis">
-        <div class="pa-unis__head">
-          <div class="pa-unis__lbl">Sourced with</div>
-          <h4 class="pa-unis__h">Australia's leading research institutions and the public health system.</h4>
-        </div>
-        <div class="pa-unis__grid">
-          {universities.map((u) => <div class="pa-unis__cell">{u}</div>)}
-        </div>
-      </div>
-    </div>
-  </section>
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a1320" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
 
-  <!-- AUM stats — Capital Curve direction -->
-  <StatsCurve />
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Proto Axiom" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_AU" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
-
-  <!-- Capital strip -->
-  <section class="pa-section pa-section--tight pa-section--white" style="padding-top: 0;">
-    <div class="pa-wrap">
-      <div class="pa-capital-quiet">
-        <div class="pa-capital-quiet__lbl">Capital base</div>
-        <p class="pa-capital-quiet__body">
-          Backed by a closed group of <strong>33 private investors</strong> across Australia, the United States and the United Kingdom — family offices, foundations and strategic operators who provide patient capital alongside operating insight. Investor identities held in confidence.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why Australia -->
-  <section class="pa-section pa-section--almond">
-    <div class="pa-wrap">
-      <div class="pa-whyx">
-        <header class="pa-whyx__head">
-          <div>
-            <div class="pa-eyebrow">The translation gap</div>
-            <h2 class="pa-h2" style="margin: 0;">World‑class science.<br/>Under‑capitalised companies.</h2>
-          </div>
-          <p class="pa-whyx__lead">
-            Australia consistently ranks in the global top tier for biomedical research output — but the capital flowing into translation lags every comparable economy. The arithmetic is the entire reason Proto Axiom exists.
-          </p>
+    <!-- Fonts: Cormorant Garamond (display) + DM Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="stage">
+      <canvas id="canvas"></canvas>
+      <div class="vignette"></div>
+      <div class="grain"></div>
+      <div class="ui">
+        <header class="top">
+          <a href="/" aria-label="Proto Axiom — home">
+            <img class="logo" src="/brand/proto-axiom-logo_full-white.svg" alt="Proto Axiom" />
+          </a>
+          <button
+            class="menu-btn"
+            id="menuBtn"
+            aria-expanded="false"
+            aria-controls="menuPanel"
+            aria-label="Open menu"
+          >
+            <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="label">Menu</span>
+          </button>
         </header>
-        <div class="pa-whyx__compare">
-          <div class="pa-whyx__compare-head">
-            <div class="pa-whyx__compare-lbl">Per‑researcher venture capital, life sciences</div>
-            <div class="pa-whyx__compare-note">Source: AusBiotech, OECD MSTI, NVCA · 2024 calendar year</div>
-          </div>
-          <div class="pa-whyx__compare-rows">
-            <div class="pa-whyx__compare-row">
-              <div class="pa-whyx__compare-flag">AU</div>
-              <div class="pa-whyx__compare-bar"><span style="width: 8%;"></span></div>
-              <div class="pa-whyx__compare-val">US$11k</div>
-            </div>
-            <div class="pa-whyx__compare-row">
-              <div class="pa-whyx__compare-flag">UK</div>
-              <div class="pa-whyx__compare-bar"><span style="width: 34%;"></span></div>
-              <div class="pa-whyx__compare-val">US$48k</div>
-            </div>
-            <div class="pa-whyx__compare-row">
-              <div class="pa-whyx__compare-flag pa-whyx__compare-flag--accent">US</div>
-              <div class="pa-whyx__compare-bar"><span class="pa-whyx__compare-bar-fill--accent" style="width: 100%;"></span></div>
-              <div class="pa-whyx__compare-val pa-whyx__compare-val--accent">US$142k</div>
-            </div>
-          </div>
-        </div>
-        <div class="pa-whyx__stats">
-          <div class="pa-whyx__stat">
-            <div class="pa-whyx__stat-num">3.4%</div>
-            <div class="pa-whyx__stat-lbl">of global biomedical publications</div>
-            <div class="pa-whyx__stat-sub">Australia produces output at ~3× its share of world GDP. Source: Nature Index 2024.</div>
-          </div>
-          <div class="pa-whyx__stat">
-            <div class="pa-whyx__stat-num">A$22B</div>
-            <div class="pa-whyx__stat-lbl">Medical Research Future Fund</div>
-            <div class="pa-whyx__stat-sub">Sovereign endowment for translational research, perpetually invested by the Australian Government.</div>
-          </div>
-          <div class="pa-whyx__stat">
-            <div class="pa-whyx__stat-num pa-whyx__stat-num--neg">0.06%</div>
-            <div class="pa-whyx__stat-lbl">of GDP into life‑sciences VC</div>
-            <div class="pa-whyx__stat-sub">~1/8th of the US figure. The bottleneck is company formation capital — not science. Source: ABS, NVCA.</div>
-          </div>
-        </div>
-        <div class="pa-whyx__bridge">
-          <div class="pa-whyx__bridge-lbl">Our response</div>
-          <p class="pa-whyx__bridge-body">
-            Permanent capital, milestone‑gated, deployed alongside Australia's research institutions to form companies that wouldn't otherwise exist. <strong>Eight in five years.</strong> Three approaching clinical trials.
+        <nav class="menu-panel" id="menuPanel" aria-hidden="true">
+          <ul>
+            <li><a href="/"><span>Home</span><span class="num">01</span></a></li>
+            <li><a href="/investment"><span>Investment</span><span class="num">02</span></a></li>
+            <li><a href="/portfolio"><span>Portfolio</span><span class="num">03</span></a></li>
+            <li><a href="/team"><span>Team</span><span class="num">04</span></a></li>
+            <li><a href="/news"><span>News</span><span class="num">05</span></a></li>
+            <li><a href="/applications/challenger"><span>Challenger Summit</span><span class="num">06</span></a></li>
+            <li><a href="/contact"><span>Contact</span><span class="num">07</span></a></li>
+            <li class="divider-li"><div class="divider"></div></li>
+            <li class="login">
+              <a href="https://tools.protoaxiom.com" target="_blank" rel="noopener">
+                <span>Login</span><span class="arrow">→</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="copy">
+          <h1 class="headline">
+            We build the companies <span class="em">we invest in.</span>
+          </h1>
+          <p class="subline">
+            Australian science <span class="dot"></span> Pharma-grade execution
           </p>
         </div>
+        <div class="corner">Sydney · est. 2021</div>
       </div>
     </div>
-  </section>
 
-  <!-- Build (5-step) -->
-  <section class="pa-section pa-section--brand" style="position: relative; overflow: hidden;">
-    <img src="/images/textures/textures_full-circle.svg" alt=""
-      style="position: absolute; right: -160px; top: -100px; width: 560px; height: 560px; opacity: 0.14; pointer-events: none;" />
-    <div class="pa-wrap" style="position: relative;">
-      <div class="pa-build-head">
-        <div>
-          <div class="pa-eyebrow">How we build companies</div>
-          <h2 class="pa-h2" style="margin: 0;">From signal<br/>to scale.</h2>
-        </div>
-        <p class="pa-build-head__lead">
-          We do the hard middle: rigorous diligence, practical company building, and disciplined capital deployment alongside the researchers we partner with — five stages, one operating bench.
-        </p>
-        <div class="pa-build-head__meta">
-          <span>Average time, signal → first capital</span>
-          <strong>~9 months</strong>
-        </div>
-      </div>
-      <div class="pa-build-flow">
-        <div class="pa-build-row pa-build-row--text">
-          {buildSteps.slice(0, 2).map((s, i) => (
-            <article class="pa-build-step">
-              <div class="pa-build-step__rule"></div>
-              <div class="pa-build-step__head">
-                <span class="pa-build-step__num">{s.n}</span>
-                <span class="pa-build-step__tag">{i === 0 ? 'Sourcing' : 'Diligence'}</span>
-              </div>
-              <h3 class="pa-build-step__title">{s.title}</h3>
-              <p class="pa-build-step__text">{s.text}</p>
-            </article>
-          ))}
-        </div>
-        <div class="pa-build-row pa-build-row--anchor">
-          <a class="pa-build-anchor-link" href="/applications/challenger">
-            <figure class="pa-build-anchor">
-              <img src="/images/photography/lab-researchers.jpg" alt="Challenger Summit pitch day, Sydney" />
-              <figcaption>
-                <span class="pa-build-anchor__lbl">Challenger Summit</span>
-                <span class="pa-build-anchor__cap">Australia's largest pitch day in life sciences. Researchers, founders and clinical leads pitch for capital and a path to patient impact &mdash; A$500K in non&#8209;dilutive grants. <strong>Programme details &rarr;</strong></span>
-              </figcaption>
-            </figure>
-          </a>
-          <article class="pa-build-step pa-build-step--accent">
-            <div class="pa-build-step__rule pa-build-step__rule--accent"></div>
-            <div class="pa-build-step__head">
-              <span class="pa-build-step__num pa-build-step__num--accent">{buildSteps[2].n}</span>
-              <span class="pa-build-step__tag pa-build-step__tag--accent">Formation</span>
-            </div>
-            <h3 class="pa-build-step__title">{buildSteps[2].title}</h3>
-            <p class="pa-build-step__text">{buildSteps[2].text}</p>
-            <ul class="pa-build-step__list">
-              <li>Founding capital, A$0.8M – A$3.6M</li>
-              <li>Company formation &amp; IP licensing</li>
-              <li>Tailored management appointment</li>
-            </ul>
-          </article>
-        </div>
-        <div class="pa-build-row pa-build-row--text">
-          {buildSteps.slice(3).map((s, i) => (
-            <article class="pa-build-step">
-              <div class="pa-build-step__rule"></div>
-              <div class="pa-build-step__head">
-                <span class="pa-build-step__num">{s.n}</span>
-                <span class="pa-build-step__tag">{i === 0 ? 'De‑risking' : 'Scale'}</span>
-              </div>
-              <h3 class="pa-build-step__title">{s.title}</h3>
-              <p class="pa-build-step__text">{s.text}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-      <div class="pa-build-foot">
-        <span class="pa-build-foot__lbl">Outcome</span>
-        <p class="pa-build-foot__body">
-          A company with a defined development plan, capital sufficient for the next gate, and an operating team that has built biotechs before. Repeated, with discipline, eight times since 2021.
-        </p>
-      </div>
-    </div>
-  </section>
+    <script is:inline>
+      (() => {
+        const btn = document.getElementById('menuBtn');
+        const panel = document.getElementById('menuPanel');
+        function setOpen(open) {
+          btn.classList.toggle('open', open);
+          panel.classList.toggle('open', open);
+          btn.setAttribute('aria-expanded', String(open));
+          panel.setAttribute('aria-hidden', String(!open));
+        }
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          setOpen(!panel.classList.contains('open'));
+        });
+        document.addEventListener('click', (e) => {
+          if (!panel.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') setOpen(false);
+        });
+      })();
+    </script>
+    <script is:inline src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <script is:inline>
+      (() => {
+        const canvas = document.getElementById('canvas');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x0a1320, 1);
 
-  <!-- Portfolio -->
-  <section class="pa-section pa-section--white" id="portfolio">
-    <div class="pa-wrap">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: end; margin-bottom: 64px;">
-        <div>
-          <div class="pa-eyebrow">Portfolio · 8 companies</div>
-          <h2 class="pa-h2">Scientific breakthroughs, translated.</h2>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px;">
-          <p class="pa-body" style="margin: 0; color: var(--pa-ink-muted); font-size: 17px; max-width: 480px;">
-            Eight companies across therapeutics, biotech, diagnostics and bioprocessing — sourced from Australia's leading research institutions and built with Proto Axiom as founding investor.
-          </p>
-        </div>
-      </div>
-      <div class="pa-portfolio">
-        {portfolio.map((p) => (
-          <a class="pa-portfolio__card" href={`/portfolio/${p.slug}`}>
-            <div class="pa-portfolio__top">
-              <img class="pa-portfolio__logo" src={p.logo} alt={p.name} />
-              <div class="pa-portfolio__year">{p.yearFounded}</div>
-            </div>
-            <div class="pa-portfolio__sector">{p.sector} · {p.modality}</div>
-            <h3 class="pa-portfolio__name">{p.name}</h3>
-            <p class="pa-portfolio__tagline">{p.tagline}</p>
-            <dl class="pa-portfolio__stats">
-              <div><dt>Origin</dt><dd>{p.origin}</dd></div>
-              <div><dt>Stage</dt><dd>{p.stage}</dd></div>
-              <div>
-                <dt>Relationship</dt>
-                <dd>{p.relationship === 'founding-investor' ? 'Created with Proto Axiom' : 'Venture stake'}</dd>
-              </div>
-            </dl>
-            <div class="pa-portfolio__foot">
-              <span class="pa-portfolio__stage">{p.relationship === 'founding-investor' ? 'Founding investor' : 'Venture'}</span>
-              <span class="pa-portfolio__more">View →</span>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0a1320, 0.06);
 
+        const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+        camera.position.set(0, 0, 14);
 
-  <!-- Capital structure -->
-  <section class="pa-section pa-section--white">
-    <div class="pa-wrap">
-      <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 96px; align-items: end; margin-bottom: 56px;">
-        <div>
-          <div class="pa-eyebrow">Capital structure</div>
-          <h2 class="pa-h2">A holding company.<br/>Not a fund.</h2>
-        </div>
-        <p class="pa-body" style="margin: 0; color: var(--pa-ink-muted); font-size: 17px; max-width: 540px;">
-          Most biotech in Australia is funded by closed-end venture funds with a 10-year clock. We're structured for the timelines science actually requires.
-        </p>
-      </div>
-      <div class="pa-capstruct">
-        <div class="pa-capstruct__col pa-capstruct__col--pa">
-          <div class="pa-capstruct__lbl">Proto Axiom</div>
-          <h3 class="pa-capstruct__h">Permanent capital. Milestone-gated.</h3>
-          <p class="pa-capstruct__sub">Holding company structure with no fixed life — capital recycles into the portfolio indefinitely.</p>
-          <div class="pa-capstruct__rows">
-            <div class="pa-capstruct__row"><span>Vehicle</span><div><strong>Holding company</strong> — single permanent balance sheet</div></div>
-            <div class="pa-capstruct__row"><span>Time horizon</span><div><strong>Indefinite</strong> — no fund close, no forced exits</div></div>
-            <div class="pa-capstruct__row"><span>Fees</span><div><strong>None</strong> — no management fee, no carry</div></div>
-            <div class="pa-capstruct__row"><span>Capital release</span><div><strong>Gate-driven</strong> — tranches against scientific milestones</div></div>
-            <div class="pa-capstruct__row"><span>Operating bench</span><div><strong>Shared</strong> — clinical, regulatory, IP, finance, governance</div></div>
-          </div>
-        </div>
-        <div class="pa-capstruct__col pa-capstruct__col--vc">
-          <div class="pa-capstruct__lbl">Traditional VC fund</div>
-          <h3 class="pa-capstruct__h">Closed-end. 10-year cycle.</h3>
-          <p class="pa-capstruct__sub">Standard fund-of-funds vehicle with LP commitments, fixed deployment window and forced exit calendar.</p>
-          <div class="pa-capstruct__rows">
-            <div class="pa-capstruct__row"><span>Vehicle</span><div><strong>Limited partnership</strong> — LP commitments, GP carry</div></div>
-            <div class="pa-capstruct__row"><span>Time horizon</span><div><strong>10 years</strong> — investment + harvest periods fixed</div></div>
-            <div class="pa-capstruct__row"><span>Fees</span><div><strong>2 / 20</strong> — 2% management, 20% carried interest</div></div>
-            <div class="pa-capstruct__row"><span>Capital release</span><div><strong>Round-driven</strong> — milestones tied to financing cycles</div></div>
-            <div class="pa-capstruct__row"><span>Operating bench</span><div><strong>External</strong> — outsourced to founders / consultants</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        function resize() {
+          const w = window.innerWidth, h = window.innerHeight;
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
-  <!-- Initiatives -->
-  <section class="pa-section pa-section--white">
-    <div class="pa-wrap">
-      <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 96px; align-items: end; margin-bottom: 56px;">
-        <div>
-          <div class="pa-eyebrow">Initiatives</div>
-          <h2 class="pa-h2">Programmes that<br/>widen the funnel.</h2>
-        </div>
-        <p class="pa-body" style="margin: 0; color: var(--pa-ink-muted); font-size: 17px; max-width: 540px;">
-          Alongside our portfolio, Proto Axiom runs and supports programmes that surface translational science earlier — from researchers who haven't yet considered company formation through to under‑represented founders in priority therapeutic areas.
-        </p>
-      </div>
-      <div class="pa-inits">
-        <a class="pa-inits__card" href="/applications/challenger">
-          <div class="pa-inits__top">
-            <div class="pa-inits__lbl">Pitch programme · Annual</div>
-            <span class="pa-inits__arrow">→</span>
-          </div>
-          <h3 class="pa-inits__name">Challenger Summit</h3>
-          <p class="pa-inits__desc">Australia's largest pitch day in life sciences. Researchers, founders and clinical leads pitch for capital, mentorship and a path to patient impact. A$500K in grant prizes awarded in 2026.</p>
-          <dl class="pa-inits__stats">
-            <div><dt>Next event</dt><dd>2027</dd></div>
-            <div><dt>2026 prize pool</dt><dd>A$500K</dd></div>
-            <div><dt>Partner</dt><dd>St Vincent's Health</dd></div>
-          </dl>
-        </a>
-        <a class="pa-inits__card" href="https://womenshealthfoundry.com.au" target="_blank" rel="noopener">
-          <div class="pa-inits__top">
-            <div class="pa-inits__lbl">Translation platform · National</div>
-            <span class="pa-inits__arrow">↗</span>
-          </div>
-          <h3 class="pa-inits__name">Women's Health Foundry</h3>
-          <p class="pa-inits__desc">A national women's health translation platform being built by Proto Axiom — moving Australian women's health innovations from research into de‑risked, investment‑ready ventures, with academic, clinical, consumer, industry and investor partners.</p>
-          <dl class="pa-inits__stats">
-            <div><dt>Status</dt><dd>In development</dd></div>
-            <div><dt>Scope</dt><dd>National platform</dd></div>
-            <div><dt>Visit</dt><dd>womenshealthfoundry.com.au</dd></div>
-          </dl>
-        </a>
-      </div>
-    </div>
-  </section>
+        // --- Geometry: double helix ↔ 8-node constellation -----------------
+        const PARTICLE_COUNT = 2000;
+        const NODES = 8;            // portfolio companies
+        const HELIX_TURNS = 4;
+        const HELIX_HEIGHT = 9.5;
+        const HELIX_RADIUS = 1.8;
 
-  <!-- Latest news -->
-  <section class="pa-section pa-section--white">
-    <div class="pa-wrap">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 56px;">
-        <div>
-          <div class="pa-eyebrow">Latest news</div>
-          <h2 class="pa-h2" style="margin: 0;">From the firm and our portfolio.</h2>
-        </div>
-        <a class="pa-link" href="/news">All news <span style="margin-left: 6px;">→</span></a>
-      </div>
-      <div class="pa-news">
-        {news.slice(0, 3).map((n) => (
-          <article class="pa-news__item">
-            <div class="pa-news__meta">
-              <span>{n.date}</span>
-              <span>·</span>
-              <span class="pa-news__source">{n.source}</span>
-              <span>·</span>
-              <span>{n.kind}</span>
-            </div>
-            <h3 class="pa-news__title">{n.title}</h3>
-            <div style="margin-top: auto; padding-top: 16px;">
-              <a class="pa-link" href="/news">Read <span style="margin-left: 6px;">→</span></a>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-</BaseLayout>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        const helixPos = new Float32Array(PARTICLE_COUNT * 3);
+        const constellationPos = new Float32Array(PARTICLE_COUNT * 3);
+        const seed = new Float32Array(PARTICLE_COUNT);
+
+        const nodeAnchors = [];
+        for (let i = 0; i < NODES; i++) {
+          const t = (i + 0.5) / NODES;
+          const phi = Math.acos(1 - 2 * t);
+          const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+          const r = 4.2;
+          nodeAnchors.push(new THREE.Vector3(
+            r * Math.sin(phi) * Math.cos(theta),
+            (t - 0.5) * 7.5,
+            r * Math.sin(phi) * Math.sin(theta) * 0.7
+          ));
+        }
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          const strand = i % 2;
+          const u = i / PARTICLE_COUNT;
+          const angle = u * HELIX_TURNS * Math.PI * 2 + strand * Math.PI;
+          const y = (u - 0.5) * HELIX_HEIGHT;
+          const rJit = HELIX_RADIUS + (Math.random() - 0.5) * 0.08;
+          helixPos[i*3+0] = Math.cos(angle) * rJit;
+          helixPos[i*3+1] = y;
+          helixPos[i*3+2] = Math.sin(angle) * rJit;
+
+          const nodeIdx = i % NODES;
+          const anchor = nodeAnchors[nodeIdx];
+          const k = Math.pow(Math.random(), 2.4);
+          const spread = 0.05 + k * 1.6;
+          const dir = new THREE.Vector3(
+            (Math.random() - 0.5),
+            (Math.random() - 0.5),
+            (Math.random() - 0.5)
+          ).normalize().multiplyScalar(spread);
+          constellationPos[i*3+0] = anchor.x + dir.x;
+          constellationPos[i*3+1] = anchor.y + dir.y;
+          constellationPos[i*3+2] = anchor.z + dir.z;
+
+          seed[i] = Math.random();
+        }
+
+        const positions = new Float32Array(PARTICLE_COUNT * 3);
+        positions.set(helixPos);
+
+        const geom = new THREE.BufferGeometry();
+        geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geom.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
+
+        const uniforms = {
+          uTime: { value: 0 },
+          uPixelRatio: { value: renderer.getPixelRatio() },
+          uColorA: { value: new THREE.Color('#00B3AB') },
+          uColorB: { value: new THREE.Color('#7fe9e3') },
+          uMorph: { value: 0 }
+        };
+
+        const pointsMat = new THREE.ShaderMaterial({
+          uniforms,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          vertexShader: `
+            attribute float aSeed;
+            uniform float uTime;
+            uniform float uPixelRatio;
+            uniform float uMorph;
+            varying float vGlow;
+            varying float vSeed;
+            void main() {
+              vSeed = aSeed;
+              vec3 p = position;
+              float breathe = sin(uTime * 0.6 + aSeed * 6.2831) * 0.04;
+              p += normalize(p + 0.0001) * breathe;
+              vec4 mv = modelViewMatrix * vec4(p, 1.0);
+              float dist = -mv.z;
+              float flicker = 0.65 + 0.35 * sin(uTime * 1.4 + aSeed * 12.566);
+              vGlow = mix(0.55, 1.15, uMorph) * flicker;
+              float size = mix(2.2, 4.4, uMorph) * uPixelRatio * (8.0 / max(dist, 0.0001));
+              gl_PointSize = clamp(size, 1.0, 28.0);
+              gl_Position = projectionMatrix * mv;
+            }
+          `,
+          fragmentShader: `
+            uniform vec3 uColorA;
+            uniform vec3 uColorB;
+            varying float vGlow;
+            varying float vSeed;
+            void main() {
+              vec2 uv = gl_PointCoord - 0.5;
+              float d = length(uv);
+              if (d > 0.5) discard;
+              float core = smoothstep(0.5, 0.0, d);
+              float halo = pow(core, 2.4);
+              vec3 col = mix(uColorA, uColorB, vSeed * 0.6 + 0.2) * vGlow;
+              float a = halo;
+              gl_FragColor = vec4(col, a);
+            }
+          `
+        });
+
+        const points = new THREE.Points(geom, pointsMat);
+        scene.add(points);
+
+        // --- Constellation lines ------------------------------------------
+        const lineSegs = [];
+        for (let i = 0; i < NODES; i++) {
+          const dists = nodeAnchors.map((p, j) => ({ j, d: i === j ? Infinity : nodeAnchors[i].distanceTo(p) }));
+          dists.sort((a,b) => a.d - b.d);
+          lineSegs.push([i, dists[0].j]);
+          lineSegs.push([i, dists[1].j]);
+        }
+        const seen = new Set();
+        const edges = [];
+        for (const [a,b] of lineSegs) {
+          const key = a < b ? `${a}-${b}` : `${b}-${a}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          edges.push([a,b]);
+        }
+        const linePos = new Float32Array(edges.length * 2 * 3);
+        for (let e = 0; e < edges.length; e++) {
+          const [a,b] = edges[e];
+          linePos[e*6+0] = nodeAnchors[a].x;
+          linePos[e*6+1] = nodeAnchors[a].y;
+          linePos[e*6+2] = nodeAnchors[a].z;
+          linePos[e*6+3] = nodeAnchors[b].x;
+          linePos[e*6+4] = nodeAnchors[b].y;
+          linePos[e*6+5] = nodeAnchors[b].z;
+        }
+        const lineGeom = new THREE.BufferGeometry();
+        lineGeom.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
+        const lineMat = new THREE.LineBasicMaterial({
+          color: 0x00B3AB,
+          transparent: true,
+          opacity: 0.0,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+        const lines = new THREE.LineSegments(lineGeom, lineMat);
+        scene.add(lines);
+
+        const nodeHaloGeom = new THREE.BufferGeometry();
+        const nodeHaloPos = new Float32Array(NODES * 3);
+        for (let i = 0; i < NODES; i++) {
+          nodeHaloPos[i*3+0] = nodeAnchors[i].x;
+          nodeHaloPos[i*3+1] = nodeAnchors[i].y;
+          nodeHaloPos[i*3+2] = nodeAnchors[i].z;
+        }
+        nodeHaloGeom.setAttribute('position', new THREE.BufferAttribute(nodeHaloPos, 3));
+        const haloUniforms = {
+          uTime: { value: 0 },
+          uPixelRatio: { value: renderer.getPixelRatio() },
+          uOpacity: { value: 0 },
+          uColor: { value: new THREE.Color('#7fe9e3') }
+        };
+        const haloMat = new THREE.ShaderMaterial({
+          uniforms: haloUniforms,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          vertexShader: `
+            uniform float uTime;
+            uniform float uPixelRatio;
+            varying float vT;
+            void main() {
+              vec4 mv = modelViewMatrix * vec4(position, 1.0);
+              float dist = -mv.z;
+              float pulse = 0.85 + 0.15 * sin(uTime * 1.2 + position.x * 1.7 + position.y * 0.9);
+              vT = pulse;
+              gl_PointSize = (16.0 * uPixelRatio * pulse) * (8.0 / max(dist, 0.0001));
+              gl_Position = projectionMatrix * mv;
+            }
+          `,
+          fragmentShader: `
+            uniform float uOpacity;
+            uniform vec3 uColor;
+            varying float vT;
+            void main() {
+              vec2 uv = gl_PointCoord - 0.5;
+              float d = length(uv);
+              if (d > 0.5) discard;
+              float core = smoothstep(0.5, 0.0, d);
+              float a = pow(core, 2.0) * uOpacity * vT;
+              gl_FragColor = vec4(uColor, a);
+            }
+          `
+        });
+        const haloPoints = new THREE.Points(nodeHaloGeom, haloMat);
+        scene.add(haloPoints);
+
+        // --- Mouse parallax ------------------------------------------------
+        const target = { x: 0, y: 0 };
+        const cur = { x: 0, y: 0 };
+        window.addEventListener('pointermove', (e) => {
+          target.x = (e.clientX / window.innerWidth) * 2 - 1;
+          target.y = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+        window.addEventListener('pointerleave', () => {
+          target.x = 0; target.y = 0;
+        });
+
+        // --- Morph cycle ---------------------------------------------------
+        const CYCLE = 16.0;
+        function smoothstep(a, b, t) {
+          t = Math.max(0, Math.min(1, (t - a) / (b - a)));
+          return t * t * (3 - 2 * t);
+        }
+
+        const positionsAttr = geom.getAttribute('position');
+        let t0 = performance.now();
+        function tick() {
+          const now = performance.now();
+          const t = (now - t0) / 1000;
+          uniforms.uTime.value = t;
+          haloUniforms.uTime.value = t;
+
+          const phase = (t % CYCLE) / CYCLE;
+          let morph = 0;
+          if (phase < 0.42) morph = smoothstep(0.18, 0.42, phase);
+          else if (phase < 0.58) morph = 1;
+          else if (phase < 0.82) morph = 1 - smoothstep(0.58, 0.82, phase);
+          else morph = 0;
+
+          // Reduced motion: hold helix, no morph cycle
+          if (reducedMotion) morph = 0;
+
+          uniforms.uMorph.value = morph;
+          lineMat.opacity = morph * 0.28;
+          haloUniforms.uOpacity.value = morph * 0.9;
+
+          const transition = morph * (1 - morph) * 4;
+          for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const ix = i*3;
+            const hx = helixPos[ix], hy = helixPos[ix+1], hz = helixPos[ix+2];
+            const cx = constellationPos[ix], cy = constellationPos[ix+1], cz = constellationPos[ix+2];
+            const s = seed[i];
+            const localMorph = Math.max(0, Math.min(1, morph + (s - 0.5) * 0.18));
+            const e = localMorph * localMorph * (3 - 2 * localMorph);
+            const noise = transition * 0.25 * Math.sin(t * 0.8 + s * 12.566);
+            positions[ix]   = hx + (cx - hx) * e + noise * 0.1;
+            positions[ix+1] = hy + (cy - hy) * e;
+            positions[ix+2] = hz + (cz - hz) * e + noise * 0.1;
+          }
+          positionsAttr.needsUpdate = true;
+
+          const rotSpeed = reducedMotion ? 0 : (0.10 - morph * 0.07);
+          points.rotation.y += rotSpeed * 0.016;
+          lines.rotation.y = points.rotation.y;
+          haloPoints.rotation.y = points.rotation.y;
+
+          points.rotation.x = reducedMotion ? 0 : Math.sin(t * 0.15) * 0.06;
+          lines.rotation.x = points.rotation.x;
+          haloPoints.rotation.x = points.rotation.x;
+
+          cur.x += (target.x - cur.x) * 0.04;
+          cur.y += (target.y - cur.y) * 0.04;
+          camera.position.x = cur.x * 0.9;
+          camera.position.y = -cur.y * 0.6;
+          camera.lookAt(0, 0, 0);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            document.body.classList.add('ready');
+            tick();
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg-0: #0a1320;
+    --bg-1: #0e1b2c;
+    --navy: #375172;
+    --teal: #00B3AB;
+    --teal-bright: #33d6cf;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--bg-0);
+    color: var(--white);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  #stage {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+  #canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 45%, rgba(10,19,32,0) 0%, rgba(10,19,32,0.35) 60%, rgba(10,19,32,0.85) 100%);
+    z-index: 1;
+  }
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
+    z-index: 2;
+  }
+  .ui {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .ui a, .ui button { pointer-events: auto; }
+
+  .top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: block;
+    height: 28px;
+    width: auto;
+    opacity: 0.95;
+  }
+
+  .menu-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,0.85);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: border-color 220ms cubic-bezier(0.2,0.7,0.2,1), color 220ms cubic-bezier(0.2,0.7,0.2,1), background 220ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .menu-btn:hover {
+    border-color: rgba(0,179,171,0.5);
+    color: #fff;
+    background: rgba(0,179,171,0.06);
+  }
+  .menu-btn .bars {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 16px;
+  }
+  .menu-btn .bars span {
+    display: block;
+    height: 1.5px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 280ms cubic-bezier(0.2,0.7,0.2,1), opacity 200ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .menu-btn.open .bars span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .menu-btn.open .bars span:nth-child(2) { opacity: 0; transform: scaleX(0.4); }
+  .menu-btn.open .bars span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+  .menu-panel {
+    position: absolute;
+    top: 78px;
+    right: 48px;
+    width: min(320px, calc(100vw - 96px));
+    background: rgba(14, 27, 44, 0.78);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 14px 0;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 240ms cubic-bezier(0.2,0.7,0.2,1), transform 240ms cubic-bezier(0.2,0.7,0.2,1);
+    z-index: 5;
+  }
+  .menu-panel.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .menu-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .menu-panel li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.86);
+    text-decoration: none;
+    letter-spacing: 0.005em;
+    transition: color 180ms cubic-bezier(0.2,0.7,0.2,1), background 180ms cubic-bezier(0.2,0.7,0.2,1), padding-left 220ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .menu-panel li a:hover {
+    color: #fff;
+    background: rgba(0,179,171,0.10);
+    padding-left: 28px;
+  }
+  .menu-panel li a .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: rgba(0,179,171,0.65);
+    letter-spacing: 0.04em;
+  }
+  .menu-panel .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 8px 22px;
+  }
+  .menu-panel li.login a {
+    color: var(--teal-bright);
+    font-weight: 500;
+  }
+  .menu-panel li.login a .arrow {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    transition: transform 220ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .menu-panel li.login a:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .copy {
+    position: absolute;
+    left: 48px;
+    bottom: 80px;
+    max-width: 760px;
+  }
+  .headline {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.6vw, 72px);
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin: 0 0 22px 0;
+    text-wrap: balance;
+  }
+  .headline .em {
+    font-style: italic;
+    font-weight: 300;
+  }
+  .subline {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    letter-spacing: 0.005em;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+    max-width: 460px;
+  }
+  .subline .dot {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--teal);
+    vertical-align: middle;
+    margin: 0 10px 2px 10px;
+    opacity: 0.85;
+  }
+
+  .corner {
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* Entrance animation — fade in once particles ready (excludes menu panel) */
+  .ui > .top, .ui > .copy, .ui > .corner {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 1200ms cubic-bezier(0.2,0.7,0.2,1), transform 1200ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  body.ready .ui > .top,
+  body.ready .ui > .copy,
+  body.ready .ui > .corner {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  body.ready .ui .copy { transition-delay: 300ms; }
+  body.ready .ui .corner { transition-delay: 600ms; }
+
+  @media (max-width: 720px) {
+    .top { padding: 20px 24px; }
+    .copy { left: 24px; right: 24px; bottom: 56px; }
+    .corner { right: 24px; bottom: 20px; }
+    .menu-panel { top: 64px; right: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui > .top, .ui > .copy, .ui > .corner {
+      transition: opacity 200ms linear;
+      transform: none;
+    }
+  }
+</style>
