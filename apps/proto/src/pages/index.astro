@@ -138,9 +138,8 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
         window.addEventListener('resize', resize);
         resize();
 
-        // --- Geometry: double helix ↔ 8-node constellation -----------------
         const PARTICLE_COUNT = 2000;
-        const NODES = 8;            // portfolio companies
+        const NODES = 8;
         const HELIX_TURNS = 4;
         const HELIX_HEIGHT = 9.5;
         const HELIX_RADIUS = 1.8;
@@ -250,7 +249,6 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
         const points = new THREE.Points(geom, pointsMat);
         scene.add(points);
 
-        // --- Constellation lines ------------------------------------------
         const lineSegs = [];
         for (let i = 0; i < NODES; i++) {
           const dists = nodeAnchors.map((p, j) => ({ j, d: i === j ? Infinity : nodeAnchors[i].distanceTo(p) }));
@@ -337,7 +335,6 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
         const haloPoints = new THREE.Points(nodeHaloGeom, haloMat);
         scene.add(haloPoints);
 
-        // --- Mouse parallax ------------------------------------------------
         const target = { x: 0, y: 0 };
         const cur = { x: 0, y: 0 };
         window.addEventListener('pointermove', (e) => {
@@ -348,7 +345,6 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
           target.x = 0; target.y = 0;
         });
 
-        // --- Morph cycle ---------------------------------------------------
         const CYCLE = 16.0;
         function smoothstep(a, b, t) {
           t = Math.max(0, Math.min(1, (t - a) / (b - a)));
@@ -370,7 +366,6 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
           else if (phase < 0.82) morph = 1 - smoothstep(0.58, 0.82, phase);
           else morph = 0;
 
-          // Reduced motion: hold helix, no morph cycle
           if (reducedMotion) morph = 0;
 
           uniforms.uMorph.value = morph;
@@ -662,7 +657,6 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
     color: rgba(255,255,255,0.4);
   }
 
-  /* Entrance animation — fade in once particles ready (excludes menu panel) */
   .ui > .top, .ui > .copy, .ui > .corner {
     opacity: 0;
     transform: translateY(8px);
