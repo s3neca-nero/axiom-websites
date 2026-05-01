@@ -19,6 +19,7 @@ type ItemKey =
   | 'team'
   | 'news'
   | 'challenger'
+  | 'whf'
   | 'contact';
 
 interface Props {
@@ -30,14 +31,15 @@ interface Props {
 
 const { current, variant = 'light' } = Astro.props;
 
-const items: { key: ItemKey; label: string; href: string }[] = [
-  { key: 'home',        label: 'Home',              href: '/' },
-  { key: 'investment',  label: 'Investment',        href: '/investment' },
-  { key: 'portfolio',   label: 'Portfolio',         href: '/portfolio' },
-  { key: 'team',        label: 'Team',              href: '/team' },
-  { key: 'news',        label: 'News',              href: '/news' },
-  { key: 'challenger',  label: 'Challenger Summit', href: '/applications/challenger' },
-  { key: 'contact',     label: 'Contact',           href: '/contact' },
+const items: { key: ItemKey; label: string; href: string; external?: boolean }[] = [
+  { key: 'home',        label: 'Home',                    href: '/' },
+  { key: 'investment',  label: 'Investment',              href: '/investment' },
+  { key: 'portfolio',   label: 'Portfolio',               href: '/portfolio' },
+  { key: 'team',        label: 'Team',                    href: '/team' },
+  { key: 'news',        label: 'News',                    href: '/news' },
+  { key: 'challenger',  label: 'Challenger Summit',       href: '/applications/challenger' },
+  { key: 'whf',         label: "Women's Health Foundry",  href: 'https://womenshealthfoundry.com.au', external: true },
+  { key: 'contact',     label: 'Contact',                 href: '/contact' },
 ];
 
 const visible = items.filter((it) => it.key !== current);
@@ -73,8 +75,12 @@ const logoSrc =
     <ul>
       {visible.map((it, i) => (
         <li>
-          <a href={it.href}>
-            <span>{it.label}</span>
+          <a
+            href={it.href}
+            target={it.external ? '_blank' : undefined}
+            rel={it.external ? 'noopener' : undefined}
+          >
+            <span>{it.label}{it.external ? ' ↗' : ''}</span>
             <span class="pa-sitemenu__num">{String(i + 1).padStart(2, '0')}</span>
           </a>
         </li>

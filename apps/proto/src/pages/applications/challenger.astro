@@ -30,9 +30,37 @@ const ELIG_NO = [
 ];
 
 const WINNERS_2026 = [
-  { name: '[Winner — Proto stream]',           desc: '[One-line summary of the winning program — to be added.]', source: '[Institution]', stream: 'Proto Axiom · A$250K' },
-  { name: "[Winner — St Vincent's stream]",    desc: '[One-line summary of the winning program — to be added.]', source: '[Institution]', stream: "St Vincent's · A$250K" },
-  { name: '[Runner-up / honourable mention]',  desc: '[Optional second placement to feature here.]',             source: '[Institution]', stream: '2026 finalist' },
+  {
+    name: 'Dr Jerry Zhou — Ins & Outs',
+    desc: 'Bowel Disorder Treatment at Home: a home-based system that brings a proven therapy from the clinic into the home, helping people manage chronic bowel conditions.',
+    source: 'Western Sydney University',
+    stream: 'Proto Axiom Challenger Prize · A$150K',
+  },
+  {
+    name: 'Dr Annaliese Dillon — Cardiac therapeutic',
+    desc: 'A first-in-class therapy for heart failure with preserved ejection fraction — a common and fast-growing condition with no treatment that can slow or stop the underlying disease.',
+    source: 'Monash Institute of Pharmaceutical Sciences',
+    stream: 'Proto Axiom Open Prize · A$100K',
+  },
+  {
+    name: 'Dr Melissa Thomas — Beyond PSA',
+    desc: 'A simple, fast and accurate DNA blood test for advanced prostate cancer to detect treatment failure early and enable personalised treatment.',
+    source: 'Garvan Institute of Medical Research',
+    stream: "St Vincent's stream winner",
+  },
+  {
+    name: 'Prof Mike Rogers — Rare disease diagnostic',
+    desc: 'Solving the unmet need for a diagnostic test for rare but devastating genetic diseases — simplifying an accurate lab test into a quick procedure using a small blood sample.',
+    source: 'Garvan Institute of Medical Research',
+    stream: "St Vincent's stream winner",
+  },
+];
+
+const IMPACT = [
+  { value: '$1M+',     label: 'Researcher grants deployed', sub: 'Across Challenger Summit and Pitch for Health since 2024' },
+  { value: '$19.5M+',  label: 'Non-dilutive follow-on',     sub: 'Federal grants won by alumni post-incubation' },
+  { value: '950+',     label: 'People convened',            sub: 'Researchers, clinicians, founders, investors, philanthropists' },
+  { value: '200+',     label: 'Applications received',      sub: 'Across Challenger Summit and Pitch for Health since 2024' },
 ];
 
 const BENEFITS = [
@@ -335,12 +363,22 @@ const FAQS = [
         <header class="cs-winners__head">
           <div>
             <p class="cs-eyebrow">2026 cohort</p>
-            <h2 class="cs-h2" style="margin-top: 16px;">Last year's winners.</h2>
+            <h2 class="cs-h2" style="margin-top: 16px;">2026 winners.</h2>
           </div>
           <p class="cs-lead">
-            The first edition of Challenger Summit was held at Cell Block Theatre, Sydney in March 2026. Three programs were recognised across the two streams. Detail below to be filled in by the Proto Axiom team — placeholders shown.
+            Challenger Pitch for Health 2026 was held in Sydney in March 2026 — co-hosted by Proto Axiom and St Vincent's Curran Foundation, Australia's largest medical pitch day. Four programs were recognised across the two streams, and 14 finalists pitched live to a room of 300+ researchers, clinicians, investors and policymakers.
           </p>
         </header>
+
+        <ul class="cs-impact-strip">
+          {IMPACT.map((s) => (
+            <li>
+              <span class="cs-impact-strip__val">{s.value}</span>
+              <span class="cs-impact-strip__lbl">{s.label}</span>
+              <span class="cs-impact-strip__sub">{s.sub}</span>
+            </li>
+          ))}
+        </ul>
         <div class="cs-winners__grid">
           {WINNERS_2026.map((w) => (
             <article class="cs-winner">
@@ -349,10 +387,7 @@ const FAQS = [
                 <span class="stream">{w.stream}</span>
               </div>
               <div class="cs-winner__logo">
-                <span>
-                  <span class="placeholder-mark">LOGO</span>
-                  Logo to come
-                </span>
+                <span>{w.source}</span>
               </div>
               <h3 class="cs-winner__name">{w.name}</h3>
               <p class="cs-winner__desc">{w.desc}</p>
@@ -361,7 +396,7 @@ const FAQS = [
           ))}
         </div>
         <p class="cs-winners__note">
-          Placeholders in this section. Provide winner detail (logo, program lead, one-line summary, source institution) and they'll be plugged in.
+          Source: <a href="https://womenshealthfoundry.com.au/impact" target="_blank" rel="noopener">Women's Health Foundry impact dashboard</a> · full finalist list and program detail.
         </p>
       </div>
     </section>

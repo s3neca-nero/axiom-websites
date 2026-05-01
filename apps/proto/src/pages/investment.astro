@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import StatsCurve from '../components/StatsCurve.astro';
+import '@axiom/ui/stats-curve.css';
 import { process as gates } from '../data/site';
 
 const criteria: Array<[string, string, string]> = [
@@ -11,6 +13,7 @@ const criteria: Array<[string, string, string]> = [
 ];
 ---
 <BaseLayout title="Investment | Proto Axiom" active="investment">
+  <!-- Page head -->
   <section class="pa-section pa-section--tight pa-section--white">
     <div class="pa-wrap">
       <div class="pa-page-head">
@@ -25,6 +28,7 @@ const criteria: Array<[string, string, string]> = [
     </div>
   </section>
 
+  <!-- Thesis -->
   <section class="pa-section pa-section--white">
     <div class="pa-wrap">
       <div class="pa-thesis">
@@ -37,7 +41,7 @@ const criteria: Array<[string, string, string]> = [
           <p>Capital is permanent. Decisions are made on milestones, not on fund cycles. We back our companies through preclinical milestones into clinical and commercial reality, with global partners.</p>
           <p>Our investors are private — Australian and offshore — and our pipeline is sourced from the country's leading universities, research institutes, and the public health system.</p>
           <div style="margin-top: 32px;">
-            <a class="pa-btn pa-btn--primary" href="/#portfolio">
+            <a class="pa-btn pa-btn--primary" href="/portfolio">
               Read more about our portfolio <span class="pa-arrow">→</span>
             </a>
           </div>
@@ -46,6 +50,126 @@ const criteria: Array<[string, string, string]> = [
     </div>
   </section>
 
+  <!-- Why Australia — the translation gap -->
+  <section class="pa-section pa-section--almond">
+    <div class="pa-wrap">
+      <div class="pa-whyx">
+        <header class="pa-whyx__head">
+          <div>
+            <div class="pa-eyebrow">The translation gap</div>
+            <h2 class="pa-h2" style="margin: 0;">World‑class science.<br/>Under‑capitalised companies.</h2>
+          </div>
+          <p class="pa-whyx__lead">
+            Australia consistently ranks in the global top tier for biomedical research output — but the capital flowing into translation lags every comparable economy. The arithmetic is the entire reason Proto Axiom exists.
+          </p>
+        </header>
+        <div class="pa-whyx__compare">
+          <div class="pa-whyx__compare-head">
+            <div class="pa-whyx__compare-lbl">Per‑researcher venture capital, life sciences</div>
+            <div class="pa-whyx__compare-note">Source: AusBiotech, OECD MSTI, NVCA · 2024 calendar year</div>
+          </div>
+          <div class="pa-whyx__compare-rows">
+            <div class="pa-whyx__compare-row">
+              <div class="pa-whyx__compare-flag">AU</div>
+              <div class="pa-whyx__compare-bar"><span style="width: 8%;"></span></div>
+              <div class="pa-whyx__compare-val">US$11k</div>
+            </div>
+            <div class="pa-whyx__compare-row">
+              <div class="pa-whyx__compare-flag">UK</div>
+              <div class="pa-whyx__compare-bar"><span style="width: 34%;"></span></div>
+              <div class="pa-whyx__compare-val">US$48k</div>
+            </div>
+            <div class="pa-whyx__compare-row">
+              <div class="pa-whyx__compare-flag pa-whyx__compare-flag--accent">US</div>
+              <div class="pa-whyx__compare-bar"><span class="pa-whyx__compare-bar-fill--accent" style="width: 100%;"></span></div>
+              <div class="pa-whyx__compare-val pa-whyx__compare-val--accent">US$142k</div>
+            </div>
+          </div>
+        </div>
+        <div class="pa-whyx__stats">
+          <div class="pa-whyx__stat">
+            <div class="pa-whyx__stat-num">3.4%</div>
+            <div class="pa-whyx__stat-lbl">of global biomedical publications</div>
+            <div class="pa-whyx__stat-sub">Australia produces output at ~3× its share of world GDP. Source: Nature Index 2024.</div>
+          </div>
+          <div class="pa-whyx__stat">
+            <div class="pa-whyx__stat-num">A$22B</div>
+            <div class="pa-whyx__stat-lbl">Medical Research Future Fund</div>
+            <div class="pa-whyx__stat-sub">Sovereign endowment for translational research, perpetually invested by the Australian Government.</div>
+          </div>
+          <div class="pa-whyx__stat">
+            <div class="pa-whyx__stat-num pa-whyx__stat-num--neg">0.06%</div>
+            <div class="pa-whyx__stat-lbl">of GDP into life‑sciences VC</div>
+            <div class="pa-whyx__stat-sub">~1/8th of the US figure. The bottleneck is company formation capital — not science. Source: ABS, NVCA.</div>
+          </div>
+        </div>
+        <div class="pa-whyx__bridge">
+          <div class="pa-whyx__bridge-lbl">Our response</div>
+          <p class="pa-whyx__bridge-body">
+            Permanent capital, milestone‑gated, deployed alongside Australia's research institutions to form companies that wouldn't otherwise exist. <strong>Eight in five years.</strong> Three approaching clinical trials.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUM / capital footprint -->
+  <StatsCurve />
+
+  <!-- Capital base — 33 private investors -->
+  <section class="pa-section pa-section--tight pa-section--white" style="padding-top: 0;">
+    <div class="pa-wrap">
+      <div class="pa-capital-quiet">
+        <div class="pa-capital-quiet__lbl">Capital base</div>
+        <p class="pa-capital-quiet__body">
+          Backed by a closed group of <strong>33 private investors</strong> across Australia, the United States and the United Kingdom — family offices, foundations and strategic operators who provide patient capital alongside operating insight. Investor identities held in confidence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capital structure — holding company vs VC fund -->
+  <section class="pa-section pa-section--white">
+    <div class="pa-wrap">
+      <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 96px; align-items: end; margin-bottom: 56px;">
+        <div>
+          <div class="pa-eyebrow">Capital structure</div>
+          <h2 class="pa-h2">A holding company.<br/>Not a fund.</h2>
+        </div>
+        <p class="pa-body" style="margin: 0; color: var(--pa-ink-muted); font-size: 17px; max-width: 540px;">
+          Most biotech in Australia is funded by closed-end venture funds with a 10-year clock. We're structured for the timelines science actually requires.
+        </p>
+      </div>
+      <div class="pa-capstruct">
+        <div class="pa-capstruct__col pa-capstruct__col--pa">
+          <div class="pa-capstruct__lbl">Proto Axiom</div>
+          <h3 class="pa-capstruct__h">Permanent capital. Milestone-gated.</h3>
+          <p class="pa-capstruct__sub">Holding company structure with no fixed life — capital recycles into the portfolio indefinitely.</p>
+          <div class="pa-capstruct__rows">
+            <div class="pa-capstruct__row"><span>Vehicle</span><div><strong>Holding company</strong> — single permanent balance sheet</div></div>
+            <div class="pa-capstruct__row"><span>Time horizon</span><div><strong>Indefinite</strong> — no fund close, no forced exits</div></div>
+            <div class="pa-capstruct__row"><span>Fees</span><div><strong>None</strong> — no management fee, no carry</div></div>
+            <div class="pa-capstruct__row"><span>Capital release</span><div><strong>Gate-driven</strong> — tranches against scientific milestones</div></div>
+            <div class="pa-capstruct__row"><span>Operating bench</span><div><strong>Shared</strong> — clinical, regulatory, IP, finance, governance</div></div>
+          </div>
+        </div>
+        <div class="pa-capstruct__col pa-capstruct__col--vc">
+          <div class="pa-capstruct__lbl">Traditional VC fund</div>
+          <h3 class="pa-capstruct__h">Closed-end. 10-year cycle.</h3>
+          <p class="pa-capstruct__sub">Standard fund-of-funds vehicle with LP commitments, fixed deployment window and forced exit calendar.</p>
+          <div class="pa-capstruct__rows">
+            <div class="pa-capstruct__row"><span>Vehicle</span><div><strong>Limited partnership</strong> — LP commitments, GP carry</div></div>
+            <div class="pa-capstruct__row"><span>Time horizon</span><div><strong>10 years</strong> — investment + harvest periods fixed</div></div>
+            <div class="pa-capstruct__row"><span>Fees</span><div><strong>2 / 20</strong> — 2% management, 20% carried interest</div></div>
+            <div class="pa-capstruct__row"><span>Capital release</span><div><strong>Round-driven</strong> — milestones tied to financing cycles</div></div>
+            <div class="pa-capstruct__row"><span>Operating bench</span><div><strong>External</strong> — outsourced to founders / consultants</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Four gates — milestone-gated process -->
   <section class="pa-section pa-section--almond">
     <div class="pa-wrap">
       <div class="pa-aum-head" style="margin-bottom: 64px;">
@@ -69,6 +193,7 @@ const criteria: Array<[string, string, string]> = [
     </div>
   </section>
 
+  <!-- Investment criteria -->
   <section class="pa-section pa-section--white">
     <div class="pa-wrap">
       <div class="pa-criteria-grid">
