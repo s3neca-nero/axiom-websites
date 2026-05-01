@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { portfolio } from '../../data/site';
+import '@axiom/ui/portfolio-detail.css';
+
+export function getStaticPaths() {
+  return portfolio.map((p) => ({ params: { slug: p.slug }, props: { entry: p } }));
+}
+
+const { entry } = Astro.props;
+const all = portfolio;
+const idx = all.findIndex((p) => p.slug === entry.slug);
+const prev = all[(idx - 1 + all.length) % all.length];
+const next = all[(idx + 1) % all.length];
+const isVenture = entry.relationship === 'venture-stake';
+const websiteHost = entry.website && entry.website !== '#' ? entry.website.replace(/^https?:\/\//, '').replace(/\/$/, '') : null;
+const visitLabel = entry.name.split(' ')[0].toLowerCase();
+---
+<BaseLayout
+  title={`${entry.name} | Proto Axiom Portfolio`}
+  description={entry.tagline}
+  active="portfolio"
+>
+  <div class="pa-pdetail__breadcrumb">
+    <div class="pa-container">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <a href="/#portfolio">Portfolio</a>
+      <span class="sep">/</span>
+      <span class="current">{entry.name}</span>
+    </div>
+  </div>
+
+  <section class="pa-pdetail__hero">
+    <div class="pa-container">
+      <div class="pa-pdetail__hero-grid">
+        <div>
+          <div class:list={['pa-pdetail__badge', isVenture && 'pa-pdetail__badge--venture']}>
+            <span class="dot"></span>
+            {isVenture ? 'Venture-stage investment' : 'Created with Proto Axiom'}
+          </div>
+
+          <img class="pa-pdetail__logo" src={entry.logo} alt={`${entry.name} logo`} />
+          <h1 class="pa-pdetail__name">{entry.name}</h1>
+          <p class="pa-pdetail__tagline">{entry.tagline}</p>
+
+          <div class="pa-pdetail__taxonomy">
+            <span class="pa-pdetail__chip">{entry.sector}</span>
+            <span class="pa-pdetail__chip">{entry.modality}</span>
+          </div>
+
+          <div class="pa-pdetail__cta-row">
+            {websiteHost && (
+              <a class="pa-pdetail__cta" href={entry.website} target="_blank" rel="noopener noreferrer">
+                Visit {visitLabel} site
+              </a>
+            )}
+            {entry.trialRegistry && (
+              <a class="pa-pdetail__cta pa-pdetail__cta--ghost" href={entry.trialRegistry} target="_blank" rel="noopener noreferrer">
+                Trial registry (ANZCTR)
+              </a>
+            )}
+          </div>
+        </div>
+
+        <aside class="pa-pdetail__glance">
+          <div class="pa-pdetail__glance-eyebrow">At a glance</div>
+          <dl>
+            <div><dt>Sector</dt><dd>{entry.sector} · {entry.modality}</dd></div>
+            <div><dt>Stage</dt><dd>{entry.stage}</dd></div>
+            <div><dt>Origin institution</dt><dd>{entry.origin}</dd></div>
+            <div><dt>{isVenture ? 'Proto Axiom invested' : 'Year founded'}</dt><dd>{entry.yearFounded}</dd></div>
+            <div>
+              <dt>Relationship to Proto Axiom</dt>
+              <dd>{isVenture ? 'Venture-stage investment' : 'Created with Proto Axiom as founding investor'}</dd>
+            </div>
+            {websiteHost && (
+              <div>
+                <dt>Website</dt>
+                <dd><a href={entry.website} target="_blank" rel="noopener noreferrer">{websiteHost}</a></dd>
+              </div>
+            )}
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {entry.heroImage ? (
+    <div class:list={['pa-pdetail__hero-image', `pa-pdetail__hero-image--${entry.slug}`]}>
+      <img src={entry.heroImage} alt="" />
+      {entry.heroImageCaption && <div class="caption">{entry.heroImageCaption}</div>}
+    </div>
+  ) : (
+    <div class="pa-pdetail__hero-image pa-pdetail__hero-image--placeholder">
+      <div class="caption">{entry.heroImageCaption || '[ Hero image to come ]'}</div>
+    </div>
+  )}
+
+  <section class="pa-pdetail__section">
+    <div class="pa-container">
+      <div class="pa-pdetail__narrative-grid">
+        <div>
+          <div class="pa-pdetail__section-eyebrow">The science · The story</div>
+          <h2 class="pa-pdetail__section-title">
+            {isVenture
+              ? 'A venture-stage stake in an established Australian programme.'
+              : 'How the company was formed, and what it is building.'}
+          </h2>
+          <div class="pa-pdetail__narrative-body">
+            {entry.narrative.map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+        <dl class="pa-pdetail__pull">
+          <dt>{isVenture ? 'Invested' : 'Founded'}</dt>
+          <dd>{entry.yearFounded}</dd>
+          <dt>Origin</dt>
+          <dd>{entry.origin}</dd>
+          <dt>Sector</dt>
+          <dd>{entry.sector}</dd>
+          <dt>Modality</dt>
+          <dd>{entry.modality}</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-pdetail__section pa-pdetail__section--alt">
+    <div class="pa-container">
+      <div class="pa-pdetail__section-eyebrow">Leadership</div>
+      <h2 class="pa-pdetail__section-title">
+        {isVenture
+          ? 'Independently led; see the company website for the full team.'
+          : 'Founders and key team.'}
+      </h2>
+      <div class="pa-pdetail__leadership">
+        {entry.leadership.map((p) => (
+          <div class="pa-pdetail__leader">
+            {p.photo ? (
+              <div class="pa-pdetail__leader-photo"><img src={p.photo} alt={p.name} /></div>
+            ) : (
+              <div class="pa-pdetail__leader-photo pa-pdetail__leader-photo--placeholder"></div>
+            )}
+            <div class="pa-pdetail__leader-name">{p.name}</div>
+            {p.title && <div class="pa-pdetail__leader-title">{p.title}</div>}
+            {p.institution && <div class="pa-pdetail__leader-inst">{p.institution}</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-pdetail__section">
+    <div class="pa-container">
+      <div class="pa-pdetail__section-eyebrow">Programme status</div>
+      <h2 class="pa-pdetail__section-title">Where the programme is now, and what comes next.</h2>
+      <dl class="pa-pdetail__programme">
+        <div><dt>Now</dt><dd>{entry.programmeStatus.now}</dd></div>
+      </dl>
+      {entry.programmeStatus.partners.length > 0 && (
+        <div class="pa-pdetail__programme-partners">
+          <span class="label">Partners &amp; sites</span>
+          {entry.programmeStatus.partners.map((p) => (
+            <span class="partner">{p}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="pa-pdetail__section pa-pdetail__section--alt">
+    <div class="pa-container">
+      <div class="pa-pdetail__section-eyebrow">In the press</div>
+      <h2 class="pa-pdetail__section-title">Recent news.</h2>
+      <div class="pa-pdetail__news">
+        {entry.news.length === 0 ? (
+          <div class="pa-pdetail__news-empty">[ Press mentions to be added as they publish. ]</div>
+        ) : entry.news.map((n) => (
+          <a href={n.url} class="pa-pdetail__news-item">
+            <div class="pa-pdetail__news-date">{n.date}</div>
+            <div class="pa-pdetail__news-headline">{n.headline}</div>
+            <div class="pa-pdetail__news-outlet">{n.outlet}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="pa-container">
+    <nav class="pa-pdetail__pager" aria-label="Portfolio navigation">
+      <a href={`/portfolio/${prev.slug}`} class="prev">
+        <span class="label">Previous company</span>
+        <span class="name">{prev.name}</span>
+      </a>
+      <div class="index">
+        <span class="label">Portfolio · {idx + 1} of {all.length}</span>
+        <div class="pa-pdetail__pager-dots">
+          {all.map((p, i) => (
+            <a
+              href={`/portfolio/${p.slug}`}
+              class:list={['pa-pdetail__pager-dot', i === idx && 'is-active']}
+              aria-label={`Go to ${p.name}`}
+              title={p.name}
+            ></a>
+          ))}
+        </div>
+      </div>
+      <a href={`/portfolio/${next.slug}`} class="next">
+        <span class="label">Next company</span>
+        <span class="name">{next.name}</span>
+      </a>
+    </nav>
+  </div>
+</BaseLayout>

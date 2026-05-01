@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Challenger Summit — Proto Axiom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="sections.jsx"></script>
+<script type="text/babel">
+const { useState } = React;
+
+const PHOTOS = {
+  "stage": "assets/summit-hero.jpg",
+  "audience": "assets/summit-audience.jpg",
+  "panel": "assets/summit-panel.jpg",
+  "pitcher": "assets/summit-pitcher.jpg",
+  "networking": "assets/summit-networking.jpg",
+  "podium": "assets/summit-podium.jpg",
+  "keynote": "assets/summit-keynote.jpg",
+  "speaker": "assets/summit-speaker.jpg",
+};
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "status": "coming-soon",
+  "heroPhoto": "stage",
+  "showMobile": true
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const photo = PHOTOS[tweaks.heroPhoto] || PHOTOS.stage;
+
+  return (
+    <>
+      <Nav />
+      <Hero status={tweaks.status} photo={photo} />
+      <WhyPitch />
+      <Streams />
+      <Timeline />
+      <Eligibility />
+      <Winners />
+      <Sponsors />
+      <ApplyCTA status={tweaks.status} />
+      <FAQ />
+      <Footer />
+      {tweaks.showMobile && <MobileMockups photo={photo} />}
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Application status">
+          <TweakRadio
+            value={tweaks.status}
+            onChange={(v) => setTweak("status", v)}
+            options={[
+              { value: "coming-soon", label: "Coming soon" },
+              { value: "open",        label: "Open" },
+              { value: "closed",      label: "Closed" },
+            ]}
+          />
+        </TweakSection>
+        <TweakSection title="Hero photo">
+          <TweakSelect
+            value={tweaks.heroPhoto}
+            onChange={(v) => setTweak("heroPhoto", v)}
+            options={[
+              { value: "stage", label: "Stage (branded backdrop)" },
+              { value: "audience", label: "Audience" },
+              { value: "panel", label: "Panel discussion" },
+              { value: "pitcher", label: "Pitcher presenting" },
+              { value: "podium", label: "Pitch podium" },
+              { value: "keynote", label: "Keynote" },
+              { value: "networking", label: "Networking" },
+              { value: "speaker", label: "Speaker portrait" },
+            ]}
+          />
+        </TweakSection>
+        <TweakSection title="Mobile mockups">
+          <TweakToggle
+            value={tweaks.showMobile}
+            onChange={(v) => setTweak("showMobile", v)}
+            label="Show mobile shelf below"
+          />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Container } from '@axiom/ui';
+
+const articles = [
+  {
+    outlet: 'Mirage News',
+    date: '2023-04-04',
+    title: 'Oral insulin nanocarrier breakthrough could transform diabetes care',
+    url: 'https://www.miragenews.com/',
+  },
+  {
+    outlet: 'BioSpectrum Asia',
+    date: '2023-04-05',
+    title: 'Australian startup Endo Axiom advances oral insulin platform',
+    url: 'https://www.biospectrumasia.com/',
+  },
+  {
+    outlet: 'The University of Sydney',
+    date: '2023-04-05',
+    title: 'Sydney researchers spin out company to deliver insulin in a pill',
+    url: 'https://www.sydney.edu.au/',
+  },
+  {
+    outlet: 'TechNode Global',
+    date: '2023-04-06',
+    title: 'Endo Axiom emerges to commercialise oral insulin nanotechnology',
+    url: 'https://technode.global/',
+  },
+  {
+    outlet: 'MTPConnect',
+    date: '2023-04-14',
+    title: "Endo Axiom tackles one of diabetes' biggest challenges: needle-free insulin",
+    url: 'https://www.mtpconnect.org.au/',
+  },
+];
+
+const fmt = (d) =>
+  new Date(d).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout title="Media | Endo Axiom">
+  <Container>
+    <section class="intro">
+      <p class="eyebrow">Media</p>
+      <h1>In the press</h1>
+      <p class="lede">
+        Coverage of Endo Axiom's mission to replace injected insulin with a daily oral pill,
+        and the spin-out of our oral nanotechnology platform from the University of Sydney.
+      </p>
+    </section>
+
+    <section class="list">
+      {articles.map((a) => (
+        <a class="item" href={a.url} target="_blank" rel="noopener">
+          <div class="meta">
+            <span class="outlet">{a.outlet}</span>
+            <span class="date">{fmt(a.date)}</span>
+          </div>
+          <h2>{a.title}</h2>
+          <span class="cta">Read article &rarr;</span>
+        </a>
+      ))}
+    </section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem; color: rgb(var(--brand-navy)); }
+  .intro { padding: 5rem 0 3rem; max-width: 60ch; }
+  h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); margin: 1rem 0 1.5rem; line-height: 1.1; }
+  .lede { font-size: 1.125rem; color: rgb(var(--brand-ink) / 0.8); }
+  .list { display: grid; gap: 1rem; padding-bottom: 6rem; }
+  .item {
+    display: block;
+    padding: 2rem;
+    border: 1px solid rgb(var(--brand-navy) / 0.12);
+    border-radius: 0.75rem;
+    background: rgb(var(--brand-bone));
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .item:hover { border-color: rgb(var(--brand-accent)); transform: translateY(-2px); }
+  .meta { display: flex; gap: 1rem; font-size: 0.85rem; color: rgb(var(--brand-ink) / 0.6); margin-bottom: 0.5rem; }
+  .outlet { font-weight: 600; color: rgb(var(--brand-navy)); }
+  .item h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 0.75rem; line-height: 1.25; }
+  .cta { font-size: 0.9rem; color: rgb(var(--brand-accent)); font-weight: 600; }
+</style>

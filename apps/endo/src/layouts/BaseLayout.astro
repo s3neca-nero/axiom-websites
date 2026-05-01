@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import { Nav, Footer } from '@axiom/ui';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const {
+  title,
+  description = 'Endo Axiom — preventing autoimmune disease and improving the quality of life of diabetics through oral biologics.',
+} = Astro.props;
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Team', href: '/team' },
+  { label: 'Proto Axiom', href: 'https://protoaxiom.com' },
+  { label: 'Media', href: '/media' },
+  { label: 'Contact', href: '/#contact' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Nav brand="Endo Axiom" items={navItems} />
+    <main><slot /></main>
+    <Footer brand="Endo Axiom" email="info@endoaxiom.com">
+      <div slot="links">
+        <a href="https://www.linkedin.com/company/endo-axiom/" target="_blank" rel="noopener" style="color: inherit;">
+          Follow us on LinkedIn →
+        </a>
+      </div>
+    </Footer>
+  </body>
+</html>
+
+<style is:global>
+  main { min-height: 60vh; }
+</style>

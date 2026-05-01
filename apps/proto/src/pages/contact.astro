@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Contact | Proto Axiom" active="contact">
+  <section class="pa-section pa-section--tight pa-section--white">
+    <div class="pa-wrap">
+      <div class="pa-page-head">
+        <div>
+          <div class="pa-eyebrow">Contact</div>
+          <h1 class="pa-page-head__h">Get in touch with Proto Axiom.</h1>
+        </div>
+        <p class="pa-page-head__lead">
+          We&rsquo;re proud to partner with people and organisations deeply aligned with our mission. For investment enquiries, programme questions or general correspondence, the fastest path is direct email — we read everything that lands at the addresses below.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-section pa-section--white" style="padding-top: 32px;">
+    <div class="pa-wrap">
+      <div class="pa-contact-grid">
+        <div>
+          <div class="pa-eyebrow">Office</div>
+          <h2 class="pa-h2" style="margin: 16px 0 24px;">North Sydney.</h2>
+          <p class="pa-contact-address">
+            Suite 303, 80 Mount Street<br/>
+            North Sydney NSW 2060<br/>
+            Australia
+          </p>
+
+          <dl class="pa-contact-channels">
+            <div>
+              <dt>General enquiries</dt>
+              <dd><a href="mailto:info@protoaxiom.com">info@protoaxiom.com</a></dd>
+            </div>
+            <div>
+              <dt>Investment & deal flow</dt>
+              <dd><a href="mailto:investments@protoaxiom.com">investments@protoaxiom.com</a></dd>
+            </div>
+            <div>
+              <dt>Challenger Summit</dt>
+              <dd><a href="mailto:challenger@protoaxiom.com">challenger@protoaxiom.com</a></dd>
+            </div>
+          </dl>
+
+          <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a class="pa-btn pa-btn--primary" href="mailto:info@protoaxiom.com">
+              Email us <span class="pa-arrow">→</span>
+            </a>
+            <a class="pa-btn pa-btn--ghost" href="/team">Meet our team</a>
+          </div>
+        </div>
+
+        <aside class="pa-contact-callout">
+          <div class="pa-eyebrow" style="color: var(--pa-secondary);">A note on what we look for</div>
+          <h3>Australian science, with global ambition.</h3>
+          <p>
+            Proto Axiom partners with researchers and clinicians across Australian universities, medical research institutes and the public health system to form companies from translational science. If your work fits that brief, we&rsquo;d like to hear from you.
+          </p>
+          <a class="pa-link" href="/investment" style="color: #fff; border-color: rgba(255,255,255,0.5);">
+            Read our investment criteria <span style="margin-left: 6px;">→</span>
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pa-contact-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .pa-contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .pa-contact-address {
+    font-size: 17px; line-height: 1.7; color: var(--pa-ink);
+    margin: 0 0 32px;
+  }
+  .pa-contact-channels {
+    display: grid; gap: 18px; margin: 0 0 0;
+    border-top: 1px solid var(--pa-hairline);
+    padding-top: 24px;
+  }
+  .pa-contact-channels > div { display: grid; gap: 4px; }
+  .pa-contact-channels dt {
+    font: 500 11px/1 var(--font-sans); letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--pa-ink-subtle);
+    margin: 0;
+  }
+  .pa-contact-channels dd {
+    margin: 0; font-size: 16px; font-weight: 500;
+  }
+  .pa-contact-channels dd a {
+    color: var(--pa-primary) !important;
+    text-decoration: none !important;
+  }
+  .pa-contact-channels dd a:hover {
+    color: var(--pa-accent-green) !important;
+  }
+  .pa-contact-callout {
+    background: var(--pa-primary); color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+  }
+  .pa-contact-callout h3 {
+    font-family: var(--font-sans);
+    font-size: 24px; font-weight: 600; line-height: 1.2;
+    color: #fff !important; margin: 16px 0 16px;
+    letter-spacing: -0.015em;
+  }
+  .pa-contact-callout p {
+    color: rgba(255,255,255,0.85);
+    font-size: 15px; line-height: 1.6;
+    margin: 0 0 24px;
+  }
+</style>

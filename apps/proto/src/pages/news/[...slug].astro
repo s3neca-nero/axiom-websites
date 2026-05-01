@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Legacy news article URLs from the Webflow site redirect to the news index.
+// Per-article detail pages are not currently in scope; this preserves the
+// URL space without 404s. Re-introduce real article rendering when we have
+// proper article bodies.
+export function getStaticPaths() {
+  return [
+    'a-ground-breaking-approach-to-biotech-innovation-with-anthony-liveris-ceo-of-proto-axiom',
+    'australian-biomedical-technology-incubator-proto-axiom-raises-15m-in-series-a-funding',
+    'australian-biotechnology-incubator-proto-axiom-completes-initial-fundraising',
+    'backing-biotechs-with-us-style-entrepreneurialism',
+    'balancing-the-grind-with-anthony-liveris-ceo-of-proto-axiom',
+    'billionaire-salesforce-boss-tips-into-sydney-biotech-incubator',
+    'biotech-incubator-proto-axiom-banks-20-million-towards-30m-series-b',
+  ].map((slug) => ({ params: { slug } }));
+}
+---
+<BaseLayout title="News | Proto Axiom" active="news">
+  <meta http-equiv="refresh" content="0; url=/news" slot="head" />
+  <section class="pa-section pa-section--white">
+    <div class="pa-wrap" style="text-align: center; padding: 96px 0;">
+      <p class="pa-eyebrow">Redirecting</p>
+      <h1 class="pa-h2" style="margin: 16px 0;">Taking you to the news index…</h1>
+      <p class="pa-body" style="color: var(--pa-ink-muted);">
+        If you are not redirected automatically, <a href="/news">click here to view all news</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

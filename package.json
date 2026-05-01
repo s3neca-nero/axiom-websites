@@ -1,0 +1,19 @@
+{
+  "name": "axiom-websites",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Monorepo for protoaxiom.com and endoaxiom.com",
+  "scripts": {
+    "dev:proto": "pnpm --filter proto dev",
+    "dev:endo": "pnpm --filter endo dev",
+    "build": "pnpm -r build",
+    "build:proto": "pnpm --filter proto build",
+    "build:endo": "pnpm --filter endo build",
+    "preview:proto": "pnpm --filter proto preview",
+    "preview:endo": "pnpm --filter endo preview"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

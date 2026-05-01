@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1480" />
+<title>Proto Axiom — Website Design Pass</title>
+<link rel="stylesheet" href="assets/colors_and_type.css" />
+<link rel="stylesheet" href="styles.css?v=8" />
+<style>
+  body { margin: 0; background: #F0EEEC; }
+  .pa-canvas-host { width: 100%; height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="data.js"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="primitives.jsx"></script>
+<script type="text/babel" src="page-home.jsx"></script>
+<script type="text/babel" src="page-other.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "heroVariant": "A",
+  "navyShade": "#375172",
+  "tealShade": "#00B3AB",
+  "pageBg": "#FBFAF9",
+  "typeScale": 1.0,
+  "showSpecs": false,
+  "showGrid": false
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  useEffect(() => {
+    const r = document.documentElement.style;
+    r.setProperty('--pa-primary', tweaks.navyShade);
+    r.setProperty('--pa-secondary', tweaks.tealShade);
+    r.setProperty('--pa-page-bg', tweaks.pageBg);
+    r.setProperty('font-size', (16 * tweaks.typeScale) + 'px');
+  }, [tweaks.navyShade, tweaks.tealShade, tweaks.pageBg, tweaks.typeScale]);
+
+  // No-op nav (these are mockups; clicks could route between artboards but we keep them inert here)
+  const noop = () => {};
+
+  return (
+    <>
+      <DesignCanvas
+        title="Proto Axiom — Website Design Pass"
+        subtitle="Two home directions · Investment · Portfolio detail · Team · Mobile"
+        background="#F0EEEC"
+      >
+        <DCSection id="home" title="Home page — desktop">
+          <DCArtboard id="home-a" label="Home · institutional refinement" width={1280} height={4800}>
+            <div className="pa-site"><HomePage onNav={noop} /></div>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="mobile" title="Home page — mobile (390pt)">
+          <DCArtboard id="home-mobile" label="Home · iPhone 14 Pro · 390 × scrolling" width={420} height={3200}>
+            <div className="pa-site" style={{padding: '20px 0'}}><HomeMobile /></div>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="investment" title="Investment page">
+          <DCArtboard id="investment" label="Investment · process, thesis, criteria" width={1280} height={3400}>
+            <div className="pa-site"><InvestmentPage onNav={noop} /></div>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="portfolio-detail" title="Portfolio detail — template">
+          <DCArtboard id="detail-onyx" label="Onyx Axiom · template instance" width={1280} height={3000}>
+            <div className="pa-site"><PortfolioDetailPage slug="onyx-axiom" onNav={noop} /></div>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="team" title="Team page">
+          <DCArtboard id="team" label="Team · Management / Board / SAB / Strategic" width={1280} height={3600}>
+            <div className="pa-site"><TeamPage onNav={noop} /></div>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="specs" title="Specs reference (for Astro + Tailwind port)">
+          <DCArtboard id="specs-sheet" label="Tokens, type scale, components" width={1280} height={1900}>
+            <div style={{padding: 64, background: '#fff', fontFamily: 'Inter, system-ui, sans-serif', color: '#1D2A3A'}}>
+              <div style={{fontSize: 11, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#007C82', marginBottom: 16}}>Spec sheet</div>
+              <h1 style={{fontSize: 56, fontWeight: 600, letterSpacing: '-0.03em', color: '#375172', margin: '0 0 32px'}}>Tokens & measurements.</h1>
+              <p style={{fontSize: 17, lineHeight: 1.65, color: '#5B6B80', maxWidth: 720}}>Implementation reference for Astro + Tailwind. CSS variables match the brand guide exactly. All measurements desktop @ 1280; mobile breakpoint at 768.</p>
+
+              <div style={{marginTop: 64, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80}}>
+                <div>
+                  <h3 style={{fontSize: 14, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#5B6B80', marginBottom: 24}}>Colour tokens</h3>
+                  {[
+                    ['--brand-navy', '#375172', 'Primary · headlines, logo, primary buttons'],
+                    ['--brand-teal', '#00B3AB', 'Secondary · helix, accents, hover'],
+                    ['--brand-teal-deep', '#007C82', 'Eyebrows, secondary buttons'],
+                    ['--brand-blue', '#4693C5', 'Links, data viz'],
+                    ['--brand-almond', '#E2DFDE', 'Warm neutral surface'],
+                    ['--brand-grey', '#E7E8E9', 'Cool neutral surface'],
+                    ['--brand-page', '#FBFAF9', 'Default page background (warm off-white)'],
+                    ['--brand-ink', '#1D2A3A', 'Body text on light'],
+                    ['--brand-ink-muted', '#5B6B80', 'Secondary text'],
+                    ['--brand-hairline', '#D6D9DD', 'Borders, hairlines'],
+                  ].map(([tok, hex, use]) => (
+                    <div key={tok} style={{display: 'grid', gridTemplateColumns: '40px 200px 100px 1fr', gap: 16, padding: '12px 0', borderTop: '1px solid #E7E8E9', alignItems: 'center'}}>
+                      <div style={{width: 40, height: 40, background: hex, border: '1px solid #D6D9DD'}}></div>
+                      <code style={{fontSize: 13, fontFamily: 'ui-monospace, monospace', color: '#375172'}}>{tok}</code>
+                      <code style={{fontSize: 13, fontFamily: 'ui-monospace, monospace', color: '#5B6B80'}}>{hex}</code>
+                      <span style={{fontSize: 13, color: '#5B6B80'}}>{use}</span>
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <h3 style={{fontSize: 14, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#5B6B80', marginBottom: 24}}>Type scale (Inter)</h3>
+                  {[
+                    ['Display / Hero A', '88px', '600', '-0.035em', '0.96', 'navy'],
+                    ['Display / Hero B', '120px', '600', '-0.04em', '0.92', 'navy/teal'],
+                    ['H1 page', '76px', '600', '-0.035em', '0.98', 'navy'],
+                    ['H2 section', '54px', '600', '-0.025em', '1.05', 'navy'],
+                    ['H3 card', '24px', '600', '-0.015em', '1.2', 'navy'],
+                    ['Lead', '21px', '400', '0', '1.5', 'ink-muted'],
+                    ['Body', '16px', '400', '0', '1.7', 'ink'],
+                    ['Eyebrow', '11px', '600', '0.16em', '1', 'teal-deep, UPPER'],
+                    ['Meta / caption', '12px', '500', '0.02em', '1.4', 'ink-subtle'],
+                  ].map(([role, size, weight, track, lh, col]) => (
+                    <div key={role} style={{display: 'grid', gridTemplateColumns: '1.4fr 70px 50px 80px 50px 1fr', gap: 12, padding: '10px 0', borderTop: '1px solid #E7E8E9', alignItems: 'center', fontSize: 12, fontFamily: 'ui-monospace, monospace', color: '#5B6B80'}}>
+                      <span style={{color: '#375172', fontWeight: 600, fontFamily: 'Inter, sans-serif'}}>{role}</span>
+                      <span>{size}</span>
+                      <span>{weight}</span>
+                      <span>{track}</span>
+                      <span>{lh}</span>
+                      <span>{col}</span>
+                    </div>
+                  ))}
+                  <h3 style={{fontSize: 14, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#5B6B80', margin: '40px 0 24px'}}>Layout</h3>
+                  <div style={{fontSize: 13, lineHeight: 1.8, color: '#5B6B80', fontFamily: 'ui-monospace, monospace'}}>
+                    <div>max-width container: <strong style={{color: '#375172'}}>1280px</strong></div>
+                    <div>page padding-x: <strong style={{color: '#375172'}}>56px</strong> (desktop) / 24px (mobile)</div>
+                    <div>section padding-y: <strong style={{color: '#375172'}}>128px</strong> default · 80px tight</div>
+                    <div>grid base: <strong style={{color: '#375172'}}>4px</strong></div>
+                    <div>container gap: <strong style={{color: '#375172'}}>96px</strong> (large) · 56px (medium)</div>
+                    <div>nav height: <strong style={{color: '#375172'}}>76px</strong> sticky</div>
+                    <div>radius: <strong style={{color: '#375172'}}>2px</strong> (buttons) · 0 (cards/sections)</div>
+                    <div>mobile breakpoint: <strong style={{color: '#375172'}}>768px</strong></div>
+                  </div>
+                  <h3 style={{fontSize: 14, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#5B6B80', margin: '40px 0 24px'}}>Components</h3>
+                  <div style={{fontSize: 13, lineHeight: 1.8, color: '#5B6B80', fontFamily: 'ui-monospace, monospace'}}>
+                    <div>Button: 14/22px padding, 14px text, 500 weight, 2px radius</div>
+                    <div>Portfolio card: 28px padding, 280px min-height, hairline borders</div>
+                    <div>Team photo: aspect-ratio 4/5, grayscale → colour on hover</div>
+                    <div>AUM stat: 64px num · 13px label · 13px sub</div>
+                    <div>Eyebrow: 18px hairline rule + 10px gap before label</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+
+      <TweaksPanel title="Tweaks" defaultPosition={{ right: 24, bottom: 24 }}>
+        <TweakSection title="Brand colours">
+          <TweakColor label="Primary navy" value={tweaks.navyShade} onChange={v => setTweak('navyShade', v)} />
+          <TweakColor label="Secondary teal" value={tweaks.tealShade} onChange={v => setTweak('tealShade', v)} />
+          <TweakColor label="Page background" value={tweaks.pageBg} onChange={v => setTweak('pageBg', v)} />
+        </TweakSection>
+        <TweakSection title="Type">
+          <TweakSlider label="Type scale" min={0.85} max={1.15} step={0.01} value={tweaks.typeScale} onChange={v => setTweak('typeScale', v)} unit="x" />
+        </TweakSection>
+        <TweakSection title="Inspect">
+          <TweakToggle label="Show spec annotations" value={tweaks.showSpecs} onChange={v => setTweak('showSpecs', v)} />
+          <TweakToggle label="Show 12-col grid" value={tweaks.showGrid} onChange={v => setTweak('showGrid', v)} />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

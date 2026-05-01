@@ -1,0 +1,265 @@
+/* =========================================================================
+   Proto Axiom — Colors & Type
+   Brand-approved tokens from proto-axiom-brand-guide-2025-01.pdf
+   Extended with the Claude Design palette/scale (2026-04-28).
+
+   Two parallel naming systems are exposed:
+   - `--pa-*` tokens — used by the Claude Design styles.css (.pa-* classes)
+   - `--brand-*` RGB triplets — used by Tailwind preset for `<alpha-value>` syntax
+
+   Keep both sets in sync when adjusting colors.
+   ========================================================================= */
+
+:root {
+  /* ---- Brand palette (from brand guide) ---------------------------------- */
+  --pa-primary:        #375172; /* Primary navy (titles, logo text, buttons) */
+  --pa-secondary:      #00B3AB; /* Teal (helix, highlights, CTAs) */
+  --pa-accent-blue:    #4693C5; /* Secondary accent — links, chips */
+  --pa-accent-green:   #007C82; /* Deep teal — hover, data viz, secondary CTA */
+  --pa-light-almond:   #E2DFDE; /* Warm neutral surface */
+  --pa-french-grey:    #E7E8E9; /* Cool neutral surface */
+
+  /* ---- Derived / extended scale (only for UI states; not in brand book) --- */
+  --pa-primary-900:    #243C57; /* pressed / deep headers */
+  --pa-primary-700:    #375172; /* = primary */
+  --pa-primary-500:    #4A6A8E; /* hover tint */
+  --pa-primary-100:    #E9EEF4; /* tinted surface */
+
+  --pa-secondary-600:  #009891; /* teal hover */
+  --pa-secondary-400:  #33C2BC; /* teal light */
+  --pa-secondary-100:  #D9F3F1; /* teal tinted surface */
+
+  --pa-ink:            #1D2A3A; /* body text on light */
+  --pa-ink-muted:      #5B6B80; /* secondary text */
+  --pa-ink-subtle:     #8A98AB; /* tertiary / captions */
+  --pa-hairline:       #D6D9DD; /* borders */
+  --pa-surface:        #FFFFFF;
+  --pa-surface-alt:    #F6F6F5; /* off-white page */
+  --pa-page-bg:        #FBFAF9; /* warm off-white default — almond/grey blend */
+  --pa-card-bg:        #FFFFFF;
+  --pa-black:          #0F1720;
+
+  /* ---- Semantic ---------------------------------------------------------- */
+  --fg-1: var(--pa-ink);           /* primary body text */
+  --fg-2: var(--pa-ink-muted);     /* secondary text */
+  --fg-3: var(--pa-ink-subtle);    /* tertiary / caption */
+  --fg-on-primary: #FFFFFF;
+  --fg-on-secondary: #FFFFFF;
+  --fg-brand: var(--pa-primary);
+  --fg-accent: var(--pa-secondary);
+  --fg-link: var(--pa-accent-blue);
+
+  --bg-page: var(--pa-surface);
+  --bg-alt:  var(--pa-surface-alt);
+  --bg-brand: var(--pa-primary);
+  --bg-brand-alt: var(--pa-secondary);
+  --bg-tinted: var(--pa-light-almond);
+  --bg-cool:   var(--pa-french-grey);
+
+  --border-1: var(--pa-hairline);
+  --border-strong: var(--pa-primary);
+
+  --success: var(--pa-accent-green);
+  --info:    var(--pa-accent-blue);
+
+  /* ---- Tailwind-friendly RGB triplets (kept for `<alpha-value>` syntax) -- */
+  --brand-ink: 29 42 58;        /* = #1D2A3A */
+  --brand-navy: 56 81 114;      /* = #375172 */
+  --brand-teal: 0 179 171;      /* = #00B3AB */
+  --brand-accent: 0 179 171;    /* alias → secondary */
+  --brand-accent-deep: 0 124 131; /* = #007C82 */
+  --brand-accent-blue: 70 147 198; /* = #4693C5 */
+  --brand-bone: 226 223 222;    /* = #E2DFDE */
+  --brand-mist: 231 233 234;    /* = #E7E8E9 */
+
+  /* ---- Type families ----------------------------------------------------- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---- Type scale (modular, 1.25 ratio, 16px base) ----------------------- */
+  --fs-12: 0.75rem;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-18: 1.125rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-30: 1.875rem;
+  --fs-36: 2.25rem;
+  --fs-48: 3rem;
+  --fs-60: 3.75rem;
+  --fs-72: 4.5rem;
+
+  /* ---- Weights ----------------------------------------------------------- */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-black: 800;
+
+  /* ---- Line heights ------------------------------------------------------ */
+  --lh-tight: 1.1;
+  --lh-snug: 1.25;
+  --lh-normal: 1.5;
+  --lh-loose: 1.7;
+
+  /* ---- Tracking ---------------------------------------------------------- */
+  --tr-display: -0.02em;
+  --tr-heading: -0.015em;
+  --tr-body: 0;
+  --tr-eyebrow: 0.12em;
+
+  /* ---- Spacing (4px base) ------------------------------------------------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+  --sp-32: 128px;
+
+  /* ---- Radii ------------------------------------------------------------- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* ---- Shadow / elevation ------------------------------------------------- */
+  --shadow-1: 0 1px 2px rgba(15, 23, 32, 0.06);
+  --shadow-2: 0 4px 12px rgba(15, 23, 32, 0.08);
+  --shadow-3: 0 12px 32px rgba(15, 23, 32, 0.10);
+  --shadow-brand: 0 12px 32px rgba(55, 81, 114, 0.18);
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-med: 220ms;
+  --dur-slow: 360ms;
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --container-narrow: 720px;
+  --container-md:     960px;
+  --container-wide:   1200px;
+  --container-xl:     1440px;
+  --page-max: 1280px;
+  --gutter: clamp(1rem, 4vw, 56px);
+}
+
+/* =========================================================================
+   Semantic element styles
+   ========================================================================= */
+
+html {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  font-size: var(--fs-16);
+  line-height: var(--lh-normal);
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(var(--fs-36), 4.5vw, var(--fs-60));
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-display);
+  color: var(--fg-brand);
+  text-wrap: balance;
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(var(--fs-30), 3vw, var(--fs-48));
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-heading);
+  color: var(--fg-brand);
+  text-wrap: balance;
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-24);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-heading);
+  color: var(--fg-brand);
+}
+
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-20);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-12);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-eyebrow);
+  color: var(--pa-accent-green);
+}
+
+.lead {
+  font-size: var(--fs-20);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+  text-wrap: pretty;
+}
+
+p {
+  font-size: var(--fs-16);
+  line-height: var(--lh-loose);
+  color: var(--fg-1);
+  text-wrap: pretty;
+}
+
+.caption {
+  font-size: var(--fs-12);
+  color: var(--fg-3);
+  letter-spacing: 0.02em;
+}
+
+/* Inline body links — buttons, nav, footer override these explicitly. */
+a {
+  color: var(--fg-link);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--pa-primary); }
+/* Underline body-prose links in long-form content only */
+.pa-body a:not(.pa-btn):not(.pa-link),
+.pa-pdetail-body__col a:not(.pa-btn):not(.pa-link),
+p > a:not(.pa-btn):not(.pa-link) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--pa-french-grey);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-xs);
+}
+
+::selection { background: var(--pa-secondary); color: white; }

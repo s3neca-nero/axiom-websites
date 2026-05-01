@@ -1,0 +1,305 @@
+/* =========================================================================
+   Proto Axiom — AUM section, four directions
+   Scoped to .pa-stats-* BEM so any direction can be lifted into the live
+   Astro page (which already imports brand tokens).
+   ========================================================================= */
+
+/* Shared section frame -------------------------------------------------- */
+/* Aligned with the rest of the site: full-bleed section, max-width inner
+   wrapper at the same gutter as `.pa-section` + `.pa-wrap`. */
+.pa-stats-section {
+  background: #FFFFFF;
+  color: var(--pa-ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  padding: 128px 0;
+  width: 100%;
+  box-sizing: border-box;
+  --hero-scale: 1;
+  --hero-currency-display: inline;
+  --hero-num-color: var(--pa-primary);
+}
+/* Inner wrapper — same constraints as `.pa-wrap` so vertical rhythm + max
+   reading width match neighbouring sections (hero, build, portfolio etc.). */
+.pa-stats-section__wrap {
+  width: 100%;
+  max-width: var(--page-max, 1280px);
+  margin-inline: auto;
+  padding: 0 var(--gutter, clamp(1rem, 4vw, 56px));
+}
+@media (max-width: 720px) {
+  .pa-stats-section { padding: 80px 0; }
+}
+
+.pa-stats-eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pa-accent-green);
+  margin: 0;
+}
+
+.pa-stats-h2 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  color: var(--pa-primary);
+  margin: 12px 0 0;
+  text-wrap: balance;
+}
+
+.pa-stats-lead {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--pa-ink-muted);
+  margin: 0;
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.pa-stats-foot {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--pa-ink-subtle);
+  text-transform: none;
+}
+
+/* =========================================================================
+   Direction 1 — The Ledger
+   Right-aligned figures with rules; reads like an annual-report disclosure.
+   The thesis sits in the left column; the numbers fall down the right
+   column in a tabular column with hairlines. Headline figure gets a
+   bracketed mark and slightly larger setting.
+   ========================================================================= */
+
+.pa-stats-ledger__head .pa-stats-h2 {
+  font-size: 48px;
+}
+
+/* =========================================================================
+   Direction 2 — The Timeline Spine
+   Headline A$45M anchored to a horizontal timeline that visualizes the
+   firm's structural claim: capital extends indefinitely past where a
+   10-year fund would have closed. Three secondary stats hang off the spine.
+   This is the "embed the thesis visually" direction.
+   ========================================================================= */
+
+.pa-stats-spine__top .pa-stats-h2 {
+  font-size: 52px;
+}
+
+/* The spine itself */
+
+/* the 10-yr fund track (faded) */
+
+/* permanent capital track */
+
+/* gate ticks */
+
+/* footer trio */
+
+/* =========================================================================
+   Direction 3 — The Manifesto Column
+   Two-column editorial: thesis on the left reads as a paragraph
+   manifesto, with the headline figure inline within prose. The right
+   column is a quietly-numbered stat sheet with a tinted-almond panel.
+   This is the "feels like a statement, not a dashboard" direction.
+   ========================================================================= */
+
+/* =========================================================================
+   Direction 4 — The Capital Curve
+   Two-row composition. Top row: hero figure beside an SVG area chart that
+   contrasts a closing 10-year fund (decay) against permanent capital
+   (recycling, indefinite). Bottom row: three supporting figures.
+   This is the second "embed the thesis visually" direction — different
+   metaphor (capital availability over time) and different tonal weight.
+   ========================================================================= */
+
+.pa-stats-curve__head {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 56px;
+}
+.pa-stats-curve__head .pa-stats-h2 {
+  font-size: 48px;
+}
+
+.pa-stats-curve__main {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 64px;
+  align-items: stretch;
+  background: var(--pa-primary);
+  color: #FFFFFF;
+  padding: 56px 56px 48px;
+}
+.pa-stats-curve__hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  border-right: 1px solid rgba(255,255,255,0.16);
+  padding-right: 48px;
+}
+.pa-stats-curve__hero-eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--pa-secondary-400);
+}
+.pa-stats-curve__hero-num {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-weight: 700;
+  font-size: calc(112px * var(--hero-scale));
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+}
+.pa-stats-curve__hero-num .pa-stats-curve__currency {
+  color: var(--pa-secondary);
+  font-size: 0.46em;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  vertical-align: 0.55em;
+  margin-right: 0.04em;
+  display: var(--hero-currency-display);
+}
+.pa-stats-curve__hero-lbl {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.005em;
+}
+.pa-stats-curve__hero-sub {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.72);
+  max-width: 38ch;
+  margin: 0;
+}
+
+.pa-stats-curve__chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 8px;
+}
+.pa-stats-curve__chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.56);
+  font-weight: 600;
+}
+.pa-stats-curve__chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.pa-stats-curve__chart-legend {
+  display: flex;
+  gap: 24px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.78);
+  letter-spacing: -0.005em;
+}
+.pa-stats-curve__chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.pa-stats-curve__chart-legend i {
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+}
+.pa-stats-curve__chart-legend i.--perm { background: var(--pa-secondary); }
+.pa-stats-curve__chart-legend i.--fund { background: rgba(255,255,255,0.45); }
+
+.pa-stats-curve__trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--pa-hairline);
+}
+.pa-stats-curve__cell {
+  padding: 32px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-right: 1px solid var(--pa-hairline);
+}
+.pa-stats-curve__cell:last-child {
+  border-right: none;
+}
+.pa-stats-curve__cell-num {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.028em;
+  color: var(--pa-primary);
+}
+.pa-stats-curve__cell-lbl {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--pa-primary);
+  margin-top: 4px;
+}
+.pa-stats-curve__cell-sub {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--pa-ink-muted);
+}
+
+.pa-stats-curve__foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+/* =========================================================================
+   Mobile — Direction 2 collapse
+   Stacks: header → hero figure → vertical "spine" timeline (rotated 90°
+   so the same metaphor survives at narrow widths) → three rows.
+   ========================================================================= */
+
+.pa-stats-section--mobile .pa-stats-h2 { font-size: 32px; }
+.pa-stats-section--mobile .pa-stats-lead { font-size: 16px; }
+
+/* vertical spine — rows wrap; the track runs full-height of the wrapper */
+
+/* permanent capital track — full height, indefinite */
+
+/* horizon arrow at end */
+
+/* faded "10-year fund" track shown alongside (top half only) */
+
+/* milestone dot — sits over the track */
+
+/* =========================================================================
+   Rationale callouts (canvas only — not part of section)
+   ========================================================================= */
+

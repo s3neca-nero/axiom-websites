@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Container, Button } from '@axiom/ui';
+---
+<BaseLayout title="Home | Endo Axiom">
+  <section class="hero">
+    <Container>
+      <p class="eyebrow">Endo Axiom</p>
+      <h1>
+        Preventing autoimmune disease and improving the quality of life of
+        diabetics.
+      </h1>
+      <p class="lede">
+        We develop biotechnology platforms for the oral delivery of drugs and
+        biologics, and take them to clinical validation.
+      </p>
+      <div class="cta-row">
+        <Button href="/team">Meet the team</Button>
+        <Button href="#clinical-trials" variant="ghost">Clinical trial enquiries</Button>
+      </div>
+    </Container>
+  </section>
+
+  <section class="mission">
+    <Container>
+      <h2>Mission</h2>
+      <p>
+        Develop nanotechnology platforms to solve pharmaceutical's impossible
+        challenges: oral insulin without hypoglycaemia, and immune modulation
+        for the prevention of type 1 diabetes without immune suppression.
+      </p>
+    </Container>
+  </section>
+
+  <section class="team-intro">
+    <Container>
+      <h2>Experienced & innovative team</h2>
+      <p>
+        Our management team and board include some of Australia's most
+        successful executives — the CEO of one of Australia's pre-eminent
+        biotechnology incubators, the CIO of a global investment fund, and a
+        leading scientific expert and co-inventor of our technology program.
+        Our scientific advisory board comprises biotechnology, pharmaceutical
+        and clinical pharmacology experts.
+      </p>
+      <Button href="/team">Meet the team</Button>
+    </Container>
+  </section>
+
+  <section id="clinical-trials" class="trials">
+    <Container>
+      <h2>Clinical trial enquiries</h2>
+      <p>
+        We receive a high volume of enquiries about the progress of our smart
+        oral insulin through clinical trials. Unfortunately we're unable to
+        respond to each email individually. If you'd like updates about our
+        progression to clinical trials, please register interest via the form
+        below.
+      </p>
+      <p>
+        Once trials are approved and ready for recruitment, they will also be
+        listed on the
+        <a href="https://www.anzctr.org.au/" target="_blank" rel="noopener">
+          Australian and New Zealand Clinical Trials Registry</a>.
+      </p>
+      <p class="placeholder">
+        Enquiry form to be wired up — the current Wix form should be replaced
+        with a form that emails info@endoaxiom.com (options: Formspree, Resend,
+        or a Vercel serverless function). See MIGRATION_CHECKLIST.
+      </p>
+      <p>
+        If your enquiry is not related to trial participation, please email us
+        at <a href="mailto:info@endoaxiom.com">info@endoaxiom.com</a>.
+      </p>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: 6rem 0 4rem;
+    background: linear-gradient(180deg, rgb(var(--brand-bone)) 0%, rgb(var(--brand-mist)) 100%);
+  }
+  .eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.8rem; color: rgb(var(--brand-navy)); margin: 0 0 1rem; }
+  h1 { font-size: clamp(2rem, 5vw, 3.5rem); max-width: 22ch; margin: 0 0 1.5rem; }
+  .lede { font-size: 1.2rem; max-width: 55ch; margin: 0 0 2rem; }
+  .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .mission, .team-intro, .trials { padding: 5rem 0; }
+  .mission p, .team-intro p, .trials p { max-width: 65ch; font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.25rem; }
+  .trials { background: rgb(var(--brand-mist)); }
+  .placeholder { padding: 1.5rem; border: 1px dashed rgb(var(--brand-navy) / 0.4); border-radius: 0.5rem; background: rgb(var(--brand-bone)); font-size: 0.95rem; }
+</style>

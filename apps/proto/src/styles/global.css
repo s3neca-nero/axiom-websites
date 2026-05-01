@@ -1,0 +1,5 @@
+@import '@axiom/ui/tokens.css';
+@import '@axiom/ui/design-system.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

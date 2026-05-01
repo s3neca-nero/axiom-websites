@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { process as gates } from '../data/site';
+
+const criteria: Array<[string, string, string]> = [
+  ['01', 'Translational science',          'Clear path from laboratory evidence to a defined patient outcome, with credible regulatory and reimbursement positioning.'],
+  ['02', 'Founders we want to build with', 'Researchers and operators with deep technical conviction, willing to partner closely with our operating bench.'],
+  ['03', 'Australian roots, global ambition', 'IP and capability sourced from Australian universities, research institutes and the public health system, scaling internationally.'],
+  ['04', 'A real inflection within reach', 'A near‑term milestone — clinical, technical or commercial — that materially changes risk and value.'],
+  ['05', 'Capital‑efficient path to value', 'Sensible cash burn into the next inflection, with us as a long‑term capital partner.'],
+];
+---
+<BaseLayout title="Investment | Proto Axiom" active="investment">
+  <section class="pa-section pa-section--tight pa-section--white">
+    <div class="pa-wrap">
+      <div class="pa-page-head">
+        <div>
+          <div class="pa-eyebrow">Investment</div>
+          <h1 class="pa-page-head__h">Patient capital. Hands‑on incubation. End‑to‑end translation.</h1>
+        </div>
+        <p class="pa-page-head__lead">
+          Australia generates world‑class biomedical research, yet too often that innovation stalls between the lab and the market. Proto Axiom exists to close that gap — co‑creating companies with researchers, installing management, and providing the shared infrastructure required to advance them.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-section pa-section--white">
+    <div class="pa-wrap">
+      <div class="pa-thesis">
+        <div class="pa-thesis__sticky">
+          <div class="pa-eyebrow">Our thesis</div>
+          <h2 class="pa-h2" style="margin-bottom: 0;">Build the company.<br/>Not just the cap table.</h2>
+        </div>
+        <div class="pa-thesis__col">
+          <p>Rather than investing passively in existing businesses, we identify translational assets, form companies around them, install management, and provide the shared clinical, regulatory, IP, finance and operating infrastructure required to advance them.</p>
+          <p>Capital is permanent. Decisions are made on milestones, not on fund cycles. We back our companies through preclinical milestones into clinical and commercial reality, with global partners.</p>
+          <p>Our investors are private — Australian and offshore — and our pipeline is sourced from the country's leading universities, research institutes, and the public health system.</p>
+          <div style="margin-top: 32px;">
+            <a class="pa-btn pa-btn--primary" href="/#portfolio">
+              Read more about our portfolio <span class="pa-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-section pa-section--almond">
+    <div class="pa-wrap">
+      <div class="pa-aum-head" style="margin-bottom: 64px;">
+        <div>
+          <div class="pa-eyebrow">The four gates</div>
+          <h2 class="pa-h2" style="margin: 0;">A milestone‑gated process from licensing to inflection.</h2>
+        </div>
+        <p class="pa-aum-head__lead">
+          Capital is deployed in tranches against scientific, clinical and commercial milestones. Each gate has a defined evidence bar before further capital is committed.
+        </p>
+      </div>
+      <div class="pa-gates">
+        {gates.map((p) => (
+          <div class="pa-gates__cell">
+            <div class="pa-gates__tag">{p.n} · Gate {p.n.replace('G', '')}</div>
+            <h3 class="pa-gates__title">{p.title}</h3>
+            <p class="pa-gates__text">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-section pa-section--white">
+    <div class="pa-wrap">
+      <div class="pa-criteria-grid">
+        <div>
+          <div class="pa-eyebrow">What we look for</div>
+          <h2 class="pa-h2">Investment criteria.</h2>
+          <p class="pa-criteria-lead">
+            We evaluate every opportunity against five criteria — applied consistently across therapeutics, diagnostics, biotech and bioprocessing.
+          </p>
+        </div>
+        <ol class="pa-criteria">
+          {criteria.map(([n, h, t]) => (
+            <li>
+              <span class="pa-criteria__n">{n}</span>
+              <div>
+                <span class="pa-criteria__h">{h}</span>
+                <span class="pa-criteria__t">{t}</span>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pa-criteria-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.4fr);
+    gap: 64px;
+    align-items: start;
+  }
+  .pa-criteria-lead {
+    font: 400 17px/1.65 var(--font-sans);
+    color: var(--pa-ink-muted);
+    margin: 16px 0 0;
+    max-width: 40ch;
+  }
+  @media (max-width: 900px) {
+    .pa-criteria-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>

@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+type SectionKey = 'management' | 'board' | 'sab' | 'strategic';
+
+interface RenderMember {
+  name: string;
+  title: string;
+  photo?: string;
+  _order: number;
+}
+
+// Source: src/content/team/*.md (per-person markdown frontmatter).
+// A person can appear in multiple sections via the `sections` array;
+// each appearance has its own `order`.
+const allTeam = await getCollection('team');
+
+function membersInSection(key: SectionKey): RenderMember[] {
+  return allTeam
+    .filter((m) => m.data.name !== '_placeholder')
+    .filter((m) => m.data.sections.some((s) => s.section === key))
+    .map((m) => {
+      const cfg = m.data.sections.find((s) => s.section === key)!;
+      return {
+        name: m.data.name,
+        title: m.data.title,
+        photo: m.data.photo,
+        _order: cfg.order,
+      };
+    })
+    .sort((a, b) => a._order - b._order);
+}
+
+interface SectionProps {
+  title: string;
+  desc: string;
+  members: RenderMember[];
+}
+
+const sections: SectionProps[] = [
+  {
+    title: 'Management',
+    desc: 'The operating team. Scientific diligence, capital deployment and hands‑on company building, every day.',
+    members: membersInSection('management'),
+  },
+  {
+    title: 'Board',
+    desc: 'Governance and oversight, with deep capital‑markets, biotech and translational science experience.',
+    members: membersInSection('board'),
+  },
+  {
+    title: 'Scientific Advisory Board',
+    desc: 'Senior scientists and clinicians who guide our diligence and the development plans of portfolio companies.',
+    members: membersInSection('sab'),
+  },
+  {
+    title: 'Strategic Advisors',
+    desc: 'Operators, founders and executives who advise on commercial, partnership and capital strategy.',
+    members: membersInSection('strategic'),
+  },
+];
+---
+<BaseLayout title="Team | Proto Axiom" active="team">
+  <section class="pa-section pa-section--tight pa-section--white">
+    <div class="pa-wrap">
+      <div class="pa-page-head">
+        <div>
+          <div class="pa-eyebrow">Team</div>
+          <h1 class="pa-page-head__h">An operating bench, not a fund team.</h1>
+        </div>
+        <p class="pa-page-head__lead">
+          Around 30 people across management, board, scientific advisory and strategic advisors — combining science, clinical, finance, governance and operating experience.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {sections.map((sec, idx) => (
+    <section
+      class:list={[
+        'pa-section',
+        idx % 2 === 0 ? 'pa-section--white' : 'pa-section--almond',
+      ]}
+      style={`padding-top: ${idx === 0 ? 32 : 64}px; padding-bottom: ${idx === sections.length - 1 ? 96 : 64}px;`}
+    >
+      <div class="pa-wrap">
+        <div class="pa-team-section">
+          <div class="pa-team-section__head">
+            <div>
+              <h2 class="pa-team-section__h">{sec.title}</h2>
+              <div class="pa-team-section__count" style="margin-top: 12px;">
+                {sec.members.length} {sec.members.length === 1 ? 'person' : 'people'}
+              </div>
+            </div>
+            <p class="pa-team-section__desc">{sec.desc}</p>
+          </div>
+          <div class="pa-team-grid">
+            {sec.members.map((m) => (
+              <div class="pa-team-card">
+                {m.photo ? (
+                  <div class="pa-team-card__photo"><img src={m.photo} alt={m.name} /></div>
+                ) : (
+                  <div class="pa-team-card__photo pa-team-card__photo--placeholder">[ Photo ]</div>
+                )}
+                <h4 class="pa-team-card__name">{m.name}</h4>
+                <div class="pa-team-card__title">{m.title}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+</BaseLayout>

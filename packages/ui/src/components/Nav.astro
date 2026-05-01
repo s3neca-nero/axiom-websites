@@ -1,0 +1,89 @@
+---
+/**
+ * Proto Axiom site nav — ported from _export/primitives.jsx (PaNav).
+ * Uses .pa-nav* classes from design-system.css.
+ *
+ * Initiatives dropdown is implemented as a CSS-only hover/focus reveal so we
+ * don't need a client island for hover state.
+ */
+interface NavItem {
+  label: string;
+  href: string;
+  active?: boolean;
+}
+interface Props {
+  active?: string;
+  brandHref?: string;
+  dark?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  active = 'home',
+  brandHref = '/',
+  dark = false,
+  ctaLabel = 'Get in touch',
+  ctaHref = '/contact',
+} = Astro.props;
+
+const items: { key: string; label: string; href: string }[] = [
+  { key: 'home', label: 'Home', href: '/' },
+  { key: 'investment', label: 'Investment', href: '/investment' },
+  { key: 'portfolio', label: 'Portfolio', href: '/#portfolio' },
+  { key: 'team', label: 'Team', href: '/team' },
+  { key: 'news', label: 'News', href: '/news' },
+];
+
+const initiatives = [
+  { key: 'summit', name: 'Challenger Summit', desc: 'Annual pitch programme · A$500K', href: '/applications/challenger', external: false },
+  { key: 'whf', name: "Women's Health Foundry", desc: 'National translation platform', href: 'https://womenshealthfoundry.com.au', external: true },
+];
+
+const initsActive = ['summit', 'whf', 'initiatives'].includes(active);
+const logoSrc = dark
+  ? '/brand/proto-axiom-logo_full-white-helix-blue.svg'
+  : '/brand/proto-axiom-logo_full-standard.svg';
+---
+<nav class:list={['pa-nav', dark && 'pa-nav--dark']}>
+  <div class="pa-nav__inner">
+    <a class="pa-nav__brand" href={brandHref} aria-label="Proto Axiom home">
+      <img class="pa-nav__logo" src={logoSrc} alt="Proto Axiom" height="32" />
+    </a>
+    <div class="pa-nav__links">
+      {items.map((item) => (
+        <a
+          class:list={['pa-nav__link', active === item.key && 'is-active']}
+          href={item.href}
+        >
+          {item.label}
+        </a>
+      ))}
+      <div class="pa-nav__group">
+        <a
+          class:list={['pa-nav__link', 'pa-nav__link--has-menu', initsActive && 'is-active']}
+          href="/applications/challenger"
+        >
+          Initiatives
+          <span class="pa-nav__caret" aria-hidden="true">▾</span>
+        </a>
+        <div class:list={['pa-nav__menu', dark && 'pa-nav__menu--dark']}>
+          {initiatives.map((it) => (
+            <a
+              class="pa-nav__menu-item"
+              href={it.href}
+              target={it.external ? '_blank' : undefined}
+              rel={it.external ? 'noopener' : undefined}
+            >
+              <span class="pa-nav__menu-name">{it.name}{it.external ? ' ↗' : ''}</span>
+              <span class="pa-nav__menu-desc">{it.desc}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+    <a class:list={['pa-btn', dark ? 'pa-btn--white' : 'pa-btn--primary']} href={ctaHref}>
+      {ctaLabel}
+    </a>
+  </div>
+</nav>

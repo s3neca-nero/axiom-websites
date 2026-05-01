@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { news } from '../../data/site';
+---
+<BaseLayout title="News | Proto Axiom" active="news">
+  <section class="pa-section pa-section--tight pa-section--white">
+    <div class="pa-wrap">
+      <div class="pa-page-head">
+        <div>
+          <div class="pa-eyebrow">News</div>
+          <h1 class="pa-page-head__h">From the firm and our portfolio.</h1>
+        </div>
+        <p class="pa-page-head__lead">
+          Announcements, programme updates and press coverage of Proto Axiom and the companies we have helped form. Subscribe to <a href="/applications/membership">Proto Axiom Connect</a> for low‑frequency updates direct to your inbox.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-section pa-section--white" style="padding-top: 32px;">
+    <div class="pa-wrap">
+      <ul class="pa-news-list">
+        {news.map((n) => (
+          <li class="pa-news-list__item">
+            <div class="pa-news-list__meta">
+              <span class="pa-news-list__date">{n.date}</span>
+              <span class="pa-news-list__sep">·</span>
+              <span class="pa-news-list__source">{n.source}</span>
+              <span class="pa-news-list__sep">·</span>
+              <span class="pa-news-list__kind">{n.kind}</span>
+            </div>
+            <h2 class="pa-news-list__title">{n.title}</h2>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pa-news-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--pa-hairline); }
+  .pa-news-list__item {
+    display: flex; flex-direction: column; gap: 12px;
+    padding: 32px 0; border-bottom: 1px solid var(--pa-hairline);
+  }
+  .pa-news-list__meta {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    font: 500 12px/1 var(--font-sans); letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--pa-ink-muted);
+  }
+  .pa-news-list__source { color: var(--pa-accent-green); }
+  .pa-news-list__sep { opacity: 0.4; }
+  .pa-news-list__title {
+    font: 600 clamp(20px, 2.4vw, 28px)/1.2 var(--font-sans);
+    letter-spacing: -0.015em; color: var(--pa-primary); margin: 0;
+    max-width: 64ch;
+  }
+</style>

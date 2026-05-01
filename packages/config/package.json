@@ -1,0 +1,11 @@
+{
+  "name": "@axiom/config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./tailwind-preset.mjs",
+  "exports": {
+    "./tailwind": "./tailwind-preset.mjs",
+    "./tsconfig-base.json": "./tsconfig-base.json"
+  }
+}

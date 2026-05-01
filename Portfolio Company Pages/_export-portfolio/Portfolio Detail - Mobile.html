@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <title>Mobile · Endo Axiom · Proto Axiom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/colors_and_type.css" />
+  <link rel="stylesheet" href="page.css" />
+  <style>
+    body { background: #ECEAE7; padding: 32px 0; }
+    .frame-wrap { display: flex; justify-content: center; }
+    .frame {
+      width: 390px; height: 844px;
+      background: #fff;
+      border-radius: 44px;
+      box-shadow: 0 30px 80px rgba(15,23,32,.18), 0 0 0 10px #1d2a3a, 0 0 0 12px #2c3e57;
+      overflow: hidden;
+      position: relative;
+    }
+    .frame::before {
+      content: ""; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 28px; background: #0f1720; border-radius: 999px; z-index: 100;
+    }
+    .frame-scroll { width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .frame-scroll::-webkit-scrollbar { display: none; }
+    .frame-status {
+      position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 50;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 28px 0 30px; pointer-events: none;
+      font-size: 14px; font-weight: 600; color: var(--pa-primary);
+    }
+    .frame-status .right { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+    /* Hide nav cta on mobile internal */
+    .frame .pa-nav__cta { display: none; }
+    .frame .pa-nav__inner { padding: 0 20px; }
+    .frame .pa-nav { padding-top: 36px; }
+    .label-bar {
+      max-width: 412px; margin: 0 auto 20px; padding: 0 8px;
+      font-size: 12px; color: var(--pa-ink-muted); letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 500; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="label-bar">Mobile · 390×844 · Endo Axiom</div>
+  <div class="frame-wrap">
+    <div class="frame">
+      <div class="frame-status">
+        <span>9:41</span>
+        <span class="right">●●●● 5G ▮</span>
+      </div>
+      <div class="frame-scroll" id="scroll">
+        <div id="root"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script src="data.js"></script>
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel">
+    ReactDOM.createRoot(document.getElementById('root')).render(<PortfolioDetail slug="endo-axiom" />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Container } from '@axiom/ui';
+---
+<BaseLayout title="Privacy Policy | Endo Axiom">
+  <Container>
+    <article style="padding: 6rem 0; max-width: 68ch; margin-inline: auto;">
+      <h1>Privacy Policy</h1>
+      <p class="lede">
+        Endo Axiom Pty Ltd is committed to protecting the privacy of personal information
+        collected in the course of our research and commercial activities. This page describes
+        how we collect, store, use and disclose personal information.
+      </p>
+
+      <p class="note">
+        This is a placeholder outline. The authoritative privacy policy is currently hosted at
+        <a href="https://www.endoaxiom.com/privacy-policy">endoaxiom.com/privacy-policy</a> and
+        will be transcribed here verbatim before DNS cutover. Do not rely on this page for
+        compliance purposes until that transcription is complete.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy or a request to access or correct personal information
+        can be directed to <a href="mailto:hello@endoaxiom.com">hello@endoaxiom.com</a>.
+      </p>
+    </article>
+  </Container>
+</BaseLayout>
+
+<style>
+  h1 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); margin: 0 0 2rem; }
+  h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 2.5rem 0 1rem; }
+  .lede { font-size: 1.125rem; color: rgb(var(--brand-ink) / 0.85); margin-bottom: 1.5rem; }
+  .note { padding: 1.25rem 1.5rem; border: 1px dashed rgb(var(--brand-navy) / 0.4); border-radius: 0.5rem; background: rgb(var(--brand-navy) / 0.04); font-size: 0.95rem; margin: 1.5rem 0; }
+  a { color: rgb(var(--brand-accent)); }
+</style>
