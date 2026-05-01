@@ -7,4 +7,4 @@ sections:
     order: 320
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+Michelle Burke is chair and non-executive director of AusBiotech Ltd and non-executive director of Cell Therapies Pty Ltd. She is a member of the Pharmaceutical Benefits Advisory Committee (PBAC), and the Strategic Advisory Group of the Australian Brain Cancer Mission. She also leads Indigo Advisory, an independent advisory consultancy serving companies, academia and government. Previous executive experience includes more than two decades in director roles with multinational pharmaceutical companies.

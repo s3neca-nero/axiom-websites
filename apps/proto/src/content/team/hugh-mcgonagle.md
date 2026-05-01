@@ -7,4 +7,6 @@ sections:
     order: 30
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+Hugh is Proto Axiom's Chief Operating Officer. He has over 20 years' experience as a commercial lawyer. Prior to joining Proto Axiom he was General Counsel at a New South Wales government agency and a partner at Deloitte, where he specialised in risk management. Hugh is admitted as a solicitor in NSW.
+
+Hugh studied at University College Dublin.

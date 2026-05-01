@@ -709,7 +709,14 @@ a.pa-btn--ghost:hover, .pa-btn--ghost:hover {
 .pa-team-section__desc { font: 400 16px/1.65 var(--font-sans); color: var(--pa-ink-muted); margin: 0; max-width: 540px; }
 
 .pa-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; }
-.pa-team-card { display: flex; flex-direction: column; gap: 16px; }
+.pa-team-card {
+  display: flex; flex-direction: column; gap: 16px;
+  text-decoration: none !important; color: inherit !important;
+  transition: transform 180ms var(--ease-out);
+}
+a.pa-team-card { color: inherit !important; }
+.pa-team-card:hover { transform: translateY(-2px); }
+.pa-team-card:hover .pa-team-card__name { color: var(--pa-accent-green); }
 .pa-team-card__photo {
   aspect-ratio: 4/5; background: var(--pa-french-grey); overflow: hidden; position: relative;
 }

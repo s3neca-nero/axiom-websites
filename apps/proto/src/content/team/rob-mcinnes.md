@@ -7,4 +7,4 @@ sections:
     order: 330
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+Rob is the Principal of his solo practice Rob McInnes IP Advisory, which he founded after working for 30 years in large law firms and patent attorney firms, including seven years as a partner in Spruson & Ferguson.

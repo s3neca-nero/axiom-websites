@@ -7,4 +7,4 @@ sections:
     order: 90
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+Marina Naidion has a strong background in office administration, customer service, human resources management and team leadership. She has extensive experience in managing day-to-day operations, developing and implementing new administrative systems, policies and procedures.

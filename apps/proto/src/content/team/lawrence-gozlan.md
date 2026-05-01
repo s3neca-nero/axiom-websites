@@ -7,4 +7,6 @@ sections:
     order: 340
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+Chief Investment Officer of Scientia Capital, a specialised global investment fund focused exclusively on life sciences.
+
+Prior to this, Lawrence was responsible for the largest biotechnology investment portfolio in Australia as the institutional biotechnology analyst at Queensland Investment Corporation, an investment fund managing over A$60 billion.

@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 type SectionKey = 'management' | 'board' | 'sab' | 'strategic';
 
 interface RenderMember {
+  slug: string;
   name: string;
   title: string;
   photo?: string;
@@ -23,6 +24,7 @@ function membersInSection(key: SectionKey): RenderMember[] {
     .map((m) => {
       const cfg = m.data.sections.find((s) => s.section === key)!;
       return {
+        slug: m.slug,
         name: m.data.name,
         title: m.data.title,
         photo: m.data.photo,
@@ -97,7 +99,7 @@ const sections: SectionProps[] = [
           </div>
           <div class="pa-team-grid">
             {sec.members.map((m) => (
-              <div class="pa-team-card">
+              <a class="pa-team-card" href={`/team/${m.slug}`}>
                 {m.photo ? (
                   <div class="pa-team-card__photo"><img src={m.photo} alt={m.name} /></div>
                 ) : (
@@ -105,7 +107,7 @@ const sections: SectionProps[] = [
                 )}
                 <h4 class="pa-team-card__name">{m.name}</h4>
                 <div class="pa-team-card__title">{m.title}</div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

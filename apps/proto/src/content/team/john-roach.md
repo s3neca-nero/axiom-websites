@@ -7,4 +7,4 @@ sections:
     order: 50
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+John is Proto Axiom's Head of Finance. Previously the Financial Controller for Vitex Pharmaceuticals, he has over 20 years experience in financial and operational roles within the pharmaceutical and manufacturing sectors.

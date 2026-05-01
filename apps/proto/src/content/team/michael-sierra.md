@@ -7,4 +7,4 @@ sections:
     order: 250
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+Michael Sierra, PhD, was Vice President of LEO Science & Tech Hub, an innovation hub he led for LEO Pharma in Cambridge (USA). Prior to this, he held the positions of Director of Medicinal Chemistry, Director of Chemical Research, Director of External Discovery and Executive Director of Translational Research at LEO Pharma (Denmark). Before that, Michael worked 10 years at GlaxoSmithKline's Centre de Recherche as Head of Chemistry. He has 26 years of drug discovery experience in the therapeutic areas of cardiovascular and metabolic diseases as well as inflammation.

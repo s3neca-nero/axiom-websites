@@ -7,4 +7,6 @@ sections:
     order: 100
 ---
 
-Bio to come. Sourced from protoaxiom.com/team on 2026-04-24.
+Nick has a background in translational biomedical research and nanomaterials development. He is a Senior Lecturer in the School of Medical Science at the University of Sydney and a research leader at the ANZAC Research Institute, where his work focuses on nanotechnologies for clinical application, including drug, biologic, and gene therapy delivery.
+
+Nick is Co-Founder and CEO of Endo Axiom, leading the translation of these technologies toward clinical trials. His research has been supported by the NHMRC, MRFF, and the University of Sydney.
