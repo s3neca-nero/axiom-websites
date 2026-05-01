@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { Nav, Footer } from '@axiom/ui';
+import { SiteMenu, Footer } from '@axiom/ui';
 
 interface Props {
   title: string;
@@ -44,12 +44,12 @@ const {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&family=Inter:wght@400;500;600;700;800&display=swap"
     />
     <title>{title}</title>
   </head>
   <body class="pa-site">
-    <Nav active={active} dark={darkNav} />
+    <SiteMenu current={active as any} variant={darkNav ? 'dark' : 'light'} />
     <main>
       <slot />
     </main>

@@ -1,0 +1,299 @@
+---
+/**
+ * Proto Axiom site-wide menu — hamburger button + glass dropdown panel.
+ *
+ * Used on every page. Position: fixed top-right. The button + logo adapt to
+ * the page background (variant prop). The opened panel is always the same dark
+ * glass so the menu reads identically across the site.
+ *
+ * Items: Home, Investment, Portfolio, Team, News, Challenger Summit, Contact,
+ * plus Login (separated by a divider, points to tools.protoaxiom.com).
+ *
+ * Pass `current` to hide the active page from the menu (no point linking to
+ * where the user already is).
+ */
+type ItemKey =
+  | 'home'
+  | 'investment'
+  | 'portfolio'
+  | 'team'
+  | 'news'
+  | 'challenger'
+  | 'contact';
+
+interface Props {
+  /** Page key — used to hide the active item from the menu. */
+  current?: ItemKey;
+  /** 'dark' on the splash (white logo + button), 'light' on content pages. */
+  variant?: 'dark' | 'light';
+}
+
+const { current, variant = 'light' } = Astro.props;
+
+const items: { key: ItemKey; label: string; href: string }[] = [
+  { key: 'home',        label: 'Home',              href: '/' },
+  { key: 'investment',  label: 'Investment',        href: '/investment' },
+  { key: 'portfolio',   label: 'Portfolio',         href: '/portfolio' },
+  { key: 'team',        label: 'Team',              href: '/team' },
+  { key: 'news',        label: 'News',              href: '/news' },
+  { key: 'challenger',  label: 'Challenger Summit', href: '/applications/challenger' },
+  { key: 'contact',     label: 'Contact',           href: '/contact' },
+];
+
+const visible = items.filter((it) => it.key !== current);
+const logoSrc =
+  variant === 'dark'
+    ? '/brand/proto-axiom-logo_full-white.svg'
+    : '/brand/proto-axiom-logo_full-standard.svg';
+---
+
+<header class:list={['pa-sitemenu', `pa-sitemenu--${variant}`]} data-pa-sitemenu>
+  <a class="pa-sitemenu__brand" href="/" aria-label="Proto Axiom — home">
+    <img class="pa-sitemenu__logo" src={logoSrc} alt="Proto Axiom" />
+  </a>
+  <button
+    class="pa-sitemenu__btn"
+    type="button"
+    data-pa-sitemenu-btn
+    aria-expanded="false"
+    aria-controls="pa-sitemenu-panel"
+    aria-label="Open menu"
+  >
+    <span class="pa-sitemenu__bars" aria-hidden="true"
+      ><span></span><span></span><span></span
+    ></span>
+    <span class="pa-sitemenu__btn-label">Menu</span>
+  </button>
+  <nav
+    id="pa-sitemenu-panel"
+    class="pa-sitemenu__panel"
+    data-pa-sitemenu-panel
+    aria-hidden="true"
+  >
+    <ul>
+      {visible.map((it, i) => (
+        <li>
+          <a href={it.href}>
+            <span>{it.label}</span>
+            <span class="pa-sitemenu__num">{String(i + 1).padStart(2, '0')}</span>
+          </a>
+        </li>
+      ))}
+      <li class="pa-sitemenu__divider-li"><div class="pa-sitemenu__divider"></div></li>
+      <li class="pa-sitemenu__login">
+        <a href="https://tools.protoaxiom.com" target="_blank" rel="noopener">
+          <span>Login</span><span class="pa-sitemenu__arrow">→</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<style is:global>
+  .pa-sitemenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 50;
+    pointer-events: none;
+  }
+  .pa-sitemenu > * { pointer-events: auto; }
+
+  .pa-sitemenu__brand { display: block; }
+  .pa-sitemenu__logo {
+    display: block;
+    height: 28px;
+    width: auto;
+    opacity: 0.95;
+  }
+
+  .pa-sitemenu__btn {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    border-radius: 999px;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition:
+      border-color 220ms cubic-bezier(0.2,0.7,0.2,1),
+      color 220ms cubic-bezier(0.2,0.7,0.2,1),
+      background 220ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .pa-sitemenu__bars {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 16px;
+  }
+  .pa-sitemenu__bars span {
+    display: block;
+    height: 1.5px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition:
+      transform 280ms cubic-bezier(0.2,0.7,0.2,1),
+      opacity 200ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .pa-sitemenu__btn[aria-expanded='true'] .pa-sitemenu__bars span:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+  .pa-sitemenu__btn[aria-expanded='true'] .pa-sitemenu__bars span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0.4);
+  }
+  .pa-sitemenu__btn[aria-expanded='true'] .pa-sitemenu__bars span:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+
+  /* Dark variant — splash on navy */
+  .pa-sitemenu--dark .pa-sitemenu__btn {
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+  }
+  .pa-sitemenu--dark .pa-sitemenu__btn:hover {
+    border-color: rgba(0,179,171,0.5);
+    color: #fff;
+    background: rgba(0,179,171,0.06);
+  }
+
+  /* Light variant — content pages on white */
+  .pa-sitemenu--light .pa-sitemenu__btn {
+    border: 1px solid rgba(13,26,46,0.15);
+    color: rgba(13,26,46,0.85);
+  }
+  .pa-sitemenu--light .pa-sitemenu__btn:hover {
+    border-color: rgba(0,179,171,0.6);
+    color: #0d1a2e;
+    background: rgba(0,179,171,0.06);
+  }
+
+  /* Panel — same dark glass on every page */
+  .pa-sitemenu__panel {
+    position: absolute;
+    top: 70px;
+    right: 48px;
+    width: min(320px, calc(100vw - 96px));
+    background: rgba(14, 27, 44, 0.82);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 14px 0;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+    pointer-events: none;
+    transition:
+      opacity 240ms cubic-bezier(0.2,0.7,0.2,1),
+      transform 240ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .pa-sitemenu__panel[aria-hidden='false'] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .pa-sitemenu__panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pa-sitemenu__panel li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 22px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.86);
+    text-decoration: none;
+    letter-spacing: 0.005em;
+    transition:
+      color 180ms cubic-bezier(0.2,0.7,0.2,1),
+      background 180ms cubic-bezier(0.2,0.7,0.2,1),
+      padding-left 220ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .pa-sitemenu__panel li a:hover {
+    color: #fff;
+    background: rgba(0,179,171,0.10);
+    padding-left: 28px;
+  }
+  .pa-sitemenu__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: rgba(0,179,171,0.65);
+    letter-spacing: 0.04em;
+  }
+  .pa-sitemenu__divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 8px 22px;
+  }
+  .pa-sitemenu__login a {
+    color: #33d6cf;
+    font-weight: 500;
+  }
+  .pa-sitemenu__arrow {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 300;
+    transition: transform 220ms cubic-bezier(0.2,0.7,0.2,1);
+  }
+  .pa-sitemenu__login a:hover .pa-sitemenu__arrow { transform: translateX(4px); }
+
+  @media (max-width: 720px) {
+    .pa-sitemenu { padding: 16px 24px; }
+    .pa-sitemenu__panel { top: 58px; right: 24px; }
+  }
+</style>
+
+<script>
+  // Click-to-open behavior, click-outside / Escape to close.
+  // Idempotent: safe to run multiple times in case of hydration repeats.
+  (() => {
+    if ((window as any).__paSiteMenuInit) return;
+    (window as any).__paSiteMenuInit = true;
+
+    const setOpen = (btn: HTMLElement, panel: HTMLElement, open: boolean) => {
+      btn.setAttribute('aria-expanded', String(open));
+      panel.setAttribute('aria-hidden', String(!open));
+    };
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const btn = document.querySelector<HTMLElement>('[data-pa-sitemenu-btn]');
+      const panel = document.querySelector<HTMLElement>('[data-pa-sitemenu-panel]');
+      if (!btn || !panel) return;
+
+      if (btn.contains(target)) {
+        e.stopPropagation();
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        setOpen(btn, panel, !isOpen);
+        return;
+      }
+      if (!panel.contains(target)) {
+        setOpen(btn, panel, false);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const btn = document.querySelector<HTMLElement>('[data-pa-sitemenu-btn]');
+      const panel = document.querySelector<HTMLElement>('[data-pa-sitemenu-panel]');
+      if (btn && panel) setOpen(btn, panel, false);
+    });
+  })();
+</script>

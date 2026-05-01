@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { portfolio } from '../data/site';
+
+// Sort: founding investor first, then venture stake; then by year founded asc.
+const sorted = [...portfolio].sort((a, b) => {
+  const r = (x: typeof a) => (x.relationship === 'founding-investor' ? 0 : 1);
+  if (r(a) !== r(b)) return r(a) - r(b);
+  return a.yearFounded - b.yearFounded;
+});
+
+const founding = sorted.filter((p) => p.relationship === 'founding-investor').length;
+const venture = sorted.length - founding;
+---
+<BaseLayout title="Portfolio | Proto Axiom" active="portfolio">
+  <section class="pa-section pa-section--tight pa-section--white">
+    <div class="pa-wrap">
+      <div class="pa-page-head">
+        <div>
+          <div class="pa-eyebrow">Portfolio · {sorted.length} companies</div>
+          <h1 class="pa-page-head__h">Scientific breakthroughs, translated.</h1>
+        </div>
+        <p class="pa-page-head__lead">
+          {founding} companies created with Proto Axiom as founding investor, plus {venture} venture-stage investment{venture === 1 ? '' : 's'}.
+          Sourced from Australia's leading research institutions across therapeutics, diagnostics, cell therapy and bioprocessing.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pa-section pa-section--white" style="padding-top: 0;">
+    <div class="pa-wrap">
+      <div class="pa-portfolio">
+        {sorted.map((p) => (
+          <a class="pa-portfolio__card" href={`/portfolio/${p.slug}`}>
+            <div class="pa-portfolio__top">
+              <img class="pa-portfolio__logo" src={p.logo} alt={p.name} />
+              <div class="pa-portfolio__year">{p.yearFounded}</div>
+            </div>
+            <div class="pa-portfolio__sector">{p.sector} · {p.modality}</div>
+            <h3 class="pa-portfolio__name">{p.name}</h3>
+            <p class="pa-portfolio__tagline">{p.tagline}</p>
+            <dl class="pa-portfolio__stats">
+              <div><dt>Origin</dt><dd>{p.origin}</dd></div>
+              <div><dt>Stage</dt><dd>{p.stage}</dd></div>
+              <div>
+                <dt>Relationship</dt>
+                <dd>{p.relationship === 'founding-investor' ? 'Created with Proto Axiom' : 'Venture stake'}</dd>
+              </div>
+            </dl>
+            <div class="pa-portfolio__foot">
+              <span class="pa-portfolio__stage">{p.relationship === 'founding-investor' ? 'Founding investor' : 'Venture'}</span>
+              <span class="pa-portfolio__more">View →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

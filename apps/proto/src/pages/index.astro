@@ -1,9 +1,9 @@
 ---
 // Proto Axiom — Landing splash
 // Self-contained, full-viewport hero with helix → constellation → helix animation.
-// Bypasses BaseLayout intentionally: this page has its own chrome (logo + hamburger).
-// The detailed marketing home that previously lived here is preserved at
-// src/_archive/home-detailed.astro.
+// Uses the shared SiteMenu (variant=dark, current=home so Home is hidden).
+import { SiteMenu } from '@axiom/ui';
+
 const title = 'Proto Axiom';
 const description =
   'Proto Axiom — Australian biotech company creation. Eight portfolio companies. Permanent capital. Pharma-grade execution.';
@@ -47,73 +47,18 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
       <canvas id="canvas"></canvas>
       <div class="vignette"></div>
       <div class="grain"></div>
-      <div class="ui">
-        <header class="top">
-          <a href="/" aria-label="Proto Axiom — home">
-            <img class="logo" src="/brand/proto-axiom-logo_full-white.svg" alt="Proto Axiom" />
-          </a>
-          <button
-            class="menu-btn"
-            id="menuBtn"
-            aria-expanded="false"
-            aria-controls="menuPanel"
-            aria-label="Open menu"
-          >
-            <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
-            <span class="label">Menu</span>
-          </button>
-        </header>
-        <nav class="menu-panel" id="menuPanel" aria-hidden="true">
-          <ul>
-            <li><a href="/"><span>Home</span><span class="num">01</span></a></li>
-            <li><a href="/investment"><span>Investment</span><span class="num">02</span></a></li>
-            <li><a href="/portfolio"><span>Portfolio</span><span class="num">03</span></a></li>
-            <li><a href="/team"><span>Team</span><span class="num">04</span></a></li>
-            <li><a href="/news"><span>News</span><span class="num">05</span></a></li>
-            <li><a href="/applications/challenger"><span>Challenger Summit</span><span class="num">06</span></a></li>
-            <li><a href="/contact"><span>Contact</span><span class="num">07</span></a></li>
-            <li class="divider-li"><div class="divider"></div></li>
-            <li class="login">
-              <a href="https://tools.protoaxiom.com" target="_blank" rel="noopener">
-                <span>Login</span><span class="arrow">→</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div class="copy">
-          <h1 class="headline">
-            We build the companies <span class="em">we invest in.</span>
-          </h1>
-          <p class="subline">
-            Australian science <span class="dot"></span> Pharma-grade execution
-          </p>
-        </div>
-        <div class="corner">Sydney · est. 2021</div>
+      <SiteMenu variant="dark" current="home" />
+      <div class="copy">
+        <h1 class="headline">
+          We build the companies <span class="em">we invest in.</span>
+        </h1>
+        <p class="subline">
+          Australian science <span class="dot"></span> Pharma-grade execution
+        </p>
       </div>
+      <div class="corner">Sydney · est. 2021</div>
     </div>
 
-    <script is:inline>
-      (() => {
-        const btn = document.getElementById('menuBtn');
-        const panel = document.getElementById('menuPanel');
-        function setOpen(open) {
-          btn.classList.toggle('open', open);
-          panel.classList.toggle('open', open);
-          btn.setAttribute('aria-expanded', String(open));
-          panel.setAttribute('aria-hidden', String(!open));
-        }
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          setOpen(!panel.classList.contains('open'));
-        });
-        document.addEventListener('click', (e) => {
-          if (!panel.contains(e.target) && !btn.contains(e.target)) setOpen(false);
-        });
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') setOpen(false);
-        });
-      })();
-    </script>
     <script is:inline src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <script is:inline>
       (() => {
@@ -468,148 +413,13 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
     z-index: 2;
   }
-  .ui {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 3;
-  }
-  .ui a, .ui button { pointer-events: auto; }
-
-  .top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 32px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo {
-    display: block;
-    height: 28px;
-    width: auto;
-    opacity: 0.95;
-  }
-
-  .menu-btn {
-    -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 999px;
-    padding: 10px 14px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: rgba(255,255,255,0.85);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    transition: border-color 220ms cubic-bezier(0.2,0.7,0.2,1), color 220ms cubic-bezier(0.2,0.7,0.2,1), background 220ms cubic-bezier(0.2,0.7,0.2,1);
-  }
-  .menu-btn:hover {
-    border-color: rgba(0,179,171,0.5);
-    color: #fff;
-    background: rgba(0,179,171,0.06);
-  }
-  .menu-btn .bars {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 4px;
-    width: 16px;
-  }
-  .menu-btn .bars span {
-    display: block;
-    height: 1.5px;
-    width: 100%;
-    background: currentColor;
-    border-radius: 2px;
-    transition: transform 280ms cubic-bezier(0.2,0.7,0.2,1), opacity 200ms cubic-bezier(0.2,0.7,0.2,1);
-  }
-  .menu-btn.open .bars span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
-  .menu-btn.open .bars span:nth-child(2) { opacity: 0; transform: scaleX(0.4); }
-  .menu-btn.open .bars span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
-
-  .menu-panel {
-    position: absolute;
-    top: 78px;
-    right: 48px;
-    width: min(320px, calc(100vw - 96px));
-    background: rgba(14, 27, 44, 0.78);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    padding: 14px 0;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
-    opacity: 0;
-    transform: translateY(-8px) scale(0.98);
-    pointer-events: none;
-    transition: opacity 240ms cubic-bezier(0.2,0.7,0.2,1), transform 240ms cubic-bezier(0.2,0.7,0.2,1);
-    z-index: 5;
-  }
-  .menu-panel.open {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    pointer-events: auto;
-  }
-  .menu-panel ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .menu-panel li a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 22px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.86);
-    text-decoration: none;
-    letter-spacing: 0.005em;
-    transition: color 180ms cubic-bezier(0.2,0.7,0.2,1), background 180ms cubic-bezier(0.2,0.7,0.2,1), padding-left 220ms cubic-bezier(0.2,0.7,0.2,1);
-  }
-  .menu-panel li a:hover {
-    color: #fff;
-    background: rgba(0,179,171,0.10);
-    padding-left: 28px;
-  }
-  .menu-panel li a .num {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 12px;
-    color: rgba(0,179,171,0.65);
-    letter-spacing: 0.04em;
-  }
-  .menu-panel .divider {
-    height: 1px;
-    background: rgba(255,255,255,0.08);
-    margin: 8px 22px;
-  }
-  .menu-panel li.login a {
-    color: var(--teal-bright);
-    font-weight: 500;
-  }
-  .menu-panel li.login a .arrow {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    transition: transform 220ms cubic-bezier(0.2,0.7,0.2,1);
-  }
-  .menu-panel li.login a:hover .arrow {
-    transform: translateX(4px);
-  }
 
   .copy {
     position: absolute;
     left: 48px;
     bottom: 80px;
     max-width: 760px;
+    z-index: 3;
   }
   .headline {
     font-family: 'Cormorant Garamond', 'Times New Roman', serif;
@@ -655,31 +465,30 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.4);
+    z-index: 3;
   }
 
-  .ui > .top, .ui > .copy, .ui > .corner {
+  /* Entrance animation — fade in once particles ready */
+  .copy, .corner {
     opacity: 0;
     transform: translateY(8px);
     transition: opacity 1200ms cubic-bezier(0.2,0.7,0.2,1), transform 1200ms cubic-bezier(0.2,0.7,0.2,1);
   }
-  body.ready .ui > .top,
-  body.ready .ui > .copy,
-  body.ready .ui > .corner {
+  body.ready .copy,
+  body.ready .corner {
     opacity: 1;
     transform: translateY(0);
   }
-  body.ready .ui .copy { transition-delay: 300ms; }
-  body.ready .ui .corner { transition-delay: 600ms; }
+  body.ready .copy { transition-delay: 300ms; }
+  body.ready .corner { transition-delay: 600ms; }
 
   @media (max-width: 720px) {
-    .top { padding: 20px 24px; }
     .copy { left: 24px; right: 24px; bottom: 56px; }
     .corner { right: 24px; bottom: 20px; }
-    .menu-panel { top: 64px; right: 24px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ui > .top, .ui > .copy, .ui > .corner {
+    .copy, .corner {
       transition: opacity 200ms linear;
       transform: none;
     }
