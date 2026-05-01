@@ -350,11 +350,23 @@ export const portfolio: PortfolioItem[] = [
 export type NewsItem = { date: string; source: string; kind: string; title: string; href?: string };
 
 export const news: NewsItem[] = [
-  { date: '17 Apr 2026', source: 'Proto Axiom', kind: 'Announcement', title: 'Proto Axiom opens A$30M Series B Extension at A$100M pre‑money.' },
-  { date: '04 Mar 2026', source: 'AFR', kind: 'Feature', title: 'Billionaire Salesforce boss tips into Sydney biotech incubator.' },
-  { date: '12 Feb 2026', source: 'Proto Axiom', kind: 'Portfolio', title: 'AdvanCell advances targeted alpha therapy programme into Phase 1/2 expansion.' },
-  { date: '28 Nov 2025', source: 'AusBiotech', kind: 'Interview', title: 'Backing biotechs with US‑style entrepreneurialism — a conversation with Anthony Liveris.' },
-  { date: '03 Oct 2025', source: 'Proto Axiom', kind: 'Programme', title: 'Challenger Pitch for Health 2026 announces A$500K in grant prizes.' },
-  { date: '14 Aug 2025', source: 'Proto Axiom', kind: 'Portfolio', title: 'Onyx Axiom advances topical antifungal toward Phase 2b.' },
-  { date: '02 Jun 2025', source: 'Proto Axiom', kind: 'Announcement', title: 'Proto Axiom banks A$20M towards A$30M Series B.' },
+  { date: '12 Aug 2024', source: 'Australian Financial Review', kind: 'Feature',
+    title: 'Billionaire Salesforce boss tips into Sydney biotech incubator',
+    href: 'https://www.afr.com/street-talk/salesforce-chief-tips-into-biotech-incubator-series-b-20240812-p5k1pq' },
+  { date: '17 Apr 2023', source: 'TechNode Global', kind: 'Announcement',
+    title: 'Australian biomedical technology incubator Proto Axiom raises $15M in Series A funding',
+    href: 'https://technode.global/2023/04/17/australian-biomedical-technology-incubator-proto-axiom-raises-15m-in-series-a-funding/' },
+  { date: '06 Mar 2023', source: 'Balance the Grind', kind: 'Interview',
+    title: 'Balancing the Grind with Anthony Liveris, CEO of Proto Axiom',
+    href: 'https://balancethegrind.co/interviews/anthony-liveris-ceo-of-proto-axiom/' },
+  { date: '04 Oct 2022', source: 'Biotech Dispatch', kind: 'Press release',
+    title: 'Australian biotechnology incubator Proto Axiom completes initial fundraising',
+    href: 'https://biotechdispatch.com.au/news/australian-biotechnology-incubator-proto-axiom-completes-initial' },
+  { date: '30 Sep 2022', source: 'The Australian', kind: 'Feature',
+    title: "Backing biotechs with US-style entrepreneurialism",
+    href: 'https://www.theaustralian.com.au/business/backing-biotechs-with-usstyle-entrepreneurialism/news-story/4b5b76f83fcd2e1fa2ed00d5d84f0bd8' },
+  { date: '15 Sep 2022', source: 'The Evolved Leadership Podcast', kind: 'Podcast',
+    title: 'A Ground-Breaking Approach To Biotech Innovation, with Anthony Liveris, CEO of Proto Axiom',
+    href: 'https://podcasts.apple.com/au/podcast/12-a-ground-breaking-approach-to-biotech-innovation/id1628961242?i=1000587200848' },
 ];
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  

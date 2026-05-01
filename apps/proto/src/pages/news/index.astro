@@ -20,18 +20,34 @@ import { news } from '../../data/site';
   <section class="pa-section pa-section--white" style="padding-top: 32px;">
     <div class="pa-wrap">
       <ul class="pa-news-list">
-        {news.map((n) => (
-          <li class="pa-news-list__item">
-            <div class="pa-news-list__meta">
-              <span class="pa-news-list__date">{n.date}</span>
-              <span class="pa-news-list__sep">·</span>
-              <span class="pa-news-list__source">{n.source}</span>
-              <span class="pa-news-list__sep">·</span>
-              <span class="pa-news-list__kind">{n.kind}</span>
-            </div>
-            <h2 class="pa-news-list__title">{n.title}</h2>
-          </li>
-        ))}
+        {news.map((n) => {
+          const Inner = (
+            <>
+              <div class="pa-news-list__meta">
+                <span class="pa-news-list__date">{n.date}</span>
+                <span class="pa-news-list__sep">·</span>
+                <span class="pa-news-list__source">{n.source}</span>
+                <span class="pa-news-list__sep">·</span>
+                <span class="pa-news-list__kind">{n.kind}</span>
+              </div>
+              <h2 class="pa-news-list__title">
+                {n.title}
+                {n.href && <span class="pa-news-list__arrow"> ↗</span>}
+              </h2>
+            </>
+          );
+          return (
+            <li class="pa-news-list__item">
+              {n.href ? (
+                <a class="pa-news-list__link" href={n.href} target="_blank" rel="noopener noreferrer">
+                  {Inner}
+                </a>
+              ) : (
+                <div class="pa-news-list__static">{Inner}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   </section>
@@ -40,8 +56,21 @@ import { news } from '../../data/site';
 <style>
   .pa-news-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--pa-hairline); }
   .pa-news-list__item {
+    display: flex; flex-direction: column; gap: 0;
+    border-bottom: 1px solid var(--pa-hairline);
+  }
+  .pa-news-list__link,
+  .pa-news-list__static {
     display: flex; flex-direction: column; gap: 12px;
-    padding: 32px 0; border-bottom: 1px solid var(--pa-hairline);
+    padding: 32px 0;
+    color: inherit !important;
+    text-decoration: none !important;
+    border: none !important;
+  }
+  .pa-news-list__link { transition: opacity 160ms ease; }
+  .pa-news-list__link:hover { opacity: 0.72; }
+  .pa-news-list__link:hover .pa-news-list__arrow {
+    transform: translate(2px, -2px);
   }
   .pa-news-list__meta {
     display: flex; flex-wrap: wrap; gap: 8px;
@@ -54,5 +83,11 @@ import { news } from '../../data/site';
     font: 600 clamp(20px, 2.4vw, 28px)/1.2 var(--font-sans);
     letter-spacing: -0.015em; color: var(--pa-primary); margin: 0;
     max-width: 64ch;
+  }
+  .pa-news-list__arrow {
+    display: inline-block;
+    color: var(--pa-accent-green);
+    font-weight: 500;
+    transition: transform 160ms ease;
   }
 </style>
