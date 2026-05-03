@@ -144,7 +144,13 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
           uPixelRatio: { value: renderer.getPixelRatio() },
           uColorA: { value: new THREE.Color('#00B3AB') },
           uColorB: { value: new THREE.Color('#7fe9e3') },
-          uMorph: { value: 0 }
+          uMorph: { value: 0 },
+          // Cursor proximity — particles near the cursor get a soft glow + size boost.
+          uCursorWorld: { value: new THREE.Vector3(1e3, 1e3, 1e3) }, // off-screen sentinel
+          uCursorIntensity: { value: 0 },
+          // Click pulse — a radial ripple expands outward from the click point.
+          uPulseOrigin: { value: new THREE.Vector3(1e3, 1e3, 1e3) },
+          uPulseStrength: { value: 0 }
         };
 
         const pointsMat = new THREE.ShaderMaterial({
@@ -157,6 +163,10 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
             uniform float uTime;
             uniform float uPixelRatio;
             uniform float uMorph;
+            uniform vec3  uCursorWorld;
+            uniform float uCursorIntensity;
+            uniform vec3  uPulseOrigin;
+            uniform float uPulseStrength;
             varying float vGlow;
             varying float vSeed;
             void main() {
@@ -164,12 +174,30 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
               vec3 p = position;
               float breathe = sin(uTime * 0.6 + aSeed * 6.2831) * 0.04;
               p += normalize(p + 0.0001) * breathe;
+
+              // Particle's world-space position (modelMatrix accounts for rotation).
+              vec3 pWorld = (modelMatrix * vec4(p, 1.0)).xyz;
+
+              // Cursor proximity — soft Gaussian falloff, scaled by intensity (which
+              // ramps to 1 while the pointer is over the canvas, decays to 0 on leave).
+              float cursorD2 = dot(pWorld - uCursorWorld, pWorld - uCursorWorld);
+              float cursorBoost = exp(-cursorD2 * 0.42) * uCursorIntensity;
+
+              // Click pulse — a thin band that expands outward from uPulseOrigin as
+              // uPulseStrength fades from 1 to 0. Particles intersecting the band get
+              // a one-shot size+brightness boost.
+              float pulseRadius = (1.0 - uPulseStrength) * 8.0;
+              float pulseD = distance(pWorld, uPulseOrigin);
+              float bandDelta = (pulseD - pulseRadius) * (pulseD - pulseRadius);
+              float pulseBoost = exp(-bandDelta * 0.55) * uPulseStrength;
+
               vec4 mv = modelViewMatrix * vec4(p, 1.0);
               float dist = -mv.z;
               float flicker = 0.65 + 0.35 * sin(uTime * 1.4 + aSeed * 12.566);
-              vGlow = mix(0.55, 1.15, uMorph) * flicker;
+              vGlow = mix(0.55, 1.15, uMorph) * flicker + cursorBoost * 0.65 + pulseBoost * 1.4;
               float size = mix(2.2, 4.4, uMorph) * uPixelRatio * (8.0 / max(dist, 0.0001));
-              gl_PointSize = clamp(size, 1.0, 28.0);
+              size += cursorBoost * 2.0 + pulseBoost * 5.0;
+              gl_PointSize = clamp(size, 1.0, 36.0);
               gl_Position = projectionMatrix * mv;
             }
           `,
@@ -282,12 +310,49 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
 
         const target = { x: 0, y: 0 };
         const cur = { x: 0, y: 0 };
+
+        // Project a screen-space cursor (clientX/Y) onto the helix's z=0 plane in
+        // world space. This is what the vertex shader uses for cursor proximity
+        // and click-pulse effects so particles are highlighted in their actual 3D
+        // neighbourhood, not just by screen coordinates.
+        const cursorTmp = new THREE.Vector3();
+        function projectCursorToHelixPlane(clientX, clientY) {
+          const ndcX = (clientX / window.innerWidth) * 2 - 1;
+          const ndcY = -((clientY / window.innerHeight) * 2 - 1);
+          cursorTmp.set(ndcX, ndcY, 0.5).unproject(camera);
+          cursorTmp.sub(camera.position).normalize();
+          const denom = cursorTmp.z !== 0 ? cursorTmp.z : 1e-6;
+          const t = -camera.position.z / denom;
+          return new THREE.Vector3()
+            .copy(cursorTmp)
+            .multiplyScalar(t)
+            .add(camera.position);
+        }
+
+        let cursorIntensityTarget = 0;
+        let pulseStartT = -1;
+        const PULSE_DURATION = 0.9;
+
         window.addEventListener('pointermove', (e) => {
           target.x = (e.clientX / window.innerWidth) * 2 - 1;
           target.y = (e.clientY / window.innerHeight) * 2 - 1;
+          uniforms.uCursorWorld.value.copy(projectCursorToHelixPlane(e.clientX, e.clientY));
+          cursorIntensityTarget = 1;
         });
         window.addEventListener('pointerleave', () => {
           target.x = 0; target.y = 0;
+          cursorIntensityTarget = 0;
+        });
+        // Click anywhere on the splash to send a teal pulse outward from that point.
+        // Suppressed under prefers-reduced-motion — the resting helix carries the
+        // page's intent on its own.
+        window.addEventListener('pointerdown', (e) => {
+          if (reducedMotion) return;
+          // Ignore clicks on UI (the SiteMenu sits above the canvas).
+          const el = e.target;
+          if (el && el.closest && el.closest('[data-pa-sitemenu]')) return;
+          uniforms.uPulseOrigin.value.copy(projectCursorToHelixPlane(e.clientX, e.clientY));
+          pulseStartT = (performance.now() - t0) / 1000;
         });
 
         const CYCLE = 16.0;
@@ -298,11 +363,30 @@ const ogImage = 'https://protoaxiom.com/brand/proto-axiom-logo_full-standard.svg
 
         const positionsAttr = geom.getAttribute('position');
         let t0 = performance.now();
+        // Smoothed cursor intensity (eased toward target each frame so hover/leave
+        // don't snap on/off).
+        let cursorIntensityCur = 0;
         function tick() {
           const now = performance.now();
           const t = (now - t0) / 1000;
           uniforms.uTime.value = t;
           haloUniforms.uTime.value = t;
+
+          // Cursor intensity ease — 0.05 per-frame is roughly a 200ms ramp at 60fps.
+          cursorIntensityCur += (cursorIntensityTarget - cursorIntensityCur) * 0.05;
+          uniforms.uCursorIntensity.value = cursorIntensityCur;
+
+          // Click pulse — quadratic ease-out fade over PULSE_DURATION seconds.
+          if (pulseStartT >= 0) {
+            const pulseElapsed = t - pulseStartT;
+            if (pulseElapsed >= PULSE_DURATION) {
+              uniforms.uPulseStrength.value = 0;
+              pulseStartT = -1;
+            } else {
+              const k = 1 - pulseElapsed / PULSE_DURATION;
+              uniforms.uPulseStrength.value = k * k;
+            }
+          }
 
           const phase = (t % CYCLE) / CYCLE;
           let morph = 0;

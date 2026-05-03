@@ -1,0 +1,75 @@
+---
+/**
+ * Proto Axiom helix motif — quiet reference to the home-page Three.js scene,
+ * rendered as static SVG so it costs nothing to ship on every interior page.
+ *
+ * Rendered by default from BaseLayout. Pages that have their own bespoke
+ * helix treatment (the Thesis page hero + deep-navy section) should pass
+ * `noHelix` to BaseLayout so this default doesn't compete.
+ *
+ * The SVG is intentionally fixed-position, top-right, behind all content,
+ * very low opacity. On data-dense pages the user may not consciously notice
+ * it — that's the point. The motif's job is to make the site feel
+ * continuous with the home page splash, not to draw attention.
+ *
+ * Auto-hides on viewports ≤720px to maximise content area on mobile.
+ */
+interface Props {
+  /** 'light' uses navy strokes; 'dark' uses teal strokes for navy/black surfaces. */
+  variant?: 'light' | 'dark';
+  /** Override the default 0.035 opacity if the page wants a different mood. */
+  opacity?: number;
+}
+
+const { variant = 'light', opacity = 0.035 } = Astro.props;
+
+const stroke = variant === 'dark' ? '#00B3AB' : '#375172';
+const dotFill = '#00B3AB';
+---
+<svg
+  class="pa-helix-motif"
+  viewBox="0 0 400 800"
+  fill="none"
+  aria-hidden="true"
+  style={`opacity: ${opacity};`}
+>
+  <g stroke={stroke} stroke-width="1.2" fill="none">
+    <path d="M120,0 C260,100 80,200 220,300 C360,400 80,500 220,600 C360,700 120,750 200,800" />
+    <path d="M280,0 C140,100 320,200 180,300 C40,400 320,500 180,600 C40,700 280,750 200,800" />
+  </g>
+  <g fill={dotFill}>
+    <circle cx="180" cy="50" r="2.5"/>
+    <circle cx="220" cy="50" r="2.5"/>
+    <circle cx="160" cy="150" r="2.5"/>
+    <circle cx="240" cy="150" r="2.5"/>
+    <circle cx="200" cy="250" r="2.5"/>
+    <circle cx="200" cy="350" r="2.5"/>
+    <circle cx="160" cy="450" r="2.5"/>
+    <circle cx="240" cy="450" r="2.5"/>
+    <circle cx="200" cy="550" r="2.5"/>
+    <circle cx="220" cy="650" r="2.5"/>
+    <circle cx="180" cy="750" r="2.5"/>
+  </g>
+</svg>
+
+<style is:global>
+  .pa-helix-motif {
+    position: fixed;
+    top: 0;
+    right: -80px;
+    width: 560px;
+    height: 100vh;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+  @media (max-width: 1280px) {
+    .pa-helix-motif { width: 440px; right: -100px; }
+  }
+  @media (max-width: 1024px) {
+    .pa-helix-motif { width: 360px; right: -120px; }
+  }
+  @media (max-width: 720px) {
+    .pa-helix-motif { display: none; }
+  }
+</style>

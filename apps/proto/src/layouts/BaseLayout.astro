@@ -1,18 +1,25 @@
 ---
 import '../styles/global.css';
-import { SiteMenu, Footer } from '@axiom/ui';
+import { SiteMenu, Footer, HelixMotif } from '@axiom/ui';
 
 interface Props {
   title: string;
   description?: string;
   active?: string;
   darkNav?: boolean;
+  /**
+   * Suppress the ambient sitewide helix watermark. Set to true on pages that
+   * carry their own bespoke helix treatment (e.g. /thesis), or any page where
+   * the watermark would compete with foreground visuals.
+   */
+  noHelix?: boolean;
 }
 const {
   title,
   description = 'Proto Axiom — Australian biotech company creation platform.',
   active = 'home',
   darkNav = false,
+  noHelix = false,
 } = Astro.props;
 ---
 <!doctype html>
@@ -49,6 +56,7 @@ const {
     <title>{title}</title>
   </head>
   <body class="pa-site">
+    {!noHelix && <HelixMotif variant={darkNav ? 'dark' : 'light'} />}
     <SiteMenu current={active as any} variant={darkNav ? 'dark' : 'light'} />
     <main>
       <slot />
