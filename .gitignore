@@ -26,6 +26,9 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
+# Webflow/Wix raw exports and other migration drops (large; not source control)
+_imports/
+
 # Misc
 *.tsbuildinfo
 
