@@ -10,6 +10,7 @@
     "./challenger.css": "./src/challenger.css",
     "./portfolio-detail.css": "./src/portfolio-detail.css",
     "./stats-curve.css": "./src/stats-curve.css",
+    "./thesis.css": "./src/thesis.css",
     "./components/*": "./src/components/*"
   }
 }

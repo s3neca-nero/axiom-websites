@@ -1,239 +1,36 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import StatsCurve from '../components/StatsCurve.astro';
-import '@axiom/ui/stats-curve.css';
-import { process as gates } from '../data/site';
-
-const criteria: Array<[string, string, string]> = [
-  ['01', 'Translational science',          'Clear path from laboratory evidence to a defined patient outcome, with credible regulatory and reimbursement positioning.'],
-  ['02', 'Founders we want to build with', 'Researchers and operators with deep technical conviction, willing to partner closely with our operating bench.'],
-  ['03', 'Australian roots, global ambition', 'IP and capability sourced from Australian universities, research institutes and the public health system, scaling internationally.'],
-  ['04', 'A real inflection within reach', 'A near‑term milestone — clinical, technical or commercial — that materially changes risk and value.'],
-  ['05', 'Capital‑efficient path to value', 'Sensible cash burn into the next inflection, with us as a long‑term capital partner.'],
-];
+/**
+ * Legacy /investment route — content moved to /thesis on 2026-05-03.
+ *
+ * The astro.config.mjs `redirects` entry maps /investment → /thesis at build
+ * time and emits a meta-refresh page; this file is the page-level fallback
+ * for crawlers that follow the page over the meta tag, and ensures the route
+ * still resolves if the redirect config is ever toggled off.
+ *
+ * Do not add content here. Edit /thesis instead.
+ */
+const target = '/thesis';
+const canonical = `https://protoaxiom.com${target}`;
 ---
-<BaseLayout title="Investment | Proto Axiom" active="investment">
-  <!-- Page head -->
-  <section class="pa-section pa-section--tight pa-section--white">
-    <div class="pa-wrap">
-      <div class="pa-page-head">
-        <div>
-          <div class="pa-eyebrow">Investment</div>
-          <h1 class="pa-page-head__h">Patient capital. Hands‑on incubation. End‑to‑end translation.</h1>
-        </div>
-        <p class="pa-page-head__lead">
-          Australia generates world‑class biomedical research, yet too often that innovation stalls between the lab and the market. Proto Axiom exists to close that gap — co‑creating companies with researchers, installing management, and providing the shared infrastructure required to advance them.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Thesis -->
-  <section class="pa-section pa-section--white">
-    <div class="pa-wrap">
-      <div class="pa-thesis">
-        <div class="pa-thesis__sticky">
-          <div class="pa-eyebrow">Our thesis</div>
-          <h2 class="pa-h2" style="margin-bottom: 0;">Build the company.<br/>Not just the cap table.</h2>
-        </div>
-        <div class="pa-thesis__col">
-          <p>Rather than investing passively in existing businesses, we identify translational assets, form companies around them, install management, and provide the shared clinical, regulatory, IP, finance and operating infrastructure required to advance them.</p>
-          <p>Capital is permanent. Decisions are made on milestones, not on fund cycles. We back our companies through preclinical milestones into clinical and commercial reality, with global partners.</p>
-          <p>Our investors are private — Australian and offshore — and our pipeline is sourced from the country's leading universities, research institutes, and the public health system.</p>
-          <div style="margin-top: 32px;">
-            <a class="pa-btn pa-btn--primary" href="/portfolio">
-              Read more about our portfolio <span class="pa-arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why Australia — the translation gap -->
-  <section class="pa-section pa-section--almond">
-    <div class="pa-wrap">
-      <div class="pa-whyx">
-        <header class="pa-whyx__head">
-          <div>
-            <div class="pa-eyebrow">The translation gap</div>
-            <h2 class="pa-h2" style="margin: 0;">World‑class science.<br/>Under‑capitalised companies.</h2>
-          </div>
-          <p class="pa-whyx__lead">
-            Australia consistently ranks in the global top tier for biomedical research output — but the capital flowing into translation lags every comparable economy. The arithmetic is the entire reason Proto Axiom exists.
-          </p>
-        </header>
-        <div class="pa-whyx__compare">
-          <div class="pa-whyx__compare-head">
-            <div class="pa-whyx__compare-lbl">Per‑researcher venture capital, life sciences</div>
-            <div class="pa-whyx__compare-note">Source: AusBiotech, OECD MSTI, NVCA · 2024 calendar year</div>
-          </div>
-          <div class="pa-whyx__compare-rows">
-            <div class="pa-whyx__compare-row">
-              <div class="pa-whyx__compare-flag">AU</div>
-              <div class="pa-whyx__compare-bar"><span style="width: 8%;"></span></div>
-              <div class="pa-whyx__compare-val">US$11k</div>
-            </div>
-            <div class="pa-whyx__compare-row">
-              <div class="pa-whyx__compare-flag">UK</div>
-              <div class="pa-whyx__compare-bar"><span style="width: 34%;"></span></div>
-              <div class="pa-whyx__compare-val">US$48k</div>
-            </div>
-            <div class="pa-whyx__compare-row">
-              <div class="pa-whyx__compare-flag pa-whyx__compare-flag--accent">US</div>
-              <div class="pa-whyx__compare-bar"><span class="pa-whyx__compare-bar-fill--accent" style="width: 100%;"></span></div>
-              <div class="pa-whyx__compare-val pa-whyx__compare-val--accent">US$142k</div>
-            </div>
-          </div>
-        </div>
-        <div class="pa-whyx__stats">
-          <div class="pa-whyx__stat">
-            <div class="pa-whyx__stat-num">3.4%</div>
-            <div class="pa-whyx__stat-lbl">of global biomedical publications</div>
-            <div class="pa-whyx__stat-sub">Australia produces output at ~3× its share of world GDP. Source: Nature Index 2024.</div>
-          </div>
-          <div class="pa-whyx__stat">
-            <div class="pa-whyx__stat-num">A$22B</div>
-            <div class="pa-whyx__stat-lbl">Medical Research Future Fund</div>
-            <div class="pa-whyx__stat-sub">Sovereign endowment for translational research, perpetually invested by the Australian Government.</div>
-          </div>
-          <div class="pa-whyx__stat">
-            <div class="pa-whyx__stat-num pa-whyx__stat-num--neg">0.06%</div>
-            <div class="pa-whyx__stat-lbl">of GDP into life‑sciences VC</div>
-            <div class="pa-whyx__stat-sub">~1/8th of the US figure. The bottleneck is company formation capital — not science. Source: ABS, NVCA.</div>
-          </div>
-        </div>
-        <div class="pa-whyx__bridge">
-          <div class="pa-whyx__bridge-lbl">Our response</div>
-          <p class="pa-whyx__bridge-body">
-            Permanent capital, milestone‑gated, deployed alongside Australia's research institutions to form companies that wouldn't otherwise exist. <strong>Eight in five years.</strong> Three approaching clinical trials.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- AUM / capital footprint -->
-  <StatsCurve />
-
-  <!-- Capital base — 33 private investors -->
-  <section class="pa-section pa-section--tight pa-section--white" style="padding-top: 0;">
-    <div class="pa-wrap">
-      <div class="pa-capital-quiet">
-        <div class="pa-capital-quiet__lbl">Capital base</div>
-        <p class="pa-capital-quiet__body">
-          Backed by a closed group of <strong>33 private investors</strong> across Australia, the United States and the United Kingdom — family offices, foundations and strategic operators who provide patient capital alongside operating insight. Investor identities held in confidence.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Capital structure — holding company vs VC fund -->
-  <section class="pa-section pa-section--white">
-    <div class="pa-wrap">
-      <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 96px; align-items: end; margin-bottom: 56px;">
-        <div>
-          <div class="pa-eyebrow">Capital structure</div>
-          <h2 class="pa-h2">A holding company.<br/>Not a fund.</h2>
-        </div>
-        <p class="pa-body" style="margin: 0; color: var(--pa-ink-muted); font-size: 17px; max-width: 540px;">
-          Most biotech in Australia is funded by closed-end venture funds with a 10-year clock. We're structured for the timelines science actually requires.
-        </p>
-      </div>
-      <div class="pa-capstruct">
-        <div class="pa-capstruct__col pa-capstruct__col--pa">
-          <div class="pa-capstruct__lbl">Proto Axiom</div>
-          <h3 class="pa-capstruct__h">Permanent capital. Milestone-gated.</h3>
-          <p class="pa-capstruct__sub">Holding company structure with no fixed life — capital recycles into the portfolio indefinitely.</p>
-          <div class="pa-capstruct__rows">
-            <div class="pa-capstruct__row"><span>Vehicle</span><div><strong>Holding company</strong> — single permanent balance sheet</div></div>
-            <div class="pa-capstruct__row"><span>Time horizon</span><div><strong>Indefinite</strong> — no fund close, no forced exits</div></div>
-            <div class="pa-capstruct__row"><span>Fees</span><div><strong>None</strong> — no management fee, no carry</div></div>
-            <div class="pa-capstruct__row"><span>Capital release</span><div><strong>Gate-driven</strong> — tranches against scientific milestones</div></div>
-            <div class="pa-capstruct__row"><span>Operating bench</span><div><strong>Shared</strong> — clinical, regulatory, IP, finance, governance</div></div>
-          </div>
-        </div>
-        <div class="pa-capstruct__col pa-capstruct__col--vc">
-          <div class="pa-capstruct__lbl">Traditional VC fund</div>
-          <h3 class="pa-capstruct__h">Closed-end. 10-year cycle.</h3>
-          <p class="pa-capstruct__sub">Standard fund-of-funds vehicle with LP commitments, fixed deployment window and forced exit calendar.</p>
-          <div class="pa-capstruct__rows">
-            <div class="pa-capstruct__row"><span>Vehicle</span><div><strong>Limited partnership</strong> — LP commitments, GP carry</div></div>
-            <div class="pa-capstruct__row"><span>Time horizon</span><div><strong>10 years</strong> — investment + harvest periods fixed</div></div>
-            <div class="pa-capstruct__row"><span>Fees</span><div><strong>2 / 20</strong> — 2% management, 20% carried interest</div></div>
-            <div class="pa-capstruct__row"><span>Capital release</span><div><strong>Round-driven</strong> — milestones tied to financing cycles</div></div>
-            <div class="pa-capstruct__row"><span>Operating bench</span><div><strong>External</strong> — outsourced to founders / consultants</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Four gates — milestone-gated process -->
-  <section class="pa-section pa-section--almond">
-    <div class="pa-wrap">
-      <div class="pa-aum-head" style="margin-bottom: 64px;">
-        <div>
-          <div class="pa-eyebrow">The four gates</div>
-          <h2 class="pa-h2" style="margin: 0;">A milestone‑gated process from licensing to inflection.</h2>
-        </div>
-        <p class="pa-aum-head__lead">
-          Capital is deployed in tranches against scientific, clinical and commercial milestones. Each gate has a defined evidence bar before further capital is committed.
-        </p>
-      </div>
-      <div class="pa-gates">
-        {gates.map((p) => (
-          <div class="pa-gates__cell">
-            <div class="pa-gates__tag">{p.n} · Gate {p.n.replace('G', '')}</div>
-            <h3 class="pa-gates__title">{p.title}</h3>
-            <p class="pa-gates__text">{p.text}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Investment criteria -->
-  <section class="pa-section pa-section--white">
-    <div class="pa-wrap">
-      <div class="pa-criteria-grid">
-        <div>
-          <div class="pa-eyebrow">What we look for</div>
-          <h2 class="pa-h2">Investment criteria.</h2>
-          <p class="pa-criteria-lead">
-            We evaluate every opportunity against five criteria — applied consistently across therapeutics, diagnostics, biotech and bioprocessing.
-          </p>
-        </div>
-        <ol class="pa-criteria">
-          {criteria.map(([n, h, t]) => (
-            <li>
-              <span class="pa-criteria__n">{n}</span>
-              <div>
-                <span class="pa-criteria__h">{h}</span>
-                <span class="pa-criteria__t">{t}</span>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
-
-<style>
-  .pa-criteria-grid {
-    display: grid;
-    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.4fr);
-    gap: 64px;
-    align-items: start;
-  }
-  .pa-criteria-lead {
-    font: 400 17px/1.65 var(--font-sans);
-    color: var(--pa-ink-muted);
-    margin: 16px 0 0;
-    max-width: 40ch;
-  }
-  @media (max-width: 900px) {
-    .pa-criteria-grid { grid-template-columns: 1fr; gap: 32px; }
-  }
-</style>
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting&hellip; | Proto Axiom</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 48px; color: #1D2A3A; }
+      a { color: #00B3AB; }
+    </style>
+  </head>
+  <body>
+    <p>This page has moved. <a href={target}>Continue to {target}</a>.</p>
+    <script is:inline>
+      // Belt-and-braces client-side fallback for browsers that delay the
+      // meta-refresh.
+      window.location.replace('/thesis');
+    </script>
+  </body>
+</html>

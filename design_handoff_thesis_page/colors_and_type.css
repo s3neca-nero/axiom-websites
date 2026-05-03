@@ -1,14 +1,32 @@
 /* =========================================================================
    Proto Axiom — Colors & Type
    Brand-approved tokens from proto-axiom-brand-guide-2025-01.pdf
-   Extended with the Claude Design palette/scale (2026-04-28).
-
-   Two parallel naming systems are exposed:
-   - `--pa-*` tokens — used by the Claude Design styles.css (.pa-* classes)
-   - `--brand-*` RGB triplets — used by Tailwind preset for `<alpha-value>` syntax
-
-   Keep both sets in sync when adjusting colors.
    ========================================================================= */
+
+/* Webfonts ----------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Legacy Aktiv Grotesk (original body face, still shipped) */
+@font-face {
+  font-family: 'Aktiv Grotesk';
+  src: url('fonts/aktiv-grotesk-regular.otf') format('opentype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Aktiv Grotesk';
+  src: url('fonts/aktiv-grotesk-regular-italic.otf') format('opentype');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Aktiv Grotesk';
+  src: url('fonts/aktiv-grotesk-bold.otf') format('opentype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Aktiv Grotesk';
+  src: url('fonts/aktiv-grotesk-bold-italic.otf') format('opentype');
+  font-weight: 700; font-style: italic; font-display: swap;
+}
 
 :root {
   /* ---- Brand palette (from brand guide) ---------------------------------- */
@@ -33,16 +51,9 @@
   --pa-ink-muted:      #5B6B80; /* secondary text */
   --pa-ink-subtle:     #8A98AB; /* tertiary / captions */
   --pa-hairline:       #D6D9DD; /* borders */
-  --pa-rule:           #D6D9DD; /* alias of hairline — editorial pages use this name */
-  --pa-rule-soft:      #E6E8EB; /* lighter inter-row hairline */
   --pa-surface:        #FFFFFF;
   --pa-surface-alt:    #F6F6F5; /* off-white page */
-  --pa-page-bg:        #FBFAF9; /* warm off-white default — almond/grey blend */
-  --pa-card-bg:        #FFFFFF;
   --pa-black:          #0F1720;
-  --pa-deep-navy:      #0a1320; /* home-page canvas — recurs sparingly on interior pages */
-  --pa-warm-almond:    #ECE7E1; /* warmer than --pa-light-almond, for breathing surfaces */
-  --pa-almond-soft:    #F4F0EB; /* softest warm surface for long-form sections */
 
   /* ---- Semantic ---------------------------------------------------------- */
   --fg-1: var(--pa-ink);           /* primary body text */
@@ -67,21 +78,9 @@
   --success: var(--pa-accent-green);
   --info:    var(--pa-accent-blue);
 
-  /* ---- Tailwind-friendly RGB triplets (kept for `<alpha-value>` syntax) -- */
-  --brand-ink: 29 42 58;        /* = #1D2A3A */
-  --brand-navy: 56 81 114;      /* = #375172 */
-  --brand-teal: 0 179 171;      /* = #00B3AB */
-  --brand-accent: 0 179 171;    /* alias → secondary */
-  --brand-accent-deep: 0 124 131; /* = #007C82 */
-  --brand-accent-blue: 70 147 198; /* = #4693C5 */
-  --brand-bone: 226 223 222;    /* = #E2DFDE */
-  --brand-mist: 231 233 234;    /* = #E7E8E9 */
-
   /* ---- Type families ----------------------------------------------------- */
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-display: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
-  --font-body-dark: 'DM Sans', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', 'Aktiv Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Inter', 'Aktiv Grotesk', system-ui, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   /* ---- Type scale (modular, 1.25 ratio, 16px base) ----------------------- */
@@ -111,10 +110,10 @@
   --lh-loose: 1.7;
 
   /* ---- Tracking ---------------------------------------------------------- */
-  --tr-display: -0.02em;
+  --tr-display: -0.02em;   /* large headings crunch slightly */
   --tr-heading: -0.015em;
   --tr-body: 0;
-  --tr-eyebrow: 0.12em;
+  --tr-eyebrow: 0.12em;    /* all-caps eyebrows / labels */
 
   /* ---- Spacing (4px base) ------------------------------------------------- */
   --sp-1: 4px;
@@ -157,27 +156,14 @@
   --container-md:     960px;
   --container-wide:   1200px;
   --container-xl:     1440px;
-  --page-max: 1280px;
-  --gutter: clamp(1rem, 4vw, 56px);
 }
 
 /* =========================================================================
-   Semantic element styles
+   Semantic element styles — opinionated defaults for Proto Axiom copy
    ========================================================================= */
 
-html {
-  font-family: var(--font-sans);
-  color: var(--fg-1);
-  background: var(--bg-page);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-body {
-  margin: 0;
-  font-size: var(--fs-16);
-  line-height: var(--lh-normal);
-}
+html { font-family: var(--font-sans); color: var(--fg-1); background: var(--bg-page); }
+body { font-size: var(--fs-16); line-height: var(--lh-normal); -webkit-font-smoothing: antialiased; }
 
 h1, .h1 {
   font-family: var(--font-display);
@@ -245,21 +231,14 @@ p {
   letter-spacing: 0.02em;
 }
 
-/* Inline body links — buttons, nav, footer override these explicitly. */
 a {
   color: var(--fg-link);
-  text-decoration: none;
-  transition: color var(--dur-fast) var(--ease-out);
-}
-a:hover { color: var(--pa-primary); }
-/* Underline body-prose links in long-form content only */
-.pa-body a:not(.pa-btn):not(.pa-link),
-.pa-pdetail-body__col a:not(.pa-btn):not(.pa-link),
-p > a:not(.pa-btn):not(.pa-link) {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-out);
 }
+a:hover { color: var(--pa-primary); }
 
 code, .mono {
   font-family: var(--font-mono);

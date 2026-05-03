@@ -14,7 +14,7 @@
  */
 type ItemKey =
   | 'home'
-  | 'investment'
+  | 'thesis'
   | 'portfolio'
   | 'team'
   | 'news'
@@ -33,7 +33,7 @@ const { current, variant = 'light' } = Astro.props;
 
 const items: { key: ItemKey; label: string; href: string; external?: boolean }[] = [
   { key: 'home',        label: 'Home',                    href: '/' },
-  { key: 'investment',  label: 'Investment',              href: '/investment' },
+  { key: 'thesis',      label: 'Thesis',                  href: '/thesis' },
   { key: 'portfolio',   label: 'Portfolio',               href: '/portfolio' },
   { key: 'team',        label: 'Team',                    href: '/team' },
   { key: 'news',        label: 'News',                    href: '/news' },
