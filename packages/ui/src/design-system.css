@@ -383,19 +383,26 @@ a.pa-btn--ghost:hover, .pa-btn--ghost:hover {
 /* ---- Portfolio card extras (top row, year, dl, more) ------------------- */
 .pa-portfolio__top {
   display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
-  margin-bottom: 4px;
+  /* margin-bottom removed — parent flex `gap` handles inter-element spacing
+     consistently across all card slots. */
 }
 .pa-portfolio__year {
   font: 500 13px/1 var(--font-sans);
   letter-spacing: 0.04em; color: var(--pa-ink-subtle);
   font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
 }
 .pa-portfolio__stats {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-  margin: 0; padding-top: 16px;
+  /* Stacked label/value pairs on two columns. Reads cleaner than a
+     squished 3-column grid at narrow card widths and fits the
+     "Created with Proto Axiom" / "Mid Gate 2 · Series A in market"
+     longer values without truncation. */
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px;
+  margin: 0; padding-top: 14px;
   border-top: 1px solid var(--pa-hairline);
 }
-.pa-portfolio__stats > div { display: flex; flex-direction: column; gap: 4px; }
+.pa-portfolio__stats > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.pa-portfolio__stats > div:nth-child(3) { grid-column: 1 / -1; }
 .pa-portfolio__stats dt {
   font: 500 10px/1 var(--font-sans);
   letter-spacing: 0.12em; text-transform: uppercase;
@@ -403,10 +410,9 @@ a.pa-btn--ghost:hover, .pa-btn--ghost:hover {
   margin: 0;
 }
 .pa-portfolio__stats dd {
-  font: 500 13px/1.3 var(--font-sans);
+  font: 500 13px/1.35 var(--font-sans);
   color: var(--pa-primary);
   margin: 0;
-  font-variant-numeric: tabular-nums;
 }
 .pa-portfolio__more {
   color: var(--pa-accent-green);
@@ -535,43 +541,87 @@ a.pa-btn--ghost:hover, .pa-btn--ghost:hover {
 }
 
 /* ---- Portfolio editorial cards ----------------------------------------- */
+/* Grid uses the "1px-gap on hairline-coloured background" pattern: each card
+   has a card background, the 1px gaps reveal the container's hairline colour,
+   and the outer container border closes the frame. This avoids the orphan-
+   border issues you get with per-card borders + responsive column counts. */
 .pa-portfolio {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
-  border-top: 1px solid var(--pa-hairline);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--pa-hairline);
+  border: 1px solid var(--pa-hairline);
 }
 .pa-portfolio__card {
-  padding: 32px 32px 36px;
-  border-right: 1px solid var(--pa-hairline);
-  border-bottom: 1px solid var(--pa-hairline);
+  padding: 28px 28px 28px;
   background: var(--pa-card-bg);
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex; flex-direction: column; gap: 14px;
   text-decoration: none;
   transition: background 180ms var(--ease-out);
-  min-height: 320px;
+  min-height: 380px;
   position: relative;
 }
-.pa-portfolio__card:nth-child(4n) { border-right: 0; }
 .pa-portfolio__card:hover { background: var(--pa-light-almond); }
 .pa-portfolio__logo {
-  height: 88px; max-width: 90%; object-fit: contain; object-position: left center;
-  margin-bottom: 8px;
-}
-@media (max-width: 960px) {
-  .pa-portfolio__logo { height: 72px; }
+  height: 64px; max-width: 80%;
+  object-fit: contain; object-position: left center;
 }
 .pa-portfolio__sector {
-  font: 500 11px/1 var(--font-sans); letter-spacing: 0.14em; text-transform: uppercase;
+  font: 500 11px/1.45 var(--font-sans);
+  letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--pa-accent-green);
+  /* Clamp to two lines so cards stay even when sector text is long
+     (e.g. "Therapeutics · Topical antifungal · Lyotropic liquid crystal"). */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 32px; /* reserve 2 lines so cards align even when sector is short */
 }
-.pa-portfolio__name { font: 600 22px/1.15 var(--font-sans); letter-spacing: -0.015em; color: var(--pa-primary); margin: 0; }
-.pa-portfolio__tagline { font: 400 14px/1.55 var(--font-sans); color: var(--pa-ink-muted); margin: 0; flex: 1; }
+.pa-portfolio__name {
+  font: 600 22px/1.15 var(--font-sans);
+  letter-spacing: -0.015em;
+  color: var(--pa-primary);
+  margin: 0;
+  text-wrap: balance;
+}
+.pa-portfolio__tagline {
+  font: 400 14px/1.55 var(--font-sans);
+  color: var(--pa-ink-muted);
+  margin: 0;
+  flex: 1;
+  /* Clamp to four lines so tagline length variance doesn't break the grid.
+     SWAN's 245-char tagline and Cellutech's 30-char tagline both end up
+     occupying roughly the same vertical real estate. */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .pa-portfolio__foot {
   display: flex; justify-content: space-between; align-items: baseline;
-  padding-top: 16px; border-top: 1px solid var(--pa-hairline);
-  font: 500 11px/1 var(--font-sans); letter-spacing: 0.06em; text-transform: uppercase;
+  padding-top: 14px;
+  border-top: 1px solid var(--pa-hairline);
+  font: 500 11px/1 var(--font-sans);
+  letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--pa-ink-subtle);
 }
 .pa-portfolio__stage { color: var(--pa-primary); }
+
+@media (max-width: 1280px) {
+  .pa-portfolio { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 960px) {
+  .pa-portfolio { grid-template-columns: repeat(2, 1fr); }
+  .pa-portfolio__card { min-height: 360px; padding: 24px; }
+  .pa-portfolio__logo { height: 56px; }
+}
+@media (max-width: 560px) {
+  .pa-portfolio { grid-template-columns: 1fr; }
+  .pa-portfolio__card { min-height: 0; }
+  .pa-portfolio__sector { min-height: 0; -webkit-line-clamp: unset; }
+  .pa-portfolio__tagline { -webkit-line-clamp: unset; }
+}
 
 /* ---- Build steps (5 narrative steps on Home) --------------------------- */
 .pa-build {
