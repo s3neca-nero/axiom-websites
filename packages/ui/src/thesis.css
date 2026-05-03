@@ -270,7 +270,7 @@ html:has(.tx-page) { scroll-behavior: smooth; }
 .tx-bars { margin-top: 48px; max-width: 760px; }
 .tx-bars__row {
   display: grid;
-  grid-template-columns: 64px 1fr 120px;
+  grid-template-columns: 180px 1fr 120px;
   align-items: center;
   gap: 20px;
   padding: 18px 0;
@@ -337,7 +337,8 @@ html:has(.tx-page) { scroll-behavior: smooth; }
 }
 @media (max-width: 720px) {
   .tx-paired { grid-template-columns: 1fr; gap: 32px; }
-  .tx-bars__row { grid-template-columns: 56px 1fr 80px; gap: 12px; }
+  .tx-bars__row { grid-template-columns: 140px 1fr 80px; gap: 12px; }
+  .tx-bars__label { font-size: 13px; }
 }
 
 /* ============================================================
