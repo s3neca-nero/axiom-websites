@@ -29,6 +29,9 @@ pnpm-debug.log*
 # Webflow/Wix raw exports and other migration drops (large; not source control)
 _imports/
 
+# Raw photo source archives — working copies live in apps/*/public/images/
+/Photos/
+
 # Misc
 *.tsbuildinfo
 
