@@ -1,93 +1,279 @@
 ---
+/**
+ * /news — editorial press archive.
+ *
+ * Replaces the previous flat hairline-divided list (pre-Thesis-redesign).
+ * Mirrors the editorial register established by /thesis, /portfolio and /team:
+ * Cormorant headlines, DM Sans body, DM Mono meta, hairline section dividers,
+ * numbered year eyebrows, ambient HelixMotif watermark.
+ *
+ * Design handoff at _archive/news-design-handoff/.
+ *
+ * Detail pages currently redirect to /news (see news/[...slug].astro) — we
+ * keep that behaviour for v1. External items open in a new tab; internal
+ * items would route to /news/[slug] when bodies are ready.
+ */
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { news } from '../../data/site';
+import { news, type NewsItem } from '../../data/site';
+import '@axiom/ui/news.css';
+
+// ----- helpers --------------------------------------------------------------
+const MONTHS: Record<string, number> = {
+  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+  Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+};
+function parseNewsDate(s: string): Date {
+  const [d, m, y] = s.split(' ');
+  return new Date(parseInt(y, 10), MONTHS[m] ?? 0, parseInt(d, 10));
+}
+function isExternal(href?: string) {
+  return !!href && !href.startsWith('/');
+}
+
+// ----- sort + group ---------------------------------------------------------
+const sorted = [...news].sort(
+  (a, b) => parseNewsDate(b.date).getTime() - parseNewsDate(a.date).getTime()
+);
+
+// Featured: first item flagged featured:true, else newest overall.
+const featured: NewsItem | undefined =
+  (sorted as Array<NewsItem & { featured?: boolean }>).find((n) => n.featured) ||
+  sorted[0];
+
+const remainder = sorted.filter((n) => n !== featured);
+
+const yearMap = new Map<number, NewsItem[]>();
+for (const n of remainder) {
+  const y = parseNewsDate(n.date).getFullYear();
+  if (!yearMap.has(y)) yearMap.set(y, []);
+  yearMap.get(y)!.push(n);
+}
+const years = [...yearMap.keys()].sort((a, b) => b - a);
+const totalYears = years.length;
+
+const totalItems = news.length;
+const publications = new Set(news.map((n) => n.source)).size;
 ---
 <BaseLayout title="News | Proto Axiom" active="news">
-  <section class="pa-section pa-section--tight pa-section--white">
-    <div class="pa-wrap">
-      <div class="pa-page-head">
-        <div>
-          <div class="pa-eyebrow">News</div>
-          <h1 class="pa-page-head__h">From the firm and our portfolio.</h1>
+  <div class="nx" id="nx-page">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="helix-watermark" aria-hidden="true">
+        <svg viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#0d1a2e" stroke-width="1.1" fill="none">
+            <path d="M120,0 C260,100 80,200 220,300 C360,400 80,500 220,600 C360,700 120,750 200,800" />
+            <path d="M280,0 C140,100 320,200 180,300 C40,400 320,500 180,600 C40,700 280,750 200,800" />
+          </g>
+          <g fill="#00B3AB">
+            <circle cx="180" cy="50" r="2.5"/><circle cx="220" cy="50" r="2.5"/>
+            <circle cx="160" cy="150" r="2.5"/><circle cx="240" cy="150" r="2.5"/>
+            <circle cx="200" cy="250" r="2.5"/><circle cx="200" cy="350" r="2.5"/>
+            <circle cx="160" cy="450" r="2.5"/><circle cx="240" cy="450" r="2.5"/>
+            <circle cx="200" cy="550" r="2.5"/><circle cx="220" cy="650" r="2.5"/>
+            <circle cx="180" cy="750" r="2.5"/>
+          </g>
+        </svg>
+      </div>
+      <div class="wrap">
+        <div class="hero__eyebrow">
+          <span class="dot"></span>
+          <span>News</span>
+          <span class="num"><em>·</em>&nbsp;{totalItems} items</span>
         </div>
-        <p class="pa-page-head__lead">
-          Announcements, programme updates and press coverage of Proto Axiom and the companies we have helped form. Subscribe to <a href="/applications/membership">Proto Axiom Connect</a> for low‑frequency updates direct to your inbox.
+        <h1 class="hero__h">A working <span class="em">archive.</span></h1>
+        <p class="hero__lead">
+          Press, podcasts and firm announcements covering Proto Axiom and the companies we have helped form. Most recent first, year by year, back to 2021.
         </p>
+        <ul class="hero__strip">
+          <li>
+            <span class="v">{totalItems}</span>
+            <span class="l">Press items</span>
+          </li>
+          <li>
+            <span class="v">{publications}</span>
+            <span class="l">Publications</span>
+          </li>
+          <li>
+            <span class="v">2021<span class="em">→</span>2026</span>
+            <span class="l">Active vintage</span>
+          </li>
+          <li>
+            <span class="v">Connect</span>
+            <span class="l">Low-frequency updates</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== FEATURED ===== -->
+    {featured && (
+      <section class="featured">
+        <div class="wrap">
+          <div class="featured__inner">
+            {featured.href ? (
+              <a class="featured__link" href={featured.href} target={isExternal(featured.href) ? '_blank' : undefined} rel={isExternal(featured.href) ? 'noopener noreferrer' : undefined}>
+                <div class="featured__rail">
+                  <span class="featured__chip"><span class="bar"></span>Featured · most recent</span>
+                  <h3 class="featured__date">{featured.date}</h3>
+                  <span class="featured__source">{featured.source}</span>
+                  <span class="featured__kind">{featured.kind}</span>
+                </div>
+                <div class="featured__body">
+                  <h2 class="featured__title">{featured.title}</h2>
+                  {(featured as any).summary && <p class="featured__summary">{(featured as any).summary}</p>}
+                  <span class="featured__cta">
+                    {isExternal(featured.href) ? `Read at ${featured.source}` : 'Read full article'}
+                    <span class="arr">→</span>
+                  </span>
+                </div>
+              </a>
+            ) : (
+              <div class="featured__link">
+                <div class="featured__rail">
+                  <span class="featured__chip"><span class="bar"></span>Featured · most recent</span>
+                  <h3 class="featured__date">{featured.date}</h3>
+                  <span class="featured__source">{featured.source}</span>
+                  <span class="featured__kind">{featured.kind}</span>
+                </div>
+                <div class="featured__body">
+                  <h2 class="featured__title">{featured.title}</h2>
+                  {(featured as any).summary && <p class="featured__summary">{(featured as any).summary}</p>}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- ===== FILTER RAIL (sticky) ===== -->
+    <div class="filterbar" id="filterbar">
+      <div class="wrap">
+        <div class="filterbar__row">
+          <span class="filterbar__lbl">Filter</span>
+          <button class="pill is-active" data-filter="all">All</button>
+          <button class="pill" data-filter="Press">Press</button>
+          <button class="pill" data-filter="Podcast">Podcast</button>
+          <button class="pill" data-filter="Firm announcement">Firm announcement</button>
+          <span class="filterbar__counter">
+            Showing <span id="counter-shown">{totalItems}</span> of <span id="counter-total">{totalItems}</span>
+            &nbsp;<em class="em">· Most recent first</em>
+          </span>
+        </div>
       </div>
     </div>
-  </section>
 
-  <section class="pa-section pa-section--white" style="padding-top: 32px;">
-    <div class="pa-wrap">
-      <ul class="pa-news-list">
-        {news.map((n) => {
-          const Inner = (
-            <>
-              <div class="pa-news-list__meta">
-                <span class="pa-news-list__date">{n.date}</span>
-                <span class="pa-news-list__sep">·</span>
-                <span class="pa-news-list__source">{n.source}</span>
-                <span class="pa-news-list__sep">·</span>
-                <span class="pa-news-list__kind">{n.kind}</span>
-              </div>
-              <h2 class="pa-news-list__title">
-                {n.title}
-                {n.href && <span class="pa-news-list__arrow"> ↗</span>}
-              </h2>
-            </>
-          );
-          return (
-            <li class="pa-news-list__item">
-              {n.href ? (
-                <a class="pa-news-list__link" href={n.href} target="_blank" rel="noopener noreferrer">
-                  {Inner}
-                </a>
-              ) : (
-                <div class="pa-news-list__static">{Inner}</div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  </section>
+    <!-- ===== YEAR-GROUPED SEQUENCE ===== -->
+    {years.map((y, idx) => {
+      const yearIdx = String(idx + 1).padStart(2, '0');
+      const yearTotal = String(totalYears).padStart(2, '0');
+      const tinted = idx % 2 === 1;
+      const list = yearMap.get(y)!;
+      return (
+        <section class={`year ${tinted ? 'year--almond' : 'year--white'}`} data-year={y}>
+          <div class="wrap">
+            <header class="year__head">
+              <span class="year__num">{yearIdx} / {yearTotal}</span>
+              <span class="year__name">{y}</span>
+              <span class="year__count">{list.length} item{list.length === 1 ? '' : 's'}</span>
+            </header>
+            <ul class="items">
+              {list.map((n) => {
+                const ext = isExternal(n.href);
+                const summary = (n as any).summary as string | undefined;
+                const Inner = (
+                  <>
+                    <div class="item__meta">
+                      <span class="item__date">{n.date}</span>
+                      <span class="item__source">{n.source}</span>
+                      <span class={`item__kind${n.kind === 'Firm announcement' ? ' item__kind--firm' : ''}`}>{n.kind}</span>
+                    </div>
+                    <div class="item__body">
+                      <h3 class="item__title">
+                        {n.title}
+                        {ext && <span class="arr"> ↗</span>}
+                      </h3>
+                      {summary && <p class="item__summary">{summary}</p>}
+                    </div>
+                  </>
+                );
+                return (
+                  <li class="item reveal" data-kind={n.kind}>
+                    {n.href ? (
+                      <a class="item__link" href={n.href} data-kind={n.kind} target={ext ? '_blank' : undefined} rel={ext ? 'noopener noreferrer' : undefined}>
+                        {Inner}
+                      </a>
+                    ) : (
+                      <div class="item__link" data-kind={n.kind}>{Inner}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      );
+    })}
+
+    <!-- ===== CONNECT CTA ===== -->
+    <section class="connect">
+      <div class="wrap">
+        <div class="connect__inner">
+          <p class="connect__text">Get the next item in your inbox?</p>
+          <a class="connect__link" href="/applications/membership">
+            Subscribe to Proto Axiom Connect <span class="arr">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script is:inline>
+    (function () {
+      // Filter behaviour
+      const pills = document.querySelectorAll('.nx .pill');
+      const allItems = document.querySelectorAll('.nx .item');
+      const years = document.querySelectorAll('.nx .year');
+      const shownEl = document.getElementById('counter-shown');
+
+      pills.forEach((p) => p.addEventListener('click', () => {
+        pills.forEach((o) => o.classList.remove('is-active'));
+        p.classList.add('is-active');
+        applyFilter(p.dataset.filter);
+      }));
+
+      function applyFilter(kind) {
+        let shown = 0;
+        allItems.forEach((el) => el.classList.add('is-hiding'));
+        setTimeout(() => {
+          allItems.forEach((el) => {
+            const match = kind === 'all' || el.dataset.kind === kind;
+            el.classList.toggle('is-hidden', !match);
+            if (match) shown++;
+          });
+          years.forEach((sec) => {
+            const visible = sec.querySelectorAll('.item:not(.is-hidden)').length;
+            sec.classList.toggle('is-hidden', visible === 0);
+          });
+          setTimeout(() => {
+            allItems.forEach((el) => el.classList.remove('is-hiding'));
+            if (shownEl) shownEl.textContent = String(shown);
+          }, 50);
+        }, 200);
+      }
+
+      // Reveal-on-scroll
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.nx .reveal').forEach((el) => io.observe(el));
+    })();
+  </script>
 </BaseLayout>
-
-<style>
-  .pa-news-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--pa-hairline); }
-  .pa-news-list__item {
-    display: flex; flex-direction: column; gap: 0;
-    border-bottom: 1px solid var(--pa-hairline);
-  }
-  .pa-news-list__link,
-  .pa-news-list__static {
-    display: flex; flex-direction: column; gap: 12px;
-    padding: 32px 0;
-    color: inherit !important;
-    text-decoration: none !important;
-    border: none !important;
-  }
-  .pa-news-list__link { transition: opacity 160ms ease; }
-  .pa-news-list__link:hover { opacity: 0.72; }
-  .pa-news-list__link:hover .pa-news-list__arrow {
-    transform: translate(2px, -2px);
-  }
-  .pa-news-list__meta {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    font: 500 12px/1 var(--font-sans); letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--pa-ink-muted);
-  }
-  .pa-news-list__source { color: var(--pa-accent-green); }
-  .pa-news-list__sep { opacity: 0.4; }
-  .pa-news-list__title {
-    font: 600 clamp(20px, 2.4vw, 28px)/1.2 var(--font-sans);
-    letter-spacing: -0.015em; color: var(--pa-primary); margin: 0;
-    max-width: 64ch;
-  }
-  .pa-news-list__arrow {
-    display: inline-block;
-    color: var(--pa-accent-green);
-    font-weight: 500;
-    transition: transform 160ms ease;
-  }
-</style>

@@ -12,6 +12,7 @@
     "./portfolio-overview.css": "./src/portfolio-overview.css",
     "./team.css": "./src/team.css",
     "./profile.css": "./src/profile.css",
+    "./news.css": "./src/news.css",
     "./stats-curve.css": "./src/stats-curve.css",
     "./thesis.css": "./src/thesis.css",
     "./components/*": "./src/components/*"
