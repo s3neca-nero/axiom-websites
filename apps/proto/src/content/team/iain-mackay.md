@@ -5,6 +5,7 @@ photo: "/images/team/iain-mackay.png"
 sections:
   - section: strategic
     order: 350
+caption: "Former CFO, GSK · HSBC"
 ---
 
 Iain is a non-executive director at National Grid plc, where he chairs the Audit and Risk Committee and serves on the Remuneration and Finance Committees. He previously served as CFO and executive director at GSK plc, playing a leading role in restructuring the company.

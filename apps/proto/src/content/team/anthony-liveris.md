@@ -7,6 +7,8 @@ sections:
     order: 10
   - section: board
     order: 115
+chips: ["Founder-operator", "Capital markets", "Government & policy"]
+hook: "Anthony has built Proto Axiom into a distinctive company-creation platform — translating breakthrough Australian science into enduring businesses. He previously co-founded Applecart, the New York data and technology company that attracted a US$100M investment from Blackstone Growth."
 ---
 
 Anthony Liveris is the Chief Executive Officer of Proto Axiom. He has helped establish the firm as a distinctive company-creation platform, focused on translating breakthrough science into enduring businesses. Under his leadership, Proto Axiom has built companies including Endo Axiom, Onyx Axiom and Flo Axiom, while also incubating ventures including SWAN Genomics and JumpStart Fertility.

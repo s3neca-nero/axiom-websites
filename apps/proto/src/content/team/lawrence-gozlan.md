@@ -5,6 +5,7 @@ photo: "/images/team/lawrence-gozlan.webp"
 sections:
   - section: strategic
     order: 340
+caption: "CIO, Scientia Capital"
 ---
 
 Chief Investment Officer of Scientia Capital, a specialised global investment fund focused exclusively on life sciences.

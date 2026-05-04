@@ -5,6 +5,7 @@ photo: "/images/team/charlie-selth.png"
 sections:
   - section: management
     order: 60
+chips: ["Strategy"]
 ---
 
 Charlie Selth is Proto Axiom's Chief of Staff, providing strategic and operational support to Anthony Liveris (CEO).

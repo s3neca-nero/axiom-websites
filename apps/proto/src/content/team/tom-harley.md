@@ -5,6 +5,8 @@ photo: "/images/team/tom-harley.webp"
 sections:
   - section: board
     order: 130
+chips: ["Government policy", "Strategy"]
+hook: "Managing Director of Dragoman. Former President, Corporate Development at BHP and former Non-Executive Chairman of Dow Chemical Australia."
 ---
 
 Tom is the Managing Director of Dragoman, a global country and political risk advisory firm based in Melbourne. He is a political scientist with an economics and finance background.

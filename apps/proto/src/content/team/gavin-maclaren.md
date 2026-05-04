@@ -5,6 +5,9 @@ photo: "/images/team/gavin-maclaren.webp"
 sections:
   - section: board
     order: 110
+chair: true
+chips: ["Legal", "Asia-Pacific", "Sovereign & PE"]
+hook: "20+ years as a lawyer, a decade based in Asia. Named an Innovative Leader in the 2020 FT Innovative Lawyers Awards Asia Pacific."
 ---
 
 Gavin has over 20 years' experience as a lawyer, including a decade based in Asia. He was named as an Innovative Leader in the 2020 Financial Times Innovative Lawyers Awards Asia Pacific. Gavin has acted for multinational corporations, governments, international organisations, financial institutions, private equity investors and sovereign wealth funds across the Asia Pacific region.

@@ -5,6 +5,8 @@ photo: "/images/team/sally-bennett.png"
 sections:
   - section: board
     order: 170
+chips: ["Clinical", "Public & private equity"]
+hook: "Senior Advisor at Catalio Capital Management. 25+ years across medicine, equity capital markets and life-sciences investment management."
 ---
 
 Sally Bennett is a Senior Advisor at Catalio Capital Management, LP based in Catalio's London office. She has an extensive career spanning medicine, equity & capital markets and investment management. She brings over 25 years' industry experience in senior roles across the financial sector within the life science and biopharmaceutical space.

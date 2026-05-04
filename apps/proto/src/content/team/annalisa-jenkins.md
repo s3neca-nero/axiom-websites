@@ -5,6 +5,8 @@ photo: "/images/team/annalisa-jenkins.webp"
 sections:
   - section: board
     order: 150
+chips: ["Clinical development", "Regulatory", "Global biopharma"]
+hook: "Former CEO of Dimension Therapeutics; former Head of Global Drug Development at Merck Serono. Contributed to development of 30+ therapeutics."
 ---
 
 Annalisa Jenkins is a proven biopharmaceutical executive and global healthcare leader with a distinguished track record of advancing innovation from bench to bedside. She formerly served as CEO of Dimension Therapeutics and as Head of Global Drug Development and Medical Affairs at Merck Serono, following senior leadership roles at Bristol Myers Squibb.

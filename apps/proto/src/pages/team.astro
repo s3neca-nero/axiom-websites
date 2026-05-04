@@ -1,5 +1,29 @@
 ---
+/**
+ * /team — landing page.
+ *
+ * Editorial sequence of four team groups (Management, Board, SAB, Strategic),
+ * implementing the design handoff at /Team Landing page/Team Page.html
+ * (commissioned 2026-05-04). Sourced from src/content/team/*.md frontmatter,
+ * extended on this date with optional chips / hook / caption / chair fields.
+ *
+ * Structure:
+ *   - Hero with stat strip
+ *   - 01 / 04 Management — lead editorial block (Anthony) + 3-col grid
+ *   - 02 / 04 Board — 8 half-row editorial blocks with helix watermark
+ *   - 03 / 04 SAB — directory grid
+ *   - 04 / 04 Strategic — directory grid
+ *   - Operating bench paragraph
+ *   - Footer CTA
+ *
+ * Cross-membership (e.g. Anthony in both Management and Board) is computed
+ * server-side and surfaced as an italic note on the secondary appearance.
+ *
+ * The ambient HelixMotif from BaseLayout is suppressed (`noHelix`) because
+ * the Board section carries its own bespoke helix watermark.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '@axiom/ui/team.css';
 import { getCollection } from 'astro:content';
 
 type SectionKey = 'management' | 'board' | 'sab' | 'strategic';
@@ -9,109 +33,414 @@ interface RenderMember {
   name: string;
   title: string;
   photo?: string;
+  chips?: string[];
+  hook?: string;
+  caption?: string;
+  chair?: boolean;
+  alsoIn?: string[];
   _order: number;
 }
 
-// Source: src/content/team/*.md (per-person markdown frontmatter).
-// A person can appear in multiple sections via the `sections` array;
-// each appearance has its own `order`.
 const allTeam = await getCollection('team');
+const real = allTeam.filter((m) => m.data.name !== '_placeholder' && m.slug !== 'placeholder');
+
+// Map slug → list of section keys (so we can compute cross-membership).
+const slugSections: Record<string, SectionKey[]> = {};
+for (const m of real) {
+  slugSections[m.slug] = m.data.sections.map((s) => s.section as SectionKey);
+}
 
 function membersInSection(key: SectionKey): RenderMember[] {
-  return allTeam
-    .filter((m) => m.data.name !== '_placeholder')
+  return real
     .filter((m) => m.data.sections.some((s) => s.section === key))
     .map((m) => {
       const cfg = m.data.sections.find((s) => s.section === key)!;
+      const otherSections = (slugSections[m.slug] || []).filter((s) => s !== key);
+      const sectionLabels: Record<SectionKey, string> = {
+        management: 'Management',
+        board: 'Board',
+        sab: 'Scientific Advisory Board',
+        strategic: 'Strategic Advisors',
+      };
       return {
         slug: m.slug,
         name: m.data.name,
         title: m.data.title,
         photo: m.data.photo,
+        chips: m.data.chips,
+        hook: m.data.hook,
+        caption: m.data.caption,
+        chair: m.data.chair,
+        alsoIn: otherSections.map((s) => sectionLabels[s]),
         _order: cfg.order,
       };
     })
     .sort((a, b) => a._order - b._order);
 }
 
-interface SectionProps {
-  title: string;
-  desc: string;
-  members: RenderMember[];
-}
+const management = membersInSection('management');
+const board = membersInSection('board');
+const sab = membersInSection('sab');
+const strategic = membersInSection('strategic');
 
-const sections: SectionProps[] = [
-  {
-    title: 'Management',
-    desc: 'The operating team. Scientific diligence, capital deployment and hands‑on company building, every day.',
-    members: membersInSection('management'),
-  },
-  {
-    title: 'Board',
-    desc: 'Governance and oversight, with deep capital‑markets, biotech and translational science experience.',
-    members: membersInSection('board'),
-  },
-  {
-    title: 'Scientific Advisory Board',
-    desc: 'Senior scientists and clinicians who guide our diligence and the development plans of portfolio companies.',
-    members: membersInSection('sab'),
-  },
-  {
-    title: 'Strategic Advisors',
-    desc: 'Operators, founders and executives who advise on commercial, partnership and capital strategy.',
-    members: membersInSection('strategic'),
-  },
+// The lead block uses the first management entry (lowest order) — typically the
+// CEO / founder. The rest render in the grid below.
+const lead = management[0];
+const bench = management.slice(1);
+
+// Stat strip values — kept light and quiet, matching the design.
+const stats = [
+  { val: String(real.length), lbl: 'People' },
+  { val: '4',  lbl: 'Disciplines' },
+  { val: '5',  lbl: 'PhDs / MDs' },
+  { val: '6',  lbl: 'Ex-operators' },
+  { val: '1',  lbl: 'Holding company' },
 ];
----
-<BaseLayout title="Team | Proto Axiom" active="team">
-  <section class="pa-section pa-section--tight pa-section--white">
-    <div class="pa-wrap">
-      <div class="pa-page-head">
-        <div>
-          <div class="pa-eyebrow">Team</div>
-          <h1 class="pa-page-head__h">An operating bench, not a fund team.</h1>
-        </div>
-        <p class="pa-page-head__lead">
-          Around 30 people across management, board, scientific advisory and strategic advisors — combining science, clinical, finance, governance and operating experience.
-        </p>
-      </div>
-    </div>
-  </section>
 
-  {sections.map((sec, idx) => (
-    <section
-      class:list={[
-        'pa-section',
-        idx % 2 === 0 ? 'pa-section--white' : 'pa-section--almond',
-      ]}
-      style={`padding-top: ${idx === 0 ? 32 : 64}px; padding-bottom: ${idx === sections.length - 1 ? 96 : 64}px;`}
-    >
-      <div class="pa-wrap">
-        <div class="pa-team-section">
-          <div class="pa-team-section__head">
-            <div>
-              <h2 class="pa-team-section__h">{sec.title}</h2>
-              <div class="pa-team-section__count" style="margin-top: 12px;">
-                {sec.members.length} {sec.members.length === 1 ? 'person' : 'people'}
-              </div>
-            </div>
-            <p class="pa-team-section__desc">{sec.desc}</p>
+function getInitials(name: string): string {
+  return name
+    .replace(/[,.].*$/, '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '')
+    .join('');
+}
+---
+
+<BaseLayout
+  title="Team | Proto Axiom"
+  description="An operating bench, not a fund team. Around 30 people across management, board, scientific advisory and strategic advisors."
+  active="team"
+  noHelix
+>
+  <div class="tm">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero section--white">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="hero__eyebrow">
+            <span class="num">i</span>
+            <span>Team</span>
+            <span class="dot"></span>
+            <span>{real.length} people</span>
           </div>
-          <div class="pa-team-grid">
-            {sec.members.map((m) => (
-              <a class="pa-team-card" href={`/team/${m.slug}`}>
+          <h1 class="hero__h">An operating bench, <span class="em">not a fund team.</span></h1>
+          <p class="hero__lead">
+            Around {real.length} people across management, board, scientific advisory and strategic advisors —
+            combining science, clinical, finance, governance and operating experience.
+          </p>
+        </div>
+        <ul class="strip reveal">
+          {stats.map((s) => (
+            <li>
+              <span class="strip__val">{s.val}</span>
+              <span class="strip__lbl">{s.lbl}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 01 / 04 — MANAGEMENT ============ -->
+    <section class="section section--white">
+      <div class="wrap">
+        <div class="section-id reveal">
+          <span class="section-id__num">01 / 04</span>
+          <span class="section-id__name">Management</span>
+          <span class="section-id__tag">The operators.</span>
+        </div>
+
+        <div class="sect-head reveal">
+          <h2 class="sect-head__h">Scientific diligence, capital deployment, <span class="em">hands-on company building.</span></h2>
+          <div>
+            <p class="sect-head__desc">
+              The day-to-day operating team. Investment, science, finance, legal and operations — the people closing rounds, sitting on portfolio boards, and steering programs through preclinical and clinical gates.
+            </p>
+            <div class="sect-head__counter">{management.length} {management.length === 1 ? 'person' : 'people'}</div>
+          </div>
+        </div>
+
+        {lead && (
+          <a class="lead-block reveal" href={`/team/${lead.slug}`}>
+            <div class="lead-block__photo">
+              {lead.photo ? (
+                <img src={lead.photo} alt={lead.name} />
+              ) : (
+                <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:64px;color:#0d1a2e;opacity:.5">{getInitials(lead.name)}</div>
+              )}
+            </div>
+            <div class="lead-block__body">
+              <div class="lead-block__role">
+                <span>{lead.title}</span>
+                <span class="bar"></span>
+                <span>Founding</span>
+              </div>
+              <h3 class="lead-block__name">{lead.name}</h3>
+              <div class="lead-block__title">{lead.title}</div>
+              {lead.hook && <p class="lead-block__bio">{lead.hook}</p>}
+              {lead.chips && lead.chips.length > 0 && (
+                <div class="chips">
+                  {lead.chips.map((c) => <span class="chip">{c}</span>)}
+                </div>
+              )}
+              <span class="lead-block__cta">Read full profile <span class="arr">→</span></span>
+            </div>
+          </a>
+        )}
+
+        <div class="mgmt-grid">
+          {bench.map((m) => (
+            <a class="mgmt-card reveal" href={`/team/${m.slug}`}>
+              <div class="mgmt-card__photo">
                 {m.photo ? (
-                  <div class="pa-team-card__photo"><img src={m.photo} alt={m.name} /></div>
+                  <img src={m.photo} alt={m.name} />
                 ) : (
-                  <div class="pa-team-card__photo pa-team-card__photo--placeholder">[ Photo ]</div>
+                  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:42px;color:#0d1a2e;opacity:.5">{getInitials(m.name)}</div>
                 )}
-                <h4 class="pa-team-card__name">{m.name}</h4>
-                <div class="pa-team-card__title">{m.title}</div>
-              </a>
-            ))}
+              </div>
+              <h4 class="mgmt-card__name">{m.name}</h4>
+              <div class="mgmt-card__title">{m.title}</div>
+              {m.chips && m.chips.length > 0 && (
+                <div class="mgmt-card__chips">
+                  {m.chips.map((c) => <span class="mgmt-card__chip">{c}</span>)}
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 02 / 04 — BOARD ============ -->
+    <section class="section section--almond" style="position: relative; overflow: hidden;">
+      <div class="helix-watermark" aria-hidden="true">
+        <svg viewBox="0 0 200 600" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+          <g id="tm-helix-pattern"></g>
+        </svg>
+      </div>
+
+      <div class="wrap" style="position: relative; z-index: 1;">
+        <div class="section-id reveal">
+          <span class="section-id__num">02 / 04</span>
+          <span class="section-id__name">Board</span>
+          <span class="section-id__tag">Governance.</span>
+        </div>
+
+        <div class="sect-head reveal">
+          <h2 class="sect-head__h">Capital markets, biotech, <span class="em">translational science.</span></h2>
+          <div>
+            <p class="sect-head__desc">
+              Independent governance with deep capital-markets, life-sciences and operating experience. The board sits across investment decisions, portfolio gates and the holding company itself.
+            </p>
+            <div class="sect-head__counter">{board.length} {board.length === 1 ? 'person' : 'people'}</div>
+          </div>
+        </div>
+
+        <div class="board-rows">
+          {board.map((m) => (
+            <a class="board-row reveal" href={`/team/${m.slug}`}>
+              <div class="board-row__photo">
+                {m.photo ? (
+                  <img src={m.photo} alt={m.name} />
+                ) : (
+                  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:48px;color:#0d1a2e;opacity:.5">{getInitials(m.name)}</div>
+                )}
+              </div>
+              <div class="board-row__body">
+                <h3 class="board-row__name">
+                  {m.name}
+                  {m.chair && <span class="board-row__chair-badge">Chair</span>}
+                </h3>
+                <div class="board-row__title">{m.title}</div>
+                {m.hook && <p class="board-row__hook">{m.hook}</p>}
+                {m.chips && m.chips.length > 0 && (
+                  <div class="chips">
+                    {m.chips.map((c) => <span class="chip">{c}</span>)}
+                  </div>
+                )}
+                {m.alsoIn && m.alsoIn.length > 0 && (
+                  <p class="board-row__cross">Also serves on {m.alsoIn.join(' and ')}.</p>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 03 / 04 — SAB ============ -->
+    <section class="section section--white">
+      <div class="wrap">
+        <div class="section-id reveal">
+          <span class="section-id__num">03 / 04</span>
+          <span class="section-id__name">Scientific Advisory Board</span>
+          <span class="section-id__tag">Senior scientists, clinicians.</span>
+        </div>
+
+        <div class="sect-head reveal">
+          <h2 class="sect-head__h">Diligence, development plans, <span class="em">translational judgement.</span></h2>
+          <div>
+            <p class="sect-head__desc">
+              The scientists and clinicians who guide our diligence on incoming research and the development plans of portfolio companies — across drug development, regulatory and clinical strategy.
+            </p>
+            <div class="sect-head__counter">Showing {sab.length} of {sab.length}</div>
+          </div>
+        </div>
+
+        <div class="dir">
+          {sab.map((m) => (
+            <a class="dir__card reveal" href={`/team/${m.slug}`}>
+              <div class="dir__photo">
+                {m.photo ? (
+                  <img src={m.photo} alt={m.name} />
+                ) : (
+                  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:36px;color:#0d1a2e;opacity:.5">{getInitials(m.name)}</div>
+                )}
+              </div>
+              <h4 class="dir__name">{m.name}</h4>
+              <div class="dir__title">{m.title}</div>
+              {m.caption && <div class="dir__caption">{m.caption}</div>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 04 / 04 — STRATEGIC ============ -->
+    <section class="section section--almond">
+      <div class="wrap">
+        <div class="section-id reveal">
+          <span class="section-id__num">04 / 04</span>
+          <span class="section-id__name">Strategic Advisors</span>
+          <span class="section-id__tag">Operators, founders, executives.</span>
+        </div>
+
+        <div class="sect-head reveal">
+          <h2 class="sect-head__h">Commercial, partnership, <span class="em">capital strategy.</span></h2>
+          <div>
+            <p class="sect-head__desc">
+              Senior operators advising on commercial, partnership and capital strategy across the platform and its portfolio companies — from Pfizer External Science to GSK and HSBC finance.
+            </p>
+            <div class="sect-head__counter">Showing {strategic.length} of {strategic.length}</div>
+          </div>
+        </div>
+
+        <div class="dir">
+          {strategic.map((m) => (
+            <a class="dir__card reveal" href={`/team/${m.slug}`}>
+              <div class="dir__photo">
+                {m.photo ? (
+                  <img src={m.photo} alt={m.name} />
+                ) : (
+                  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:36px;color:#0d1a2e;opacity:.5">{getInitials(m.name)}</div>
+                )}
+              </div>
+              <h4 class="dir__name">{m.name}</h4>
+              <div class="dir__title">{m.title}</div>
+              {m.caption && <div class="dir__caption">{m.caption}</div>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ Operating bench paragraph ============ -->
+    <section class="bench section--white">
+      <div class="wrap--narrow">
+        <div class="reveal">
+          <div class="bench__eyebrow">The operating bench</div>
+          <h2 class="bench__h">Each portfolio company gets working access to <span class="em">a shared bench.</span></h2>
+          <div class="bench__body">
+            <p>
+              Clinical, regulatory, IP, finance and governance — not as a vendor list, but as a shared resource.
+              The same lawyer who closes our IP licensing also sits in the founder's first board pack.
+              The same regulatory lead who steers our IND filings rotates across companies as their programs hit gates.
+              The same CFO who builds the Series A model is on the line when a clinical site flags a recruitment issue at 7am.
+            </p>
+            <p>
+              This is what "company creator" means in practice: a permanent operating bench, not a fund. The team is the product.
+            </p>
           </div>
         </div>
       </div>
     </section>
-  ))}
+
+    <!-- ============ FOOTER CTA ============ -->
+    <section class="cta section--white">
+      <div class="wrap">
+        <div class="cta__inner">
+          <p class="cta__text">Operator with biotech experience? Researcher with a translational program?</p>
+          <div class="cta__links">
+            <a class="cta__link" href="/applications/challenger">Apply to Challenger Summit&nbsp;&nbsp;→</a>
+            <a class="cta__link" href="/contact">Get in touch&nbsp;&nbsp;→</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
 </BaseLayout>
+
+<script>
+  // Build the helix watermark behind the Board section + reveal-on-scroll.
+  // Idempotent — guarded against re-init.
+  (() => {
+    if ((window as any).__paTeamInit) return;
+    (window as any).__paTeamInit = true;
+
+    function init() {
+      // Helix watermark
+      const g = document.querySelector<SVGGElement>('#tm-helix-pattern');
+      if (g) {
+        let html = '';
+        const N = 30;
+        for (let i = 0; i < N; i++) {
+          const t = i / (N - 1);
+          const y = 20 + t * 560;
+          const a = t * Math.PI * 6;
+          const x1 = 100 + Math.cos(a) * 42;
+          const x2 = 100 - Math.cos(a) * 42;
+          const op = 0.35 + 0.5 * Math.abs(Math.cos(a));
+          html += `<line x1="${x1.toFixed(2)}" y1="${y.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y.toFixed(2)}" opacity="${op.toFixed(3)}"/>`;
+          html += `<circle cx="${x1.toFixed(2)}" cy="${y.toFixed(2)}" r="1.4" fill="currentColor" stroke="none"/>`;
+          html += `<circle cx="${x2.toFixed(2)}" cy="${y.toFixed(2)}" r="1.4" fill="currentColor" stroke="none"/>`;
+        }
+        g.innerHTML = html;
+      }
+
+      // Reveal-on-scroll
+      const els = document.querySelectorAll('.tm .reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach((e) => e.classList.add('is-in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+      els.forEach((e) => io.observe(e));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>

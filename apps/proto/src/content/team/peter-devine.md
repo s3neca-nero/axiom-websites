@@ -5,6 +5,8 @@ photo: "/images/team/peter-devine.png"
 sections:
   - section: board
     order: 140
+chips: ["University venturing", "Translation"]
+hook: "20 years as CEO of Uniseed, the A$200M partnership between ten Australian research institutions and UniSuper. Architect of multiple landmark biotech exits."
 ---
 
 Peter has extensive experience at board and executive management levels in venture capital funds management and in the commercialisation of early-stage technologies, having held senior R&D, business development and commercialisation positions in a number of Australian companies and Australian universities.

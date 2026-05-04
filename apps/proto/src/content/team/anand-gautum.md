@@ -5,6 +5,7 @@ photo: "/images/team/anand-gautum.png"
 sections:
   - section: strategic
     order: 310
+caption: "Pfizer · Novo Nordisk"
 ---
 
 Anand is the former Executive Director and Head of External Science & Innovation (ES&I) at Pfizer, responsible for building academic and industry partnerships in Australia, New Zealand, and Southeast Asia, to fill the company's pipeline with novel therapeutics. Prior to Pfizer, Anand worked as Senior Director for R&D Innovation Sourcing at Novo Nordisk, Denmark, setting direction of innovative sourcing strategy at the company; formed OmGenix BioSolutions, a consultancy company; and worked as a vice-president of research and development at Progen in Brisbane, where he managed and initiated Phase I to III clinical trials. He has also worked as a senior vice-president at Pharmexa, Denmark, where he headed research and external collaborations.

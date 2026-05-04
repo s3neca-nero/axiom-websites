@@ -42,6 +42,11 @@ const team = defineCollection({
         }),
       )
       .min(1),
+    // Optional editorial extensions used by the redesigned /team page (2026-05-04).
+    chips: z.array(z.string()).optional(),
+    hook: z.string().optional(),
+    caption: z.string().optional(),
+    chair: z.boolean().optional(),
   }),
 });
 

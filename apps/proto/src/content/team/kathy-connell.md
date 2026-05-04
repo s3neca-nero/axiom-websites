@@ -5,6 +5,8 @@ photo: "/images/team/kathy-connell.png"
 sections:
   - section: board
     order: 120
+chips: ["BD & licensing", "ASX boards"]
+hook: "Two decades in life-sciences BD and investment at Johnson & Johnson and Sanofi — over US$1B deployed across ANZ in licensing and acquisition."
 ---
 
 Kathy is an internationally recognised healthcare and life sciences leader with deep and broad investment and licensing expertise, delivering a solid track record of value-creating deals across pharmaceuticals, medtech, vaccines, consumer and digital healthcare for some of the world's largest companies.
