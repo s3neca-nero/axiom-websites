@@ -115,6 +115,8 @@ export const portfolio: PortfolioItem[] = [
       { headline: 'Sydney researchers spin out company to deliver insulin in a pill', outlet: 'The University of Sydney',  date: '05 Apr 2023', url: '#' },
       { headline: "Endo Axiom tackles one of diabetes' biggest challenges: needle‑free insulin", outlet: 'MTPConnect',     date: '14 Apr 2023', url: '#' },
       { headline: 'Australian startup Endo Axiom advances oral insulin platform', outlet: 'BioSpectrum Asia',              date: '05 Apr 2023', url: '#' },
+      { headline: "Australia's insulin pill, months away from trial", outlet: '9 News', date: '2025', url: 'https://www.9news.com.au/national/insulin-pill-australia-promising-new-diabetes-drug-just-months-away-from-trial/25f982b7-e7a5-4e99-8636-234bea7f576f' },
+      { headline: 'The smart insulin pill that could change lives', outlet: 'University of Sydney', date: '2025', url: 'https://www.sydney.edu.au/research/our-research/impact/the-smart-insulin-pill-that-could-change-lives.html' },
     ],
     quote: 'Insulin in a pill, ten years from bench to first-in-human.',
     accent: '#0e6b6b',
@@ -155,6 +157,8 @@ export const portfolio: PortfolioItem[] = [
       { headline: '²¹²Pb‑ADVC001 Phase 1b: 80% PSA50 response at ESMO', outlet: 'ESMO Congress 2025',    date: '20 Oct 2025', url: '#' },
       { headline: 'Eli Lilly expands strategic collaboration with AdvanCell', outlet: 'AdvanCell press release', date: '12 Feb 2025', url: '#' },
       { headline: 'AdvanCell closes Series C financing led by Sanofi', outlet: 'BioCentury',              date: '03 Jul 2025', url: '#' },
+      { headline: 'AdvanCell successfully completes an oversubscribed Series C financing', outlet: 'Biotech Dispatch', date: '2025', url: 'https://biotechdispatch.com.au/news/advancell-successfully-completes-an-oversubscribed-series-c-financing' },
+      { headline: 'AdvanCell — company news archive', outlet: 'AdvanCell', date: 'Ongoing', url: 'https://www.advancell.com.au/news/' },
     ],
     quote: '80% PSA50 response. ESMO 2025.',
     accent: '#0d4d6b',
@@ -252,6 +256,7 @@ export const portfolio: PortfolioItem[] = [
     narrative: [
       'JumpStart Fertility is a platform biotechnology company developing NAD+ (nicotinamide adenine dinucleotide) technologies to modulate cellular energy, metabolism and ageing biology. The lead clinical and commercial application is IVF laboratory media; consumer and animal health streams are also progressing.',
       'The company was founded by Dr Lindsay Wu (Chief Science Officer of Proto Axiom and Head of the Laboratory for Ageing Research at UNSW Sydney). Proto Axiom re‑domiciled JumpStart Fertility to Australia from the United States — all IP and employees now sit within the Australian entity. CEO Dr Stephanie Allen joined to lead commercial strategy, partnerships and capital‑raising.',
+      { headline: 'UNSW puts $35 million into uni startup spinouts', outlet: 'Startup Daily', date: '2025', url: 'https://www.startupdaily.net/topic/funding/unsw-puts-35-million-into-uni-startup-spinouts/' },
     ],
     leadership: [
       { name: 'Dr. Stephanie Allen', title: 'Chief Executive Officer', institution: 'Joined July 2025', photo: '/images/team/stephanie-allen.jpg' },
@@ -289,6 +294,9 @@ export const portfolio: PortfolioItem[] = [
     narrative: [
       'Flo Axiom (formerly BioProSep) is a bioprocessing technology company developing novel downstream purification materials and workflows to improve the efficiency, cost and scalability of biologics manufacturing. The platform is designed to integrate into existing pharmaceutical manufacturing processes, with applications across biologics and advanced therapies.',
       'The thesis is a capital‑efficient enabling platform addressing a critical bottleneck in biologics manufacturing — with potential to generate earlier revenue through research‑use and process‑development applications, while supporting Australian sovereign capability and reducing reliance on offshore purification technologies.',
+      { headline: 'UNSW spin-off JumpStart Fertility lands US backer', outlet: 'Australian Financial Review', date: '09 Jun 2025', url: 'https://www.afr.com/street-talk/unsw-spin-off-jumpstart-fertility-lands-us-backer-20250609-p5m5xb' },
+      { headline: "JumpStart's Aussie IVF treatment targets age decline", outlet: 'Forbes Australia', date: '2025', url: 'https://www.forbes.com.au/news/innovation/jumpstarts-aussie-ivf-treatment-targets-age-decline/' },
+      { headline: 'UNSW puts $35 million into uni startup spinouts', outlet: 'Startup Daily', date: '2025', url: 'https://www.startupdaily.net/topic/funding/unsw-puts-35-million-into-uni-startup-spinouts/' },
     ],
     leadership: [
       { name: 'Anthony Haddad', title: 'Chief Executive Officer', institution: 'Operating Partner, Proto Axiom', photo: '/images/team/tony-haddad.jpeg' },
@@ -387,6 +395,24 @@ export const portfolio: PortfolioItem[] = [
 export type NewsItem = { date: string; source: string; kind: string; title: string; href?: string };
 
 export const news: NewsItem[] = [
+  { date: '09 Jun 2025', source: 'Australian Financial Review', kind: 'Press',
+    title: 'UNSW spin-off JumpStart Fertility lands US backer',
+    href: 'https://www.afr.com/street-talk/unsw-spin-off-jumpstart-fertility-lands-us-backer-20250609-p5m5xb' },
+  { date: '2025', source: 'Forbes Australia', kind: 'Press',
+    title: "JumpStart's Aussie IVF treatment targets age decline",
+    href: 'https://www.forbes.com.au/news/innovation/jumpstarts-aussie-ivf-treatment-targets-age-decline/' },
+  { date: '2025', source: 'Startup Daily', kind: 'Press',
+    title: 'UNSW puts $35 million into uni startup spinouts',
+    href: 'https://www.startupdaily.net/topic/funding/unsw-puts-35-million-into-uni-startup-spinouts/' },
+  { date: '2025', source: '9 News', kind: 'Press',
+    title: "Australia's insulin pill, months away from trial",
+    href: 'https://www.9news.com.au/national/insulin-pill-australia-promising-new-diabetes-drug-just-months-away-from-trial/25f982b7-e7a5-4e99-8636-234bea7f576f' },
+  { date: '2025', source: 'University of Sydney', kind: 'Press',
+    title: 'The smart insulin pill that could change lives',
+    href: 'https://www.sydney.edu.au/research/our-research/impact/the-smart-insulin-pill-that-could-change-lives.html' },
+  { date: '2025', source: 'Biotech Dispatch', kind: 'Press',
+    title: 'AdvanCell successfully completes an oversubscribed Series C financing',
+    href: 'https://biotechdispatch.com.au/news/advancell-successfully-completes-an-oversubscribed-series-c-financing' },
   { date: '12 Aug 2024', source: 'Australian Financial Review', kind: 'Feature',
     title: 'Billionaire Salesforce boss tips into Sydney biotech incubator',
     href: 'https://www.afr.com/street-talk/salesforce-chief-tips-into-biotech-incubator-series-b-20240812-p5k1pq' },
