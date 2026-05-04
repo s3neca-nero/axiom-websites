@@ -1,5 +1,20 @@
 ---
+/**
+ * /team/[slug] — individual profile page.
+ *
+ * Two layouts driven by the member's primary section:
+ *   editorial   → Management / Board (rich hero + side-rail + chips + pull-quote + affiliations)
+ *   directory   → SAB / Strategic    (lean hero + areas/education rail)
+ *
+ * All layout, prose, attribution and metadata renders from the member's
+ * frontmatter in apps/proto/src/content/team/*.md plus the markdown body.
+ * Missing optional fields hide cleanly — fact-strip rows drop out, side-rail
+ * blocks hide if empty, pull-quote and affiliations only render when present.
+ *
+ * Implementation of design handoff at /TeamMembersPersonalPage/Profile Pages.html.
+ */
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import '@axiom/ui/profile.css';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -11,126 +26,324 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+
+// All members for cross-references and "more from..." carousel.
 const all = (await getCollection('team'))
-  .filter((m) => m.data.name !== '_placeholder' && m.slug !== 'placeholder')
-  .sort((a, b) => a.data.name.localeCompare(b.data.name));
-const idx = all.findIndex((m) => m.slug === entry.slug);
-const prev = all[(idx - 1 + all.length) % all.length];
-const next = all[(idx + 1) % all.length];
+  .filter((m) => m.data.name !== '_placeholder' && m.slug !== 'placeholder');
+
+type SectionKey = 'management' | 'board' | 'sab' | 'strategic';
+
+const SECTION_INDEX: Record<SectionKey, { num: string; label: string }> = {
+  management: { num: '01 / 04', label: 'Management' },
+  board:      { num: '02 / 04', label: 'Board' },
+  sab:        { num: '03 / 04', label: 'Scientific Advisory Board' },
+  strategic:  { num: '04 / 04', label: 'Strategic Advisors' },
+};
+
+// Primary section = lowest-order section the member belongs to. Drives variant.
+const sortedSections = [...entry.data.sections].sort((a, b) => a.order - b.order);
+const primary = sortedSections[0].section as SectionKey;
+const primaryMeta = SECTION_INDEX[primary];
+
+// Cross-membership note: any sections other than primary
+const otherSections = sortedSections.slice(1).map((s) => SECTION_INDEX[s.section as SectionKey].label);
+
+// Variant — editorial for mgmt/board, directory-detail for sab/strategic
+const isEditorial = primary === 'management' || primary === 'board';
+
+// "More from this section" — sibling members in the SAME primary section, up to N
+const siblings = all
+  .filter((m) => m.slug !== entry.slug)
+  .filter((m) => m.data.sections.some((s) => s.section === primary))
+  .map((m) => {
+    const cfg = m.data.sections.find((s) => s.section === primary)!;
+    return { m, order: cfg.order };
+  })
+  .sort((a, b) => a.order - b.order);
+const moreCount = isEditorial ? 3 : 4;
+const more = siblings.slice(0, moreCount);
+
+// Section line for fact strip ("Management · Board")
+const sectionLine = sortedSections.map((s) => SECTION_INDEX[s.section as SectionKey].label).join(' · ');
+
+// "At Proto Axiom" line — combine year + descriptor if present
+const atPa = entry.data.joinedYear
+  ? `Since ${entry.data.joinedYear}${entry.data.joinedDescriptor ? ' · ' + entry.data.joinedDescriptor : ''}`
+  : null;
+
+// Initials fallback for missing photos
+function getInitials(name: string): string {
+  return name.replace(/[,.].*$/, '').split(/\s+/).filter(Boolean).slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '').join('');
+}
+const initials = getInitials(entry.data.name);
+
+// Description: prefer hook, fall back to title
+const description = entry.data.hook ?? entry.data.title;
 ---
-<BaseLayout title={`${entry.data.name} | Proto Axiom`} description={entry.data.title} active="team">
-  <section class="pa-section pa-section--tight pa-section--white">
-    <div class="pa-wrap">
-      <a class="pa-bio__back" href="/team">&larr; All team</a>
-      <div class="pa-bio__head">
-        <div class="pa-bio__photo">
-          {entry.data.photo ? (
-            <img src={entry.data.photo} alt={entry.data.name} />
-          ) : (
-            <div class="pa-bio__photo-placeholder"></div>
-          )}
-        </div>
-        <div class="pa-bio__intro">
-          <div class="pa-eyebrow">Team</div>
-          <h1 class="pa-bio__name">{entry.data.name}</h1>
-          <p class="pa-bio__title">{entry.data.title}</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="pa-section pa-section--white" style="padding-top: 32px;">
-    <div class="pa-wrap">
-      <div class="pa-bio__body">
-        <Content />
-      </div>
-    </div>
-  </section>
+<BaseLayout
+  title={`${entry.data.name} | Proto Axiom`}
+  description={description}
+  active="team"
+  noHelix
+>
+  <div class:list={['pf', isEditorial ? 'pf--editorial' : 'pf--directory']}>
 
-  <section class="pa-section pa-section--almond">
-    <div class="pa-wrap">
-      <nav class="pa-bio__pager" aria-label="Team navigation">
-        <a href={`/team/${prev.slug}`} class="prev">
-          <span class="label">Previous</span>
-          <span class="name">{prev.data.name}</span>
-        </a>
-        <a href="/team" class="all">All team</a>
-        <a href={`/team/${next.slug}`} class="next">
-          <span class="label">Next</span>
-          <span class="name">{next.data.name}</span>
-        </a>
-      </nav>
-    </div>
-  </section>
+    {isEditorial ? (
+      /* ============ EDITORIAL VARIANT ============ */
+      <>
+        <section class="pf__hero pf__section--white">
+          <div class="pf__wrap">
+            <a class="pf__back" href="/team">
+              <span class="arr">←</span> All team
+            </a>
+
+            <div class="pf__hero-grid">
+              <div class="pf__portrait">
+                {entry.data.photo ? (
+                  <img src={entry.data.photo} alt={entry.data.name} />
+                ) : (
+                  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:84px;color:#0d1a2e;opacity:.5">{initials}</div>
+                )}
+              </div>
+
+              <div class="pf__hero-body">
+                <div class="pf__crumbs">
+                  <a href="/team">Team</a>
+                  <span class="sep">/</span>
+                  <a href="/team">{primaryMeta.label}</a>
+                  <span class="sep">/</span>
+                  <span class="cur">{entry.data.name}</span>
+                </div>
+
+                <div class="pf__sect-id">
+                  <span class="num">{primaryMeta.num}</span>
+                  <span class="bar"></span>
+                  <span class="lbl">{primaryMeta.label}</span>
+                  {entry.data.chair && <span class="chair">Chair</span>}
+                </div>
+
+                <h1 class="pf__name">{entry.data.name}</h1>
+                <p class="pf__title"><em>{entry.data.title}</em></p>
+
+                {entry.data.hook && <p class="pf__hook">{entry.data.hook}</p>}
+
+                {(sectionLine || atPa || entry.data.based) && (
+                  <dl class="pf__facts">
+                    <div>
+                      <dt>Section</dt>
+                      <dd>{sectionLine}</dd>
+                    </div>
+                    {atPa && (
+                      <div>
+                        <dt>At Proto Axiom</dt>
+                        <dd>{atPa}</dd>
+                      </div>
+                    )}
+                    {entry.data.based && (
+                      <div>
+                        <dt>Based</dt>
+                        <dd>{entry.data.based}</dd>
+                      </div>
+                    )}
+                  </dl>
+                )}
+
+                {entry.data.chips && entry.data.chips.length > 0 && (
+                  <div class="pf__chips">
+                    <span class="pf__chip-lbl">Expertise</span>
+                    {entry.data.chips.map((c) => <span class="pf__chip">{c}</span>)}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="pf__divider"></div>
+
+        <section class="pf__section pf__section--white">
+          <div class="pf__wrap">
+            <div class="pf__body-grid">
+              <aside class="pf__rail">
+                {otherSections.length > 0 && (
+                  <div class="pf__rail-block">
+                    <div class="pf__rail-eyebrow">Cross-membership</div>
+                    <p class="pf__rail-cross">
+                      <em>Also serves on the {otherSections.join(' and ')} of Proto Axiom.</em>
+                    </p>
+                  </div>
+                )}
+
+                {entry.data.press && entry.data.press.length > 0 && (
+                  <div class="pf__rail-block">
+                    <div class="pf__rail-eyebrow">Press</div>
+                    <ul class="pf__rail-list">
+                      {entry.data.press.map((p) => (
+                        <li><a href={p.url} target="_blank" rel="noopener">{p.label} <span class="ext">↗</span></a></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {entry.data.linkedin && (
+                  <div class="pf__rail-block">
+                    <div class="pf__rail-eyebrow">Connect</div>
+                    <ul class="pf__rail-list">
+                      <li><a href={entry.data.linkedin} target="_blank" rel="noopener">LinkedIn <span class="ext">↗</span></a></li>
+                    </ul>
+                  </div>
+                )}
+              </aside>
+
+              <article class="pf__bio">
+                <div class="pf__bio-eyebrow">Biography</div>
+                <Content />
+
+                {entry.data.pullQuote && (
+                  <blockquote class="pf__pull">
+                    <p>{entry.data.pullQuote.text}</p>
+                    <footer>{entry.data.pullQuote.source}</footer>
+                  </blockquote>
+                )}
+
+                {entry.data.affiliations && entry.data.affiliations.length > 0 && (
+                  <div class="pf__affil">
+                    <div class="pf__bio-eyebrow">Selected affiliations</div>
+                    <ul>
+                      {entry.data.affiliations.map((a) => (
+                        <li><span class="role">{a.role}</span> <span class="org">{a.org}</span></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </article>
+            </div>
+          </div>
+        </section>
+      </>
+    ) : (
+      /* ============ DIRECTORY VARIANT ============ */
+      <>
+        <section class="pf__hero pf__hero--lean pf__section--white">
+          <div class="pf__wrap">
+            <a class="pf__back" href="/team">
+              <span class="arr">←</span> All team
+            </a>
+
+            <div class="pf__lean-grid">
+              <div class="pf__portrait pf__portrait--square">
+                {entry.data.photo ? (
+                  <img src={entry.data.photo} alt={entry.data.name} />
+                ) : (
+                  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:64px;color:#0d1a2e;opacity:.5">{initials}</div>
+                )}
+              </div>
+
+              <div class="pf__lean-body">
+                <div class="pf__crumbs">
+                  <a href="/team">Team</a>
+                  <span class="sep">/</span>
+                  <a href="/team">{primaryMeta.label}</a>
+                  <span class="sep">/</span>
+                  <span class="cur">{entry.data.name}</span>
+                </div>
+
+                <div class="pf__sect-id">
+                  <span class="num">{primaryMeta.num}</span>
+                  <span class="bar"></span>
+                  <span class="lbl">{primaryMeta.label}</span>
+                  {entry.data.chair && <span class="chair">Chair</span>}
+                </div>
+
+                <h1 class="pf__name">{entry.data.name}</h1>
+                <p class="pf__title"><em>{entry.data.title}</em></p>
+
+                {(entry.data.institution || entry.data.caption) && (
+                  <p class="pf__institutions">
+                    <span class="pf__inst">
+                      {entry.data.institution ?? entry.data.caption}
+                    </span>
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="pf__divider"></div>
+
+        <section class="pf__section pf__section--white">
+          <div class="pf__wrap">
+            <div class="pf__lean-body-grid">
+              <div class="pf__lean-rail">
+                {entry.data.areas && entry.data.areas.length > 0 && (
+                  <>
+                    <div class="pf__rail-eyebrow">Areas</div>
+                    <ul class="pf__lean-areas">
+                      {entry.data.areas.map((a) => <li>{a}</li>)}
+                    </ul>
+                  </>
+                )}
+                {entry.data.education && (
+                  <>
+                    <div class="pf__rail-eyebrow" style="margin-top: 32px;">Education</div>
+                    <p class="pf__lean-edu" set:html={entry.data.education.replace(/\n/g, '<br />')}></p>
+                  </>
+                )}
+                {entry.data.linkedin && (
+                  <>
+                    <div class="pf__rail-eyebrow" style="margin-top: 32px;">Connect</div>
+                    <ul class="pf__rail-list" style="margin-top: 12px;">
+                      <li><a href={entry.data.linkedin} target="_blank" rel="noopener">LinkedIn <span class="ext">↗</span></a></li>
+                    </ul>
+                  </>
+                )}
+              </div>
+
+              <article class="pf__bio">
+                <div class="pf__bio-eyebrow">Biography</div>
+                <Content />
+              </article>
+            </div>
+          </div>
+        </section>
+      </>
+    )}
+
+    {/* ============ MORE FROM THIS SECTION ============ */}
+    {more.length > 0 && (
+      <section class="pf__section pf__section--almond">
+        <div class="pf__wrap">
+          <div class="pf__more-head">
+            <div class="pf__sect-id">
+              <span class="num">{primaryMeta.num}</span>
+              <span class="bar"></span>
+              <span class="lbl">{primaryMeta.label}</span>
+            </div>
+            <h2 class="pf__more-h">More from the <em>{primaryMeta.label.toLowerCase()}.</em></h2>
+            <a class="pf__more-all" href="/team">All team →</a>
+          </div>
+
+          <div class:list={['pf__more-grid', !isEditorial && 'pf__more-grid--4']}>
+            {more.map((s) => (
+              <a class="pf__more-card" href={`/team/${s.m.slug}`}>
+                <div class="pf__more-photo">
+                  {s.m.data.photo ? (
+                    <img src={s.m.data.photo} alt={s.m.data.name} />
+                  ) : (
+                    <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:42px;color:#0d1a2e;opacity:.5">{getInitials(s.m.data.name)}</div>
+                  )}
+                </div>
+                <h3 class="pf__more-name">{s.m.data.name}</h3>
+                <div class="pf__more-title">{s.m.data.title}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+  </div>
 </BaseLayout>
-
-<style>
-  .pa-bio__back {
-    display: inline-block; font: 500 13px/1 var(--font-sans);
-    color: var(--pa-ink-muted) !important; text-decoration: none !important;
-    margin-bottom: 32px; padding-bottom: 4px;
-    border-bottom: 1px solid transparent;
-    transition: color 150ms ease, border-color 150ms ease;
-  }
-  .pa-bio__back:hover { color: var(--pa-primary) !important; border-bottom-color: var(--pa-primary); }
-  .pa-bio__head {
-    display: grid; grid-template-columns: 280px 1fr; gap: 56px; align-items: end;
-  }
-  .pa-bio__photo {
-    aspect-ratio: 4/5; background: var(--pa-light-almond); overflow: hidden;
-    border-radius: 8px;
-  }
-  .pa-bio__photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.15); }
-  .pa-bio__photo-placeholder { width: 100%; height: 100%; background: var(--pa-french-grey); }
-  .pa-bio__name {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4.4vw, 3.25rem); font-weight: 700;
-    line-height: 1.05; letter-spacing: -0.02em;
-    color: var(--pa-primary); margin: 16px 0 8px; text-wrap: balance;
-  }
-  .pa-bio__title {
-    font: 400 19px/1.4 var(--font-sans); color: var(--pa-ink-muted);
-    margin: 0; max-width: 50ch;
-  }
-  .pa-bio__body {
-    max-width: 68ch; margin: 0 auto;
-    font: 400 17px/1.7 var(--font-sans); color: var(--pa-ink);
-  }
-  .pa-bio__body :global(p) { margin: 0 0 1.25em; }
-  .pa-bio__body :global(p:last-child) { margin-bottom: 0; }
-  .pa-bio__body :global(strong) { color: var(--pa-primary); }
-  .pa-bio__body :global(a) {
-    color: var(--pa-accent-green); text-decoration: underline;
-    text-decoration-thickness: 1px; text-underline-offset: 3px;
-  }
-  .pa-bio__pager {
-    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 32px;
-    border-top: 1px solid var(--pa-hairline);
-    border-bottom: 1px solid var(--pa-hairline);
-    padding: 28px 0;
-  }
-  .pa-bio__pager a {
-    display: flex; flex-direction: column; gap: 4px;
-    text-decoration: none !important; color: var(--pa-ink) !important;
-    font: 500 14px/1.3 var(--font-sans);
-    transition: color 150ms ease;
-  }
-  .pa-bio__pager a:hover { color: var(--pa-primary) !important; }
-  .pa-bio__pager .label {
-    font: 500 11px/1 var(--font-sans); letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--pa-ink-subtle);
-  }
-  .pa-bio__pager .name { font-size: 16px; color: var(--pa-primary); }
-  .pa-bio__pager .next { text-align: right; align-items: flex-end; }
-  .pa-bio__pager .all {
-    align-self: stretch; justify-content: center;
-    padding: 12px 24px; border: 1px solid var(--pa-hairline); border-radius: 4px;
-    font: 500 13px/1 var(--font-sans);
-  }
-  @media (max-width: 720px) {
-    .pa-bio__head { grid-template-columns: 1fr; gap: 32px; align-items: start; }
-    .pa-bio__photo { max-width: 280px; }
-    .pa-bio__pager { grid-template-columns: 1fr; gap: 16px; }
-    .pa-bio__pager .next { text-align: left; align-items: flex-start; }
-  }
-</style>

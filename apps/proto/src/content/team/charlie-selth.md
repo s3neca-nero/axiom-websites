@@ -6,6 +6,11 @@ sections:
   - section: management
     order: 60
 chips: ["Strategy"]
+joinedYear: 2026
+based: "Sydney"
+press:
+  - label: "AFR Street Talk · 21-year-old banks $10M for R&D funding venture"
+    url: "https://www.afr.com/street-talk/this-21-year-old-has-just-banked-10m-for-his-r-and-d-funding-venture-20241218-p5kz8y"
 ---
 
 Charlie Selth is Proto Axiom's Chief of Staff, providing strategic and operational support to Anthony Liveris (CEO).

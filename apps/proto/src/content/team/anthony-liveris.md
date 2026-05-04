@@ -9,6 +9,21 @@ sections:
     order: 115
 chips: ["Founder-operator", "Capital markets", "Government & policy"]
 hook: "Anthony has built Proto Axiom into a distinctive company-creation platform — translating breakthrough Australian science into enduring businesses. He previously co-founded Applecart, the New York data and technology company that attracted a US$100M investment from Blackstone Growth."
+joinedYear: 2021
+joinedDescriptor: "Founder"
+based: "Sydney"
+linkedin: "https://www.linkedin.com/in/anthony-liveris-68a08a18/"
+press:
+  - label: "Forbes Australia · Seven biotech themes investors should track in 2026"
+    url: "https://www.forbes.com.au/news/innovation/seven-biotech-themes-investors-should-track-in-2026/"
+  - label: "The Australian · Backing biotechs with US-style entrepreneurialism"
+    url: "https://www.theaustralian.com.au/business/backing-biotechs-with-usstyle-entrepreneurialism/news-story/4b5b76f83fcd2e1fa2ed00d5d84f0bd8"
+pullQuote:
+  text: "The ambition is straightforward: four CSL-scale companies built from Australian science in twenty years. Everything we do is in service of that arithmetic."
+  source: "From the 2026 portfolio letter"
+affiliations:
+  - role: "Chair, 2025 inaugural"
+    org: "St Vincent's Curran Foundation · Pitch for Health"
 ---
 
 Anthony Liveris is the Chief Executive Officer of Proto Axiom. He has helped establish the firm as a distinctive company-creation platform, focused on translating breakthrough science into enduring businesses. Under his leadership, Proto Axiom has built companies including Endo Axiom, Onyx Axiom and Flo Axiom, while also incubating ventures including SWAN Genomics and JumpStart Fertility.

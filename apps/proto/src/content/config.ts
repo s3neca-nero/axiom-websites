@@ -47,6 +47,18 @@ const team = defineCollection({
     hook: z.string().optional(),
     caption: z.string().optional(),
     chair: z.boolean().optional(),
+    // Profile-page fields (added 2026-05-04 for /team/[slug] redesign)
+    joinedYear: z.number().optional(),
+    joinedDescriptor: z.string().optional(),
+    based: z.string().optional(),
+    linkedin: z.string().url().optional(),
+    press: z.array(z.object({ label: z.string(), url: z.string().url() })).optional(),
+    pullQuote: z.object({ text: z.string(), source: z.string() }).optional(),
+    affiliations: z.array(z.object({ role: z.string(), org: z.string() })).optional(),
+    // SAB / Strategic only
+    institution: z.string().optional(),
+    areas: z.array(z.string()).optional(),
+    education: z.string().optional(),
   }),
 });
 
