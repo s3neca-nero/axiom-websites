@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Team | Proto Axiom (preview)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="team.css" />
+<style>
+  /* Preview-only chrome (stand-in for SiteMenu / Footer rendered by BaseLayout). */
+  body { margin: 0; background: #fff; }
+  .preview-nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(13,26,46,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+  }
+  .preview-nav__brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500; letter-spacing: 0.02em; font-size: 18px;
+    color: #0d1a2e;
+  }
+  .preview-nav__brand b { font-weight: 500; }
+  .preview-nav__items {
+    display: flex; gap: 32px; align-items: center;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400;
+    color: #3a4456;
+  }
+  .preview-nav__items a { color: inherit; text-decoration: none; }
+  .preview-nav__items a.active { color: #0d1a2e; font-weight: 500; }
+  .preview-foot {
+    background: #0a1320; color: rgba(255,255,255,0.7);
+    padding: 56px 48px 40px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  }
+  .preview-foot__brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; color: #fff; letter-spacing: 0.02em;
+  }
+  /* Quiet ambient helix watermark — stand-in for HelixMotif on the Board section. */
+  .helix-watermark {
+    position: absolute; right: -120px; top: 80px; bottom: 80px;
+    width: 520px; opacity: 0.07;
+    pointer-events: none; user-select: none;
+    color: #0d1a2e;
+  }
+  .helix-watermark svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+
+<nav class="preview-nav">
+  <div class="preview-nav__brand">Proto&nbsp;<b>Axiom</b></div>
+  <div class="preview-nav__items">
+    <a href="#">Home</a>
+    <a href="#">Thesis</a>
+    <a href="#">Portfolio</a>
+    <a href="#" class="active">Team</a>
+    <a href="#">News</a>
+    <a href="#">Contact</a>
+  </div>
+</nav>
+
+<main>
+<div class="tm">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero section--white">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="hero__eyebrow">
+          <span class="num">i</span>
+          <span>Team</span>
+          <span class="dot"></span>
+          <span>30 people</span>
+        </div>
+        <h1 class="hero__h">An operating bench, <span class="em">not a fund team.</span></h1>
+        <p class="hero__lead">
+          Around 30 people across management, board, scientific advisory and strategic advisors — combining science, clinical, finance, governance and operating experience.
+        </p>
+      </div>
+      <ul class="strip reveal">
+        <li><span class="strip__val">30</span><span class="strip__lbl">People</span></li>
+        <li><span class="strip__val">4</span><span class="strip__lbl">Disciplines</span></li>
+        <li><span class="strip__val">5</span><span class="strip__lbl">PhDs / MDs</span></li>
+        <li><span class="strip__val">6</span><span class="strip__lbl">Ex-operators</span></li>
+        <li><span class="strip__val">1</span><span class="strip__lbl">Holding company</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ 01 / 04 — MANAGEMENT ============ -->
+  <section class="section section--white">
+    <div class="wrap">
+      <div class="section-id reveal">
+        <span class="section-id__num">01 / 04</span>
+        <span class="section-id__name">Management</span>
+        <span class="section-id__tag">The operators.</span>
+      </div>
+
+      <div class="sect-head reveal">
+        <h2 class="sect-head__h">Scientific diligence, capital deployment, <span class="em">hands-on company building.</span></h2>
+        <div>
+          <p class="sect-head__desc">
+            The day-to-day operating team. Investment, science, finance, legal and operations — the people closing rounds, sitting on portfolio boards, and steering programs through preclinical and clinical gates.
+          </p>
+          <div class="sect-head__counter">7 people</div>
+        </div>
+      </div>
+
+      <!-- Lead editorial moment: Anthony Liveris -->
+      <a class="lead-block reveal" href="#anthony-liveris">
+        <div class="lead-block__photo">
+          <img src="images/team/anthony-liveris.webp" alt="Anthony Liveris" />
+        </div>
+        <div class="lead-block__body">
+          <div class="lead-block__role">
+            <span>Chief Executive Officer</span>
+            <span class="bar"></span>
+            <span>Founding</span>
+          </div>
+          <h3 class="lead-block__name">Anthony Liveris</h3>
+          <div class="lead-block__title">Chief Executive Officer · Founder</div>
+          <p class="lead-block__bio">
+            Anthony has built Proto Axiom into a distinctive company-creation platform — translating breakthrough Australian science into enduring businesses. He previously co-founded Applecart, the New York data and technology company that attracted a US$100M investment from Blackstone Growth.
+          </p>
+          <div class="chips">
+            <span class="chip">Founder-operator</span>
+            <span class="chip">Capital markets</span>
+            <span class="chip">Government &amp; policy</span>
+          </div>
+          <span class="lead-block__cta">Read full profile <span class="arr">→</span></span>
+        </div>
+      </a>
+
+      <!-- The bench -->
+      <div class="mgmt-grid">
+        <a class="mgmt-card reveal" href="#lindsay-wu">
+          <div class="mgmt-card__photo"><img src="images/team/lindsay-wu.webp" alt="Lindsay Wu" /></div>
+          <h4 class="mgmt-card__name">Lindsay Wu, PhD</h4>
+          <div class="mgmt-card__title">Chief Science Officer</div>
+          <div class="mgmt-card__chips">
+            <span class="mgmt-card__chip">Drug development</span>
+            <span class="mgmt-card__chip">Translation</span>
+          </div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#hugh-mcgonagle">
+          <div class="mgmt-card__photo"><img src="images/team/hugh-mcgonagle.webp" alt="Hugh McGonagle" /></div>
+          <h4 class="mgmt-card__name">Hugh McGonagle</h4>
+          <div class="mgmt-card__title">Chief Operating Officer</div>
+          <div class="mgmt-card__chips">
+            <span class="mgmt-card__chip">Legal</span>
+            <span class="mgmt-card__chip">Risk</span>
+          </div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#tony-haddad">
+          <div class="mgmt-card__photo"><img src="images/team/tony-haddad.jpg" alt="Tony Haddad" /></div>
+          <h4 class="mgmt-card__name">Tony Haddad</h4>
+          <div class="mgmt-card__title">Operating Partner</div>
+          <div class="mgmt-card__chips">
+            <span class="mgmt-card__chip">Operations</span>
+          </div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#john-roach">
+          <div class="mgmt-card__photo"><img src="images/team/john-roach.webp" alt="John Roach" /></div>
+          <h4 class="mgmt-card__name">John Roach</h4>
+          <div class="mgmt-card__title">Head of Finance</div>
+          <div class="mgmt-card__chips">
+            <span class="mgmt-card__chip">Finance</span>
+            <span class="mgmt-card__chip">Pharma ops</span>
+          </div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#charlie-selth">
+          <div class="mgmt-card__photo"><img src="images/team/charlie-selth.png" alt="Charlie Selth" /></div>
+          <h4 class="mgmt-card__name">Charlie Selth</h4>
+          <div class="mgmt-card__title">Chief of Staff</div>
+          <div class="mgmt-card__chips">
+            <span class="mgmt-card__chip">Strategy</span>
+          </div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#nicholas-hunt">
+          <div class="mgmt-card__photo"><img src="images/team/nicholas-hunt.png" alt="Nicholas Hunt" /></div>
+          <h4 class="mgmt-card__name">Nicholas Hunt, PhD</h4>
+          <div class="mgmt-card__title">Entrepreneur in Residence</div>
+          <div class="mgmt-card__chips">
+            <span class="mgmt-card__chip">Founder-operator</span>
+            <span class="mgmt-card__chip">Nanomedicine</span>
+          </div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#laura-wimberger">
+          <div class="mgmt-card__photo"><img src="images/team/laura-wimberger.png" alt="Laura Wimberger" /></div>
+          <h4 class="mgmt-card__name">Laura Wimberger, PhD</h4>
+          <div class="mgmt-card__title">Investment Associate</div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#richard-wang">
+          <div class="mgmt-card__photo"><img src="images/team/richard-wang.png" alt="Richard Wang" /></div>
+          <h4 class="mgmt-card__name">Richard Wang, PhD</h4>
+          <div class="mgmt-card__title">Science Analyst</div>
+        </a>
+
+        <a class="mgmt-card reveal" href="#marina-naidion">
+          <div class="mgmt-card__photo"><img src="images/team/marina-naidion.webp" alt="Marina Naidion" /></div>
+          <h4 class="mgmt-card__name">Marina Naidion</h4>
+          <div class="mgmt-card__title">Business Manager</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ 02 / 04 — BOARD ============ -->
+  <section class="section section--almond" style="position: relative; overflow: hidden;">
+    <div class="helix-watermark" aria-hidden="true">
+      <svg viewBox="0 0 200 600" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+        <!-- stylised helix: 30 ladder rungs across two strands -->
+        <g id="helix-pattern"></g>
+      </svg>
+    </div>
+
+    <div class="wrap" style="position: relative; z-index: 1;">
+      <div class="section-id reveal">
+        <span class="section-id__num">02 / 04</span>
+        <span class="section-id__name">Board</span>
+        <span class="section-id__tag">Governance.</span>
+      </div>
+
+      <div class="sect-head reveal">
+        <h2 class="sect-head__h">Capital markets, biotech, <span class="em">translational science.</span></h2>
+        <div>
+          <p class="sect-head__desc">
+            Independent governance with deep capital-markets, life-sciences and operating experience. The board sits across investment decisions, portfolio gates and the holding company itself.
+          </p>
+          <div class="sect-head__counter">7 people</div>
+        </div>
+      </div>
+
+      <div class="board-rows">
+        <a class="board-row reveal" href="#gavin-maclaren">
+          <div class="board-row__photo"><img src="images/team/gavin-maclaren.webp" alt="Gavin MacLaren" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Gavin MacLaren <span class="board-row__chair-badge">Chair</span></h3>
+            <div class="board-row__title">Chairman</div>
+            <p class="board-row__hook">
+              20+ years as a lawyer, a decade based in Asia. Named an Innovative Leader in the 2020 FT Innovative Lawyers Awards Asia Pacific.
+            </p>
+            <div class="chips">
+              <span class="chip">Legal</span>
+              <span class="chip">Asia-Pacific</span>
+              <span class="chip">Sovereign &amp; PE</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="board-row reveal" href="#anthony-liveris">
+          <div class="board-row__photo"><img src="images/team/anthony-liveris.webp" alt="Anthony Liveris" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Anthony Liveris</h3>
+            <div class="board-row__title">Chief Executive Officer · Director</div>
+            <p class="board-row__hook">
+              Founder and CEO of Proto Axiom. Previously co-founded Applecart, attracting US$100M from Blackstone Growth.
+            </p>
+            <div class="chips">
+              <span class="chip">Founder-operator</span>
+              <span class="chip">Capital markets</span>
+            </div>
+            <p class="board-row__cross">Also serves on Management.</p>
+          </div>
+        </a>
+
+        <a class="board-row reveal" href="#kathy-connell">
+          <div class="board-row__photo"><img src="images/team/kathy-connell.png" alt="Kathy Connell" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Kathy Connell, GAICD</h3>
+            <div class="board-row__title">Non-Executive Director</div>
+            <p class="board-row__hook">
+              Two decades in life-sciences BD and investment at Johnson &amp; Johnson and Sanofi — over US$1B deployed across ANZ in licensing and acquisition.
+            </p>
+            <div class="chips">
+              <span class="chip">BD &amp; licensing</span>
+              <span class="chip">ASX boards</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="board-row reveal" href="#tom-harley">
+          <div class="board-row__photo"><img src="images/team/tom-harley.webp" alt="Tom Harley" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Tom Harley</h3>
+            <div class="board-row__title">Non-Executive Director</div>
+            <p class="board-row__hook">
+              Managing Director of Dragoman. Former President, Corporate Development at BHP and former Non-Executive Chairman of Dow Chemical Australia.
+            </p>
+            <div class="chips">
+              <span class="chip">Government policy</span>
+              <span class="chip">Strategy</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="board-row reveal" href="#peter-devine">
+          <div class="board-row__photo"><img src="images/team/peter-devine.png" alt="Peter Devine" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Peter Devine, PhD</h3>
+            <div class="board-row__title">Non-Executive Director</div>
+            <p class="board-row__hook">
+              20 years as CEO of Uniseed, the A$200M partnership between ten Australian research institutions and UniSuper. Architect of multiple landmark biotech exits.
+            </p>
+            <div class="chips">
+              <span class="chip">University venturing</span>
+              <span class="chip">Translation</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="board-row reveal" href="#annalisa-jenkins">
+          <div class="board-row__photo"><img src="images/team/annalisa-jenkins.webp" alt="Annalisa Jenkins" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Annalisa Jenkins, OBE</h3>
+            <div class="board-row__title">Non-Executive Director</div>
+            <p class="board-row__hook">
+              Former CEO of Dimension Therapeutics; former Head of Global Drug Development at Merck Serono. Contributed to development of 30+ therapeutics.
+            </p>
+            <div class="chips">
+              <span class="chip">Clinical development</span>
+              <span class="chip">Regulatory</span>
+              <span class="chip">Global biopharma</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="board-row reveal" href="#tristan-edwards">
+          <div class="board-row__photo"><img src="images/team/tristan-edwards.png" alt="Tristan Edwards" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Tristan Edwards</h3>
+            <div class="board-row__title">Non-Executive Director</div>
+            <p class="board-row__hook">
+              Co-founder and first CEO of Boston-based Life Biosciences. 18 years in global funds management across Goldman Sachs Asset Management and Brevan Howard.
+            </p>
+            <div class="chips">
+              <span class="chip">Founder-operator</span>
+              <span class="chip">Capital markets</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="board-row reveal" href="#sally-bennett">
+          <div class="board-row__photo"><img src="images/team/sally-bennett.png" alt="Sally Bennett" /></div>
+          <div class="board-row__body">
+            <h3 class="board-row__name">Sally Bennett, MD</h3>
+            <div class="board-row__title">Non-Executive Director</div>
+            <p class="board-row__hook">
+              Senior Advisor at Catalio Capital Management. 25+ years across medicine, equity capital markets and life-sciences investment management.
+            </p>
+            <div class="chips">
+              <span class="chip">Clinical</span>
+              <span class="chip">Public &amp; private equity</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ 03 / 04 — SAB ============ -->
+  <section class="section section--white">
+    <div class="wrap">
+      <div class="section-id reveal">
+        <span class="section-id__num">03 / 04</span>
+        <span class="section-id__name">Scientific Advisory Board</span>
+        <span class="section-id__tag">Senior scientists, clinicians.</span>
+      </div>
+
+      <div class="sect-head reveal">
+        <h2 class="sect-head__h">Diligence, development plans, <span class="em">translational judgement.</span></h2>
+        <div>
+          <p class="sect-head__desc">
+            The scientists and clinicians who guide our diligence on incoming research and the development plans of portfolio companies — across drug development, regulatory and clinical strategy.
+          </p>
+          <div class="sect-head__counter">Showing 4 of 4</div>
+        </div>
+      </div>
+
+      <div class="dir">
+        <a class="dir__card reveal" href="#brian-ledwith">
+          <div class="dir__photo"><img src="images/team/brian-ledwith.webp" alt="Brian Ledwith" /></div>
+          <h4 class="dir__name">Brian Ledwith, PhD</h4>
+          <div class="dir__title">Chair, Scientific Advisory Board</div>
+          <div class="dir__caption">30+ years, vaccines &amp; gene therapy</div>
+        </a>
+
+        <a class="dir__card reveal" href="#sara-althari">
+          <div class="dir__photo"><img src="images/team/sara-althari.png" alt="Sara Althari" /></div>
+          <h4 class="dir__name">Sara Althari, PhD</h4>
+          <div class="dir__title">Scientific Advisor</div>
+          <div class="dir__caption">Saudi Ministry of Investment</div>
+        </a>
+
+        <a class="dir__card reveal" href="#russell-basser">
+          <div class="dir__photo"><img src="images/team/russell-basser.png" alt="Russell Basser" /></div>
+          <h4 class="dir__name">Russell Basser, PhD</h4>
+          <div class="dir__title">Scientific Advisor</div>
+          <div class="dir__caption">CSL Ltd · Starpharma</div>
+        </a>
+
+        <a class="dir__card reveal" href="#william-marshall">
+          <div class="dir__photo"><img src="images/team/william-marshall.png" alt="William Marshall" /></div>
+          <h4 class="dir__name">William Marshall, MD</h4>
+          <div class="dir__title">Scientific Advisor</div>
+          <div class="dir__caption">UMass Medical · Harvard Medical</div>
+        </a>
+
+        <a class="dir__card reveal" href="#michael-sierra">
+          <div class="dir__photo"><img src="images/team/michael-sierra.webp" alt="Michael Sierra" /></div>
+          <h4 class="dir__name">Michael Sierra, PhD</h4>
+          <div class="dir__title">Scientific Advisor</div>
+          <div class="dir__caption">LEO Pharma · GlaxoSmithKline</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ 04 / 04 — STRATEGIC ============ -->
+  <section class="section section--almond">
+    <div class="wrap">
+      <div class="section-id reveal">
+        <span class="section-id__num">04 / 04</span>
+        <span class="section-id__name">Strategic Advisors</span>
+        <span class="section-id__tag">Operators, founders, executives.</span>
+      </div>
+
+      <div class="sect-head reveal">
+        <h2 class="sect-head__h">Commercial, partnership, <span class="em">capital strategy.</span></h2>
+        <div>
+          <p class="sect-head__desc">
+            Senior operators advising on commercial, partnership and capital strategy across the platform and its portfolio companies — from Pfizer External Science to GSK and HSBC finance.
+          </p>
+          <div class="sect-head__counter">Showing 5 of 5</div>
+        </div>
+      </div>
+
+      <div class="dir">
+        <a class="dir__card reveal" href="#anand-gautum">
+          <div class="dir__photo"><img src="images/team/anand-gautum.png" alt="Anand Gautum" /></div>
+          <h4 class="dir__name">Anand Gautum, PhD</h4>
+          <div class="dir__title">Chair, Strategic Advisors</div>
+          <div class="dir__caption">Pfizer · Novo Nordisk</div>
+        </a>
+
+        <a class="dir__card reveal" href="#michelle-burke">
+          <div class="dir__photo"><img src="images/team/michelle-burke.png" alt="Michelle Burke" /></div>
+          <h4 class="dir__name">Michelle Burke</h4>
+          <div class="dir__title">Strategic Advisor</div>
+          <div class="dir__caption">AusBiotech · PBAC</div>
+        </a>
+
+        <a class="dir__card reveal" href="#rob-mcinnes">
+          <div class="dir__photo"><img src="images/team/rob-mcinnes.webp" alt="Rob McInnes" /></div>
+          <h4 class="dir__name">Rob McInnes</h4>
+          <div class="dir__title">Strategic Advisor</div>
+          <div class="dir__caption">IP advisory · Spruson &amp; Ferguson</div>
+        </a>
+
+        <a class="dir__card reveal" href="#lawrence-gozlan">
+          <div class="dir__photo"><img src="images/team/lawrence-gozlan.webp" alt="Lawrence Gozlan" /></div>
+          <h4 class="dir__name">Lawrence Gozlan</h4>
+          <div class="dir__title">Strategic Advisor</div>
+          <div class="dir__caption">CIO, Scientia Capital</div>
+        </a>
+
+        <a class="dir__card reveal" href="#iain-mackay">
+          <div class="dir__photo"><img src="images/team/iain-mackay.png" alt="Iain Mackay" /></div>
+          <h4 class="dir__name">Iain Mackay</h4>
+          <div class="dir__title">Strategic Advisor</div>
+          <div class="dir__caption">Former CFO, GSK · HSBC</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ Operating bench paragraph ============ -->
+  <section class="bench section--white">
+    <div class="wrap--narrow">
+      <div class="reveal">
+        <div class="bench__eyebrow">The operating bench</div>
+        <h2 class="bench__h">Each portfolio company gets working access to <span class="em">a shared bench.</span></h2>
+        <div class="bench__body">
+          <p>
+            Clinical, regulatory, IP, finance and governance — not as a vendor list, but as a shared resource. The same lawyer who closes our IP licensing also sits in the founder's first board pack. The same regulatory lead who steers our IND filings rotates across companies as their programs hit gates. The same CFO who builds the Series A model is on the line when a clinical site flags a recruitment issue at 7am.
+          </p>
+          <p>
+            This is what "company creator" means in practice: a permanent operating bench, not a fund. The team is the product.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER CTA ============ -->
+  <section class="cta section--white">
+    <div class="wrap">
+      <div class="cta__inner">
+        <p class="cta__text">Operator with biotech experience? Researcher with a translational program?</p>
+        <div class="cta__links">
+          <a class="cta__link" href="#">Apply to Challenger Summit&nbsp;&nbsp;→</a>
+          <a class="cta__link" href="#">Get in touch&nbsp;&nbsp;→</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!-- Preview-only footer stand-in (BaseLayout renders the real Footer). -->
+<footer class="preview-foot">
+  <div>
+    <div class="preview-foot__brand">Proto Axiom</div>
+    <div style="margin-top: 8px; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 14px;">Australian biotech company creation.</div>
+  </div>
+  <div style="text-align: right;">Suite 303, 80 Mount Street<br />North Sydney NSW 2060</div>
+</footer>
+
+<script>
+  // Build the helix watermark behind the Board section.
+  (function(){
+    const g = document.querySelector('#helix-pattern');
+    if (!g) return;
+    const ns = 'http://www.w3.org/2000/svg';
+    let html = '';
+    const N = 30;
+    for (let i = 0; i < N; i++) {
+      const t = i / (N - 1);
+      const y = 20 + t * 560;
+      const a = t * Math.PI * 6;
+      const x1 = 100 + Math.cos(a) * 42;
+      const x2 = 100 - Math.cos(a) * 42;
+      const op = 0.35 + 0.5 * Math.abs(Math.cos(a));
+      html += '<line x1="' + x1.toFixed(2) + '" y1="' + y.toFixed(2) + '" x2="' + x2.toFixed(2) + '" y2="' + y.toFixed(2) + '" opacity="' + op.toFixed(3) + '"/>';
+      html += '<circle cx="' + x1.toFixed(2) + '" cy="' + y.toFixed(2) + '" r="1.4" fill="currentColor" stroke="none"/>';
+      html += '<circle cx="' + x2.toFixed(2) + '" cy="' + y.toFixed(2) + '" r="1.4" fill="currentColor" stroke="none"/>';
+    }
+    g.innerHTML = html;
+  })();
+
+  // Reveal-on-scroll
+  (function(){
+    const els = document.querySelectorAll('.tm .reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(e => e.classList.add('is-in'));
+      return;
+    }
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    els.forEach(e => io.observe(e));
+  })();
+</script>
+</body>
+</html>

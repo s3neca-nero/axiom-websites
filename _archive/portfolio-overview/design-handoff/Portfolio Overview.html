@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Portfolio · Proto Axiom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0d1a2e;
+    --ink-2:#3a4456;
+    --muted:#6b7280;
+    --hair:rgba(13,26,46,0.10);
+    --hair-2:rgba(13,26,46,0.06);
+    --teal:#00B3AB;
+    --teal-deep:#007C82;
+    --gold:#c9a84c;
+    --almond:#f5f0e8;
+    --almond-2:#efe9df;
+    --white:#ffffff;
+    --serif:'Cormorant Garamond','Times New Roman',serif;
+    --sans:'DM Sans',system-ui,sans-serif;
+    --mono:'DM Mono',ui-monospace,monospace;
+    --ease:cubic-bezier(0.2,0.7,0.2,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--white);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  body{font-size:16px;line-height:1.55;font-weight:400}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+
+  /* ============ Site menu (mock of SiteMenu) ============ */
+  .pa-sitemenu{position:fixed;top:0;left:0;right:0;padding:24px 48px;display:flex;align-items:center;justify-content:space-between;z-index:50;pointer-events:none}
+  .pa-sitemenu>*{pointer-events:auto}
+  .pa-sitemenu__logo{height:24px;display:block;opacity:.95}
+  .pa-sitemenu__btn{background:transparent;border:1px solid rgba(13,26,46,0.15);border-radius:999px;padding:10px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(13,26,46,.85);transition:all .22s var(--ease)}
+  .pa-sitemenu__btn:hover{border-color:rgba(0,179,171,.6);background:rgba(0,179,171,.06)}
+  .pa-sitemenu__bars{display:inline-flex;flex-direction:column;gap:4px;width:14px}
+  .pa-sitemenu__bars span{display:block;height:1.5px;width:100%;background:currentColor;border-radius:2px}
+
+  /* ============ Page head ============ */
+  .wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+  .head{padding:200px 0 96px;position:relative}
+  .eyebrow{font-family:var(--sans);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-2);font-weight:500;display:inline-flex;align-items:center;gap:14px}
+  .eyebrow .dot{width:3px;height:3px;border-radius:999px;background:var(--teal);display:inline-block}
+  .eyebrow .num{font-family:var(--serif);font-style:italic;font-size:14px;letter-spacing:.02em;color:var(--teal-deep);text-transform:none}
+  .head__h{font-family:var(--serif);font-weight:400;font-size:clamp(48px,6.4vw,92px);line-height:1.02;letter-spacing:-0.012em;color:var(--ink);margin:32px 0 0;max-width:14ch;text-wrap:balance}
+  .head__h .em{font-style:italic;font-weight:300;color:var(--ink-2)}
+  .head__lead{font-family:var(--sans);font-weight:300;font-size:19px;line-height:1.55;color:var(--ink-2);max-width:54ch;margin:36px 0 0}
+
+  /* Stat strip */
+  .strip{margin-top:96px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:28px 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:32px}
+  .strip li{display:flex;flex-direction:column;gap:6px;list-style:none}
+  .strip__val{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1;letter-spacing:-0.012em;color:var(--ink)}
+  .strip__lbl{font-family:var(--sans);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+  .strip ul{margin:0;padding:0}
+  .strip__sep{display:none}
+
+  /* Wayfinding */
+  .wayfind{padding:64px 0 24px;position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:30;border-bottom:1px solid var(--hair-2)}
+  .wayfind__row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .wayfind__lbl{font-family:var(--sans);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-right:8px}
+  .pill{font-family:var(--sans);font-size:13px;font-weight:400;letter-spacing:0.005em;color:rgba(255,255,255,0.86);background:rgba(14,27,44,0.82);backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.06);padding:8px 16px;border-radius:999px;cursor:pointer;transition:all .22s var(--ease)}
+  .pill:hover{background:rgba(0,179,171,0.85);border-color:rgba(0,179,171,0.4);color:#fff}
+  .pill.is-active{background:var(--teal);color:#fff;border-color:transparent}
+  .wayfind__sep{flex-basis:100%;height:0}
+  .wayfind__toggle{display:inline-flex;align-items:center;gap:0;border:1px solid var(--hair);border-radius:999px;padding:3px;background:#fff}
+  .wayfind__toggle button{font-family:var(--sans);font-size:12px;letter-spacing:0.04em;background:transparent;border:0;padding:7px 14px;border-radius:999px;cursor:pointer;color:var(--ink-2);transition:all .22s var(--ease)}
+  .wayfind__toggle button.is-active{background:var(--ink);color:#fff}
+
+  /* Counter line */
+  .counter{padding:28px 0 12px;display:flex;justify-content:space-between;align-items:baseline;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase}
+  .counter__n{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink-2);text-transform:none;letter-spacing:0}
+
+  /* ============ Company moments ============ */
+  .moments{position:relative}
+  .moment{padding:120px 0;border-top:1px solid transparent;transition:opacity .35s var(--ease),transform .55s var(--ease)}
+  .moment.is-tinted{background:var(--almond)}
+  .moment__inner{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:96px;align-items:start}
+  .moment__left{position:sticky;top:120px}
+  .moment__idx{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:28px}
+  .moment__idx .bar{height:1px;width:40px;background:var(--ink);opacity:.4}
+  .moment__sector{font-family:var(--sans);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal-deep);font-weight:500;margin-bottom:18px}
+  .moment__name{font-family:var(--serif);font-weight:400;font-size:clamp(40px,4.6vw,60px);line-height:1.02;letter-spacing:-0.005em;color:var(--ink);margin:0;cursor:pointer;transition:letter-spacing .8s var(--ease),color .3s var(--ease)}
+  .moment__name:hover{letter-spacing:-0.015em;color:var(--teal-deep)}
+  .moment__tagline{font-family:var(--serif);font-style:italic;font-weight:300;font-size:22px;line-height:1.4;color:var(--ink-2);max-width:34ch;margin:22px 0 32px}
+  .moment__meta{display:flex;flex-direction:column;gap:14px;margin:32px 0 28px;padding:20px 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+  .moment__row{display:grid;grid-template-columns:120px 1fr;gap:18px;font-size:13px;line-height:1.4}
+  .moment__row dt{font-family:var(--sans);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500;padding-top:1px}
+  .moment__row dd{margin:0;font-family:var(--sans);color:var(--ink);font-weight:400}
+  .moment__row dd .mono{font-family:var(--mono);font-size:12px;letter-spacing:0.02em}
+  .moment__badges{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 28px}
+  .badge{font-family:var(--sans);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;padding:6px 12px;border-radius:2px;display:inline-flex;align-items:center;gap:6px}
+  .badge--founding{background:transparent;color:var(--teal-deep);border:1px solid var(--teal-deep)}
+  .badge--venture{background:transparent;color:var(--ink-2);border:1px solid var(--hair)}
+  .badge--clinical{background:rgba(201,168,76,0.10);color:#8a7330;border:1px solid rgba(201,168,76,0.35)}
+  .badge--clinical::before{content:'';width:5px;height:5px;border-radius:999px;background:var(--gold)}
+  .moment__cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0.04em;color:var(--ink);padding:14px 0;border-bottom:1px solid var(--ink);transition:all .22s var(--ease);align-self:flex-start}
+  .moment__cta:hover{color:var(--teal-deep);border-color:var(--teal-deep);gap:14px}
+  .moment__cta .arr{font-family:var(--serif);font-style:italic;font-weight:300;font-size:16px;transition:transform .22s var(--ease)}
+
+  /* Right column visuals */
+  .visual{aspect-ratio:5/6;border-radius:2px;position:relative;overflow:hidden;background:var(--ink)}
+  .visual--tinted{background:var(--almond-2)}
+  .visual__quote{position:absolute;left:48px;right:48px;top:48px;font-family:var(--serif);font-style:italic;font-weight:300;font-size:26px;line-height:1.35;color:rgba(255,255,255,0.92);max-width:30ch;text-wrap:balance}
+  .visual__quote--ink{color:var(--ink)}
+  .visual__caption{position:absolute;left:48px;right:48px;bottom:48px;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);display:flex;justify-content:space-between;gap:20px}
+  .visual__caption--ink{color:var(--muted)}
+  .visual__bg{position:absolute;inset:0;opacity:0.18;background-size:cover;background-position:center;mix-blend-mode:luminosity;filter:contrast(1.05) saturate(0.5)}
+  .visual__shape{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+  .visual__shape svg{width:62%;height:auto;opacity:0.18;color:var(--teal)}
+  .visual--tinted .visual__shape svg{opacity:0.6;color:var(--ink)}
+  .visual__chip{position:absolute;top:32px;right:32px;font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:6px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:999px}
+  .visual--tinted .visual__chip{color:var(--muted);border-color:var(--hair)}
+
+  /* Animated divider */
+  .divider{height:1px;background:var(--hair);position:relative;overflow:hidden;margin:0}
+  .divider::after{content:'';position:absolute;top:0;left:0;height:100%;width:80px;background:linear-gradient(90deg,transparent,var(--teal),transparent);opacity:0;transform:translateX(-100px);animation:drift 6s var(--ease) infinite}
+  @keyframes drift{0%{transform:translateX(-100px);opacity:0}10%{opacity:.7}50%{opacity:.4}90%{opacity:0}100%{transform:translateX(calc(100vw + 100px));opacity:0}}
+
+  /* Capital block */
+  .capital{padding:140px 0;background:var(--almond);text-align:left}
+  .capital__inner{max-width:880px}
+  .capital__eyebrow{font-family:var(--sans);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--teal-deep);font-weight:500}
+  .capital__h{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4vw,56px);line-height:1.12;letter-spacing:-0.005em;color:var(--ink);margin:24px 0 0;text-wrap:pretty}
+  .capital__h .em{font-style:italic;font-weight:300;color:var(--ink-2)}
+
+  /* Universities */
+  .unis{padding:96px 0 64px}
+  .unis__lbl{font-family:var(--sans);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:18px}
+  .unis__list{font-family:var(--serif);font-weight:300;font-size:clamp(22px,2.4vw,30px);line-height:1.4;color:var(--ink-2);max-width:48ch;margin:0;text-wrap:pretty}
+
+  /* Footer CTA */
+  .cta{padding:80px 0 140px;border-top:1px solid var(--hair)}
+  .cta__inner{display:flex;align-items:baseline;justify-content:space-between;gap:48px;flex-wrap:wrap}
+  .cta__text{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(24px,2.6vw,34px);line-height:1.3;color:var(--ink);max-width:32ch}
+  .cta__link{font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:0.04em;color:var(--ink);padding:18px 0;border-bottom:1px solid var(--ink);transition:all .22s var(--ease);white-space:nowrap}
+  .cta__link:hover{color:var(--teal-deep);border-color:var(--teal-deep);gap:14px}
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.is-in{opacity:1;transform:translateY(0)}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .divider::after{animation:none}
+  }
+
+  /* Filter transitions */
+  .moment.is-hiding{opacity:0;transform:translateY(8px);pointer-events:none}
+  .moment.is-hidden{display:none}
+
+  @media (max-width: 960px){
+    .wrap{padding:0 24px}
+    .pa-sitemenu{padding:16px 24px}
+    .head{padding:140px 0 64px}
+    .strip{grid-template-columns:repeat(2,1fr);gap:24px}
+    .moment{padding:72px 0}
+    .moment__inner{grid-template-columns:1fr;gap:48px}
+    .moment__left{position:static}
+    .visual{aspect-ratio:4/3}
+    .visual__quote{font-size:20px;left:28px;right:28px;top:28px}
+    .visual__caption{left:28px;right:28px;bottom:28px}
+    .capital{padding:96px 0}
+    .cta__inner{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<!-- Site menu (mock) -->
+<header class="pa-sitemenu">
+  <a class="pa-sitemenu__brand" href="#" aria-label="Proto Axiom — home">
+    <img class="pa-sitemenu__logo" src="assets/proto-axiom-logo.svg" alt="Proto Axiom" />
+  </a>
+  <button class="pa-sitemenu__btn" type="button">
+    <span class="pa-sitemenu__bars"><span></span><span></span><span></span></span>
+    <span>Menu</span>
+  </button>
+</header>
+
+<main>
+
+  <!-- ============ Page head ============ -->
+  <section class="head">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">
+          <span class="num">i</span>
+          <span>Portfolio</span>
+          <span class="dot"></span>
+          <span>8 companies</span>
+        </div>
+        <h1 class="head__h">Scientific breakthroughs, <span class="em">translated.</span></h1>
+        <p class="head__lead">Eight Australian biotech companies — seven of them formed with Proto Axiom as founding investor. Sourced from six universities and the public health system. Three are approaching clinical trials.</p>
+      </div>
+
+      <ul class="strip reveal">
+        <li><span class="strip__val">8</span><span class="strip__lbl">Companies built</span></li>
+        <li><span class="strip__val">6</span><span class="strip__lbl">Universities</span></li>
+        <li><span class="strip__val">3</span><span class="strip__lbl">Approaching clinical</span></li>
+        <li><span class="strip__val">A$45M</span><span class="strip__lbl">Deployed</span></li>
+        <li><span class="strip__val">2021–<span style="font-family:var(--mono);font-size:24px;letter-spacing:0">26</span></span><span class="strip__lbl">Active vintage</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ Wayfinding ============ -->
+  <div class="wayfind">
+    <div class="wrap">
+      <div class="wayfind__row" id="filters">
+        <span class="wayfind__lbl">Sector</span>
+        <button class="pill is-active" data-filter="all">All</button>
+        <button class="pill" data-filter="Therapeutics">Therapeutics</button>
+        <button class="pill" data-filter="Cell therapy">Cell therapy</button>
+        <button class="pill" data-filter="Diagnostics">Diagnostics</button>
+        <button class="pill" data-filter="Women's health">Women's health</button>
+        <button class="pill" data-filter="Fertility">Fertility</button>
+        <button class="pill" data-filter="Bioprocessing">Bioprocessing</button>
+        <span class="wayfind__sep"></span>
+        <span class="wayfind__lbl" style="margin-left:0">Relationship</span>
+        <div class="wayfind__toggle" id="reltoggle">
+          <button class="is-active" data-rel="all">All</button>
+          <button data-rel="founding-investor">Founding investor</button>
+          <button data-rel="venture-stake">Venture stake</button>
+        </div>
+      </div>
+      <div class="counter">
+        <span><span class="counter__n">Showing</span> &nbsp;<span id="count">8</span> of 8 companies</span>
+        <span>Founding-investor first · year founded ascending</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Sequence ============ -->
+  <section class="moments" id="moments">
+    <!-- moments injected by JS to keep markup tidy -->
+  </section>
+
+  <!-- ============ Capital ============ -->
+  <section class="capital reveal">
+    <div class="wrap">
+      <div class="capital__inner">
+        <div class="capital__eyebrow">Capital deployment</div>
+        <h2 class="capital__h">A$45M committed across the portfolio. <span class="em">Capital is permanent — milestone-gated, recycled into companies as they hit gates.</span></h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Universities ============ -->
+  <section class="unis reveal">
+    <div class="wrap">
+      <div class="unis__lbl">Sourced with</div>
+      <p class="unis__list">University of Sydney, UNSW Sydney, Monash University, Griffith University, ANZAC Research Institute, Sydney Local Health District.</p>
+    </div>
+  </section>
+
+  <!-- ============ Footer CTA ============ -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta__inner">
+        <p class="cta__text">Researcher with a translational program?</p>
+        <a class="cta__link" href="/applications/challenger">Apply to Challenger Summit &nbsp;→</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ============ Data (mirrors apps/proto/src/data/site.ts portfolio array) ============
+  const portfolio = [
+    {slug:'endo-axiom',name:'Endo Axiom',sector:'Therapeutics',sectorTags:['Therapeutics'],modality:'Oral insulin · Nanotechnology',
+      tagline:'A first-in-class oral insulin platform using liver-targeting nanotechnology — addressing a multi-billion-dollar diabetes market with no currently approved oral product.',
+      origin:'University of Sydney · ANZAC Research Institute',yearFounded:2023,stage:'Preclinical · IND-enabling',
+      relationship:'founding-investor',clinical:true,
+      quote:'Insulin in a pill, ten years from bench to first-in-human.',accent:'#0e6b6b'},
+    {slug:'swan-genomics',name:'SWAN Genomics',sector:'Diagnostics',sectorTags:['Diagnostics'],modality:'Plasmonic nanoantenna · DNA sequencing',
+      tagline:'Single-molecule DNA sequencing without the trade-offs between accuracy, read length, cost and speed.',
+      origin:'UNSW Sydney',yearFounded:2023,stage:'Mid Gate 2 · Series A in market',
+      relationship:'founding-investor',clinical:false,
+      quote:'A new way to read the molecule. Built in Sydney.',accent:'#1a3a5c'},
+    {slug:'jumpstart-fertility',name:'JumpStart Fertility',sector:'Fertility',sectorTags:['Fertility',"Women's health"],modality:'NAD+ platform · IVF media',
+      tagline:'NAD+ technology that modulates cellular energy and ageing biology — with IVF laboratory media as the lead clinical and commercial application.',
+      origin:'UNSW Sydney · Re-domiciled from US',yearFounded:2025,stage:'Gate 2 / early Gate 3',
+      relationship:'founding-investor',clinical:true,
+      quote:'Better embryos, by way of cellular energy.',accent:'#8a4a55'},
+    {slug:'onyx-axiom',name:'Onyx Axiom',sector:'Therapeutics',sectorTags:['Therapeutics'],modality:'Topical antifungal · Liquid-crystal delivery',
+      tagline:'A next-generation topical onychomycosis treatment — combining the safety of topical therapy with the efficacy of oral drugs.',
+      origin:'Melbourne',yearFounded:2025,stage:'Advanced Gate 2 · Phase IIb',
+      relationship:'founding-investor',clinical:true,
+      quote:'Phase IIb under way. Topical efficacy, oral-grade results.',accent:'#1f1f1f'},
+    {slug:'flo-axiom',name:'Flo Axiom',sector:'Bioprocessing',sectorTags:['Bioprocessing',"Women's health"],modality:'Downstream purification · Biologics manufacturing',
+      tagline:'Novel downstream purification materials and workflows for biologics manufacturing — a capital-efficient enabling platform.',
+      origin:'Griffith University',yearFounded:2026,stage:'Gate 1 · Benchmarking',
+      relationship:'founding-investor',clinical:false,
+      quote:'A bottleneck in biologics, addressed onshore.',accent:'#2c5e4a'},
+    {slug:'advancell',name:'AdvanCell',sector:'Cell therapy',sectorTags:['Cell therapy','Therapeutics'],modality:'Targeted alpha therapy · Lead-212',
+      tagline:'Clinical-stage radiopharmaceuticals using lead-212 alpha particles for cancers with poor existing standards of care.',
+      origin:'Sydney, Australia',yearFounded:2024,stage:'Phase 2 expansion · commercial scale-up',
+      relationship:'venture-stake',clinical:true,
+      quote:'80% PSA50 response. ESMO 2025.',accent:'#0d4d6b'},
+    {slug:'herikin',name:'Herikin',sector:'Therapeutics',sectorTags:['Therapeutics'],modality:'RNA printing · Rare disease',
+      tagline:'A desktop RNA printer enabling rapid, distributed production of RNA for research and rare-disease therapeutic applications.',
+      origin:'Monash University',yearFounded:2024,stage:'MVP development',
+      relationship:'venture-stake',clinical:false,
+      quote:'RNA, on demand, at the bench.',accent:'#5a3d8a'},
+    {slug:'cellutech',name:'Cellutech',sector:'Cell therapy',sectorTags:['Cell therapy','Bioprocessing'],modality:'AI soil-microbe · Biomanufacturing',
+      tagline:'A biomanufacturing platform now leading with an AI soil-microbe product to reduce reliance on imported fertilisers.',
+      origin:'UNSW Sydney · B10x',yearFounded:2024,stage:'Pilot field trials',
+      relationship:'venture-stake',clinical:false,
+      quote:'Sovereign fertiliser, made by microbes.',accent:'#3a5a2c'}
+  ];
+
+  // Sort: founding investor first, then venture; within each, by year founded asc.
+  portfolio.sort((a,b)=>{
+    const r=x=>x.relationship==='founding-investor'?0:1;
+    return r(a)!==r(b) ? r(a)-r(b) : a.yearFounded-b.yearFounded;
+  });
+
+  // Helix mark for visual block
+  const helixSvg = `<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+    ${Array.from({length:14}).map((_,i)=>{
+      const t=i/13, y=20+t*200; const a=t*Math.PI*4;
+      const x1=100+Math.cos(a)*42, x2=100-Math.cos(a)*42;
+      return `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" opacity="${0.35+0.5*Math.abs(Math.cos(a))}"/>`;
+    }).join('')}
+    ${Array.from({length:60}).map((_,i)=>{
+      const t=i/59,y=20+t*200,a=t*Math.PI*4;
+      const x1=100+Math.cos(a)*42, x2=100-Math.cos(a)*42;
+      return `<circle cx="${x1}" cy="${y}" r="1.4"/><circle cx="${x2}" cy="${y}" r="1.4"/>`;
+    }).join('')}
+  </svg>`;
+
+  // ============ Render moments ============
+  const moments = document.getElementById('moments');
+  portfolio.forEach((p,i)=>{
+    const tinted = i%2===1;
+    const idx = String(i+1).padStart(2,'0');
+    const sectorTags = p.sectorTags.join(' · ');
+    const relLabel = p.relationship==='founding-investor'?'Created with Proto Axiom':'Venture stake';
+    const relClass = p.relationship==='founding-investor'?'badge--founding':'badge--venture';
+
+    const visualInk = tinted;
+    const bg = tinted ? `background:${p.accent}11;` : `background:linear-gradient(180deg, ${p.accent} 0%, ${shade(p.accent,-18)} 100%);`;
+
+    const html = `
+      <div class="divider" aria-hidden="true"></div>
+      <article class="moment ${tinted?'is-tinted':''} reveal" data-sector='${JSON.stringify(p.sectorTags)}' data-rel="${p.relationship}">
+        <div class="wrap">
+          <div class="moment__inner">
+            <div class="moment__left">
+              <div class="moment__idx"><span>${idx} / 08</span><span class="bar"></span><span>${p.relationship==='founding-investor'?'Founding':'Venture'}</span></div>
+              <div class="moment__sector">${sectorTags}</div>
+              <h2 class="moment__name">${p.name}</h2>
+              <p class="moment__tagline">${p.tagline}</p>
+
+              <div class="moment__badges">
+                <span class="badge ${relClass}">${relLabel}</span>
+                ${p.clinical?'<span class="badge badge--clinical">Approaching clinical</span>':''}
+              </div>
+
+              <dl class="moment__meta">
+                <div class="moment__row"><dt>Founded</dt><dd><span class="mono">${p.yearFounded}</span></dd></div>
+                <div class="moment__row"><dt>Origin</dt><dd>${p.origin}</dd></div>
+                <div class="moment__row"><dt>Stage</dt><dd>${p.stage}</dd></div>
+                <div class="moment__row"><dt>Modality</dt><dd>${p.modality}</dd></div>
+              </dl>
+
+              <a class="moment__cta" href="/portfolio/${p.slug}">Read the full company brief <span class="arr">→</span></a>
+            </div>
+
+            <div class="moment__right">
+              <div class="visual ${tinted?'visual--tinted':''}" style="${bg}">
+                <span class="visual__chip">${idx} · ${p.name}</span>
+                <div class="visual__shape" style="color:${visualInk?p.accent:'#fff'}">${helixSvg}</div>
+                <p class="visual__quote ${visualInk?'visual__quote--ink':''}">&ldquo;${p.quote}&rdquo;</p>
+                <div class="visual__caption ${visualInk?'visual__caption--ink':''}">
+                  <span>${p.modality}</span>
+                  <span>${p.yearFounded}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+    moments.insertAdjacentHTML('beforeend', html);
+  });
+
+  function shade(hex,p){
+    const n=parseInt(hex.slice(1),16); let r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+    r=Math.max(0,Math.min(255,r+p)); g=Math.max(0,Math.min(255,g+p)); b=Math.max(0,Math.min(255,b+p));
+    return '#'+((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+  }
+
+  // ============ Filtering ============
+  const state = {sector:'all', rel:'all'};
+  const countEl = document.getElementById('count');
+
+  function applyFilters(){
+    const items = document.querySelectorAll('.moment');
+    let n=0;
+    items.forEach(el=>{
+      const tags = JSON.parse(el.dataset.sector);
+      const rel = el.dataset.rel;
+      const okS = state.sector==='all' || tags.includes(state.sector);
+      const okR = state.rel==='all' || rel===state.rel;
+      const ok = okS && okR;
+      el.classList.toggle('is-hiding', !ok);
+      if(ok) n++;
+      // hide divider above hidden moments
+      const div = el.previousElementSibling;
+      if(div && div.classList.contains('divider')) div.style.display = ok ? '' : 'none';
+    });
+    setTimeout(()=>{
+      items.forEach(el=>{
+        if(el.classList.contains('is-hiding')) el.classList.add('is-hidden');
+      });
+    },220);
+    setTimeout(()=>{
+      items.forEach(el=>{
+        if(!el.classList.contains('is-hiding')) el.classList.remove('is-hidden');
+      });
+    },230);
+    countEl.textContent = n;
+  }
+
+  // sector pills
+  document.querySelectorAll('#filters .pill').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#filters .pill').forEach(b=>b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      // remove old hidden state for transition
+      document.querySelectorAll('.moment').forEach(el=>el.classList.remove('is-hidden'));
+      state.sector = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+  // relationship toggle
+  document.querySelectorAll('#reltoggle button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#reltoggle button').forEach(b=>b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.querySelectorAll('.moment').forEach(el=>el.classList.remove('is-hidden'));
+      state.rel = btn.dataset.rel;
+      applyFilters();
+    });
+  });
+
+  // ============ Reveal on scroll ============
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }});
+  },{rootMargin:'0px 0px -10% 0px',threshold:0.05});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
