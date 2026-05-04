@@ -1,60 +1,333 @@
 ---
+/**
+ * /portfolio — overview page.
+ *
+ * Editorial sequence of eight company "moments" with sector + relationship
+ * filtering. Sourced from /Portfolio Overview Pages/ design handoff
+ * (commissioned 2026-05-04).
+ *
+ * Visual: each moment alternates between a tinted almond block and a dark
+ * accent-coloured block, with a quiet helix shape and a one-line quote.
+ * Filtering is purely client-side; data lives in apps/proto/src/data/site.ts
+ * (extended with quote / accent / clinical / sectorTags fields for this page).
+ *
+ * Pass `noHelix` to BaseLayout: each visual block carries its own helix mark,
+ * so the ambient watermark would compete.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '@axiom/ui/portfolio-overview.css';
 import { portfolio } from '../data/site';
 
-// Sort: founding investor first, then venture stake; then by year founded asc.
+// Sort: founding investor first, then venture; within each, by year asc.
 const sorted = [...portfolio].sort((a, b) => {
   const r = (x: typeof a) => (x.relationship === 'founding-investor' ? 0 : 1);
   if (r(a) !== r(b)) return r(a) - r(b);
   return a.yearFounded - b.yearFounded;
 });
 
+const total = sorted.length;
 const founding = sorted.filter((p) => p.relationship === 'founding-investor').length;
-const venture = sorted.length - founding;
+const universities = 6;       // de-duped count from the company origins
+const approachingClinical = sorted.filter((p) => p.clinical).length;
+
+// Tone-darken a hex color (-18 ≈ -7% brightness, mirrors the prototype's shade()).
+function shade(hex: string, delta: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  let r = (n >> 16) & 255;
+  let g = (n >> 8) & 255;
+  let b = n & 255;
+  r = Math.max(0, Math.min(255, r + delta));
+  g = Math.max(0, Math.min(255, g + delta));
+  b = Math.max(0, Math.min(255, b + delta));
+  return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+}
+
+// Static helix SVG for visual blocks — computed server-side once.
+function buildHelix(): string {
+  const lines: string[] = [];
+  const dots: string[] = [];
+  for (let i = 0; i < 14; i++) {
+    const t = i / 13;
+    const y = 20 + t * 200;
+    const a = t * Math.PI * 4;
+    const x1 = 100 + Math.cos(a) * 42;
+    const x2 = 100 - Math.cos(a) * 42;
+    const opacity = 0.35 + 0.5 * Math.abs(Math.cos(a));
+    lines.push(`<line x1="${x1.toFixed(2)}" y1="${y.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y.toFixed(2)}" opacity="${opacity.toFixed(3)}"/>`);
+  }
+  for (let i = 0; i < 60; i++) {
+    const t = i / 59;
+    const y = 20 + t * 200;
+    const a = t * Math.PI * 4;
+    const x1 = 100 + Math.cos(a) * 42;
+    const x2 = 100 - Math.cos(a) * 42;
+    dots.push(`<circle cx="${x1.toFixed(2)}" cy="${y.toFixed(2)}" r="1.4"/>`);
+    dots.push(`<circle cx="${x2.toFixed(2)}" cy="${y.toFixed(2)}" r="1.4"/>`);
+  }
+  return `<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">${lines.join('')}${dots.join('')}</svg>`;
+}
+const helixSvg = buildHelix();
+
+// Sector filter set — stable order chosen for editorial flow, not alphabetical.
+const sectors = ['Therapeutics', 'Cell therapy', 'Diagnostics', "Women's health", 'Fertility', 'Bioprocessing'];
 ---
-<BaseLayout title="Portfolio | Proto Axiom" active="portfolio">
-  <section class="pa-section pa-section--tight pa-section--white">
-    <div class="pa-wrap">
-      <div class="pa-page-head">
-        <div>
-          <div class="pa-eyebrow">Portfolio · {sorted.length} companies</div>
-          <h1 class="pa-page-head__h">Scientific breakthroughs, translated.</h1>
+
+<BaseLayout
+  title="Portfolio | Proto Axiom"
+  description="Eight Australian biotech companies — seven created with Proto Axiom as founding investor. Sourced from six universities and the public health system. Three approaching clinical trials."
+  active="portfolio"
+  noHelix
+>
+  <div class="po">
+    <!-- ============ Page head ============ -->
+    <section class="head">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="eyebrow">
+            <span class="num">i</span>
+            <span>Portfolio</span>
+            <span class="dot"></span>
+            <span>{total} companies</span>
+          </div>
+          <h1 class="head__h">Scientific breakthroughs, <span class="em">translated.</span></h1>
+          <p class="head__lead">
+            {total} Australian biotech companies — {founding} of them formed with Proto Axiom as founding investor.
+            Sourced from {universities} universities and the public health system.
+            {approachingClinical} are approaching clinical trials.
+          </p>
         </div>
-        <p class="pa-page-head__lead">
-          {founding} companies created with Proto Axiom as founding investor, plus {venture} venture-stage investment{venture === 1 ? '' : 's'}.
-          Sourced from Australia's leading research institutions across therapeutics, diagnostics, cell therapy and bioprocessing.
+
+        <ul class="strip reveal">
+          <li><span class="strip__val">{total}</span><span class="strip__lbl">Companies built</span></li>
+          <li><span class="strip__val">{universities}</span><span class="strip__lbl">Universities</span></li>
+          <li><span class="strip__val">{approachingClinical}</span><span class="strip__lbl">Approaching clinical</span></li>
+          <li><span class="strip__val">A$45M</span><span class="strip__lbl">Deployed</span></li>
+          <li><span class="strip__val">2021–26</span><span class="strip__lbl">Active vintage</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Wayfinding ============ -->
+    <div class="wayfind">
+      <div class="wrap">
+        <div class="wayfind__row" id="po-filters">
+          <span class="wayfind__lbl">Sector</span>
+          <button class="pill is-active" data-filter="all" type="button">All</button>
+          {sectors.map((s) => (
+            <button class="pill" data-filter={s} type="button">{s}</button>
+          ))}
+          <span class="wayfind__sep"></span>
+          <span class="wayfind__lbl" style="margin-left: 0;">Relationship</span>
+          <div class="wayfind__toggle" id="po-reltoggle">
+            <button class="is-active" data-rel="all" type="button">All</button>
+            <button data-rel="founding-investor" type="button">Founding investor</button>
+            <button data-rel="venture-stake" type="button">Venture stake</button>
+          </div>
+        </div>
+        <div class="counter">
+          <span><span class="counter__n">Showing</span> &nbsp;<span id="po-count">{total}</span> of {total} companies</span>
+          <span>Founding-investor first · year founded ascending</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ Sequence of company moments ============ -->
+    <section class="moments" id="po-moments">
+      {sorted.map((p, i) => {
+        const tinted = i % 2 === 1;
+        const idx = String(i + 1).padStart(2, '0');
+        const tot = String(total).padStart(2, '0');
+        const tags = p.sectorTags ?? [p.sector];
+        const sectorLabel = tags.join(' · ');
+        const relLabel = p.relationship === 'founding-investor' ? 'Created with Proto Axiom' : 'Venture stake';
+        const relClass = p.relationship === 'founding-investor' ? 'badge--founding' : 'badge--venture';
+        const relWord = p.relationship === 'founding-investor' ? 'Founding' : 'Venture';
+        const accent = p.accent;
+        const visualStyle = tinted
+          ? `background: ${accent}11;`
+          : `background: linear-gradient(180deg, ${accent} 0%, ${shade(accent, -18)} 100%);`;
+        const visualInkStyle = tinted ? `color: ${accent};` : `color: #fff;`;
+        const tagsAttr = JSON.stringify(tags);
+        return (
+          <>
+            <div class="divider" aria-hidden="true"></div>
+            <article
+              class:list={['moment', tinted && 'is-tinted', 'reveal']}
+              data-sector={tagsAttr}
+              data-rel={p.relationship}
+            >
+              <div class="wrap">
+                <div class="moment__inner">
+                  <div class="moment__left">
+                    <div class="moment__idx">
+                      <span>{idx} / {tot}</span>
+                      <span class="bar"></span>
+                      <span>{relWord}</span>
+                    </div>
+                    <div class="moment__sector">{sectorLabel}</div>
+                    <h2 class="moment__name">{p.name}</h2>
+                    <p class="moment__tagline">{p.tagline}</p>
+                    <div class="moment__badges">
+                      <span class={`badge ${relClass}`}>{relLabel}</span>
+                      {p.clinical && <span class="badge badge--clinical">Approaching clinical</span>}
+                    </div>
+                    <dl class="moment__meta">
+                      <div class="moment__row"><dt>Founded</dt><dd><span class="mono">{p.yearFounded}</span></dd></div>
+                      <div class="moment__row"><dt>Origin</dt><dd>{p.origin}</dd></div>
+                      <div class="moment__row"><dt>Stage</dt><dd>{p.stage}</dd></div>
+                      <div class="moment__row"><dt>Modality</dt><dd>{p.modality}</dd></div>
+                    </dl>
+                    <a class="moment__cta" href={`/portfolio/${p.slug}`}>
+                      Read the full company brief
+                      <span class="arr">→</span>
+                    </a>
+                  </div>
+
+                  <div class="moment__right">
+                    <div class:list={['visual', tinted && 'visual--tinted']} style={visualStyle}>
+                      <span class="visual__chip">{idx} · {p.name}</span>
+                      <div class="visual__shape" style={visualInkStyle} set:html={helixSvg}></div>
+                      <p class:list={['visual__quote', tinted && 'visual__quote--ink']}>&ldquo;{p.quote}&rdquo;</p>
+                      <div class:list={['visual__caption', tinted && 'visual__caption--ink']}>
+                        <span>{p.modality}</span>
+                        <span>{p.yearFounded}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </>
+        );
+      })}
+    </section>
+
+    <!-- ============ Capital block ============ -->
+    <section class="capital reveal">
+      <div class="wrap">
+        <div class="capital__inner">
+          <div class="capital__eyebrow">Capital deployment</div>
+          <h2 class="capital__h">
+            A$45M committed across the portfolio.
+            <span class="em">Capital is permanent — milestone-gated, recycled into companies as they hit gates.</span>
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Universities ============ -->
+    <section class="unis reveal">
+      <div class="wrap">
+        <div class="unis__lbl">Sourced with</div>
+        <p class="unis__list">
+          University of Sydney, UNSW Sydney, Monash University, Griffith University, ANZAC Research Institute, Sydney Local Health District.
         </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="pa-section pa-section--white" style="padding-top: 0;">
-    <div class="pa-wrap">
-      <div class="pa-portfolio">
-        {sorted.map((p) => (
-          <a class="pa-portfolio__card" href={`/portfolio/${p.slug}`}>
-            <div class="pa-portfolio__top">
-              <img class="pa-portfolio__logo" src={p.logo} alt={p.name} />
-              <div class="pa-portfolio__year">{p.yearFounded}</div>
-            </div>
-            <div class="pa-portfolio__sector">{p.sector} · {p.modality}</div>
-            <h3 class="pa-portfolio__name">{p.name}</h3>
-            <p class="pa-portfolio__tagline">{p.tagline}</p>
-            <dl class="pa-portfolio__stats">
-              <div><dt>Origin</dt><dd>{p.origin}</dd></div>
-              <div><dt>Stage</dt><dd>{p.stage}</dd></div>
-              <div>
-                <dt>Relationship</dt>
-                <dd>{p.relationship === 'founding-investor' ? 'Created with Proto Axiom' : 'Venture stake'}</dd>
-              </div>
-            </dl>
-            <div class="pa-portfolio__foot">
-              <span class="pa-portfolio__stage">{p.relationship === 'founding-investor' ? 'Founding investor' : 'Venture'}</span>
-              <span class="pa-portfolio__more">View →</span>
-            </div>
-          </a>
-        ))}
+    <!-- ============ Footer CTA ============ -->
+    <section class="cta">
+      <div class="wrap">
+        <div class="cta__inner">
+          <p class="cta__text">Researcher with a translational program?</p>
+          <a class="cta__link" href="/applications/challenger">Apply to Challenger Summit &nbsp;→</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </BaseLayout>
+
+<script>
+  // ============ Filtering + reveal-on-scroll for the portfolio overview page.
+  // Lives at apps/proto/src/pages/portfolio.astro; fires once on DOMContentLoaded
+  // and is idempotent against partial-page re-renders.
+  (() => {
+    if ((window as any).__paPortfolioOverviewInit) return;
+    (window as any).__paPortfolioOverviewInit = true;
+
+    function init() {
+      const filtersRoot = document.getElementById('po-filters');
+      const moments = document.querySelectorAll<HTMLElement>('.po .moment');
+      const countEl = document.getElementById('po-count');
+      if (!filtersRoot || !moments.length) return;
+
+      const state = { sector: 'all', rel: 'all' };
+
+      function applyFilters() {
+        let n = 0;
+        moments.forEach((el) => {
+          const tagsRaw = el.dataset.sector || '[]';
+          let tags: string[] = [];
+          try { tags = JSON.parse(tagsRaw); } catch {}
+          const rel = el.dataset.rel || '';
+          const okS = state.sector === 'all' || tags.includes(state.sector);
+          const okR = state.rel === 'all' || rel === state.rel;
+          const ok = okS && okR;
+          el.classList.toggle('is-hiding', !ok);
+          if (ok) n++;
+          // hide divider above hidden moments for clean spacing
+          const div = el.previousElementSibling as HTMLElement | null;
+          if (div && div.classList.contains('divider')) {
+            div.style.display = ok ? '' : 'none';
+          }
+        });
+        // After fade-out, hard-hide so layout collapses
+        setTimeout(() => {
+          moments.forEach((el) => {
+            if (el.classList.contains('is-hiding')) el.classList.add('is-hidden');
+            else el.classList.remove('is-hidden');
+          });
+        }, 240);
+        if (countEl) countEl.textContent = String(n);
+      }
+
+      // Sector pills
+      filtersRoot.querySelectorAll<HTMLButtonElement>('.pill').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          filtersRoot.querySelectorAll('.pill').forEach((b) => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          moments.forEach((el) => el.classList.remove('is-hidden'));
+          state.sector = btn.dataset.filter || 'all';
+          applyFilters();
+        });
+      });
+
+      // Relationship toggle
+      const reltoggle = document.getElementById('po-reltoggle');
+      if (reltoggle) {
+        reltoggle.querySelectorAll<HTMLButtonElement>('button').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            reltoggle.querySelectorAll('button').forEach((b) => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            moments.forEach((el) => el.classList.remove('is-hidden'));
+            state.rel = btn.dataset.rel || 'all';
+            applyFilters();
+          });
+        });
+      }
+
+      // Reveal-on-scroll
+      const reveals = document.querySelectorAll('.po .reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              (e.target as HTMLElement).classList.add('is-in');
+              io.unobserve(e.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+        reveals.forEach((el) => io.observe(el));
+      } else {
+        // Fallback: just show everything
+        reveals.forEach((el) => el.classList.add('is-in'));
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>

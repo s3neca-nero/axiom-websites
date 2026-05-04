@@ -9,6 +9,7 @@
     "./design-system.css": "./src/design-system.css",
     "./challenger.css": "./src/challenger.css",
     "./portfolio-detail.css": "./src/portfolio-detail.css",
+    "./portfolio-overview.css": "./src/portfolio-overview.css",
     "./stats-curve.css": "./src/stats-curve.css",
     "./thesis.css": "./src/thesis.css",
     "./components/*": "./src/components/*"

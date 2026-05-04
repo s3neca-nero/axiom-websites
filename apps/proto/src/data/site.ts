@@ -70,6 +70,11 @@ export type PortfolioItem = {
     partners: string[];
   };
   news: PortfolioNews[];
+  // Portfolio-overview design (added 2026-05-04)
+  quote: string;
+  accent: string;
+  clinical?: boolean;
+  sectorTags?: string[];
 };
 
 export const portfolio: PortfolioItem[] = [
@@ -111,6 +116,10 @@ export const portfolio: PortfolioItem[] = [
       { headline: "Endo Axiom tackles one of diabetes' biggest challenges: needle‑free insulin", outlet: 'MTPConnect',     date: '14 Apr 2023', url: '#' },
       { headline: 'Australian startup Endo Axiom advances oral insulin platform', outlet: 'BioSpectrum Asia',              date: '05 Apr 2023', url: '#' },
     ],
+    quote: 'Insulin in a pill, ten years from bench to first-in-human.',
+    accent: '#0e6b6b',
+    clinical: true,
+    sectorTags: ['Therapeutics']
   },
   {
     slug: 'advancell',
@@ -147,6 +156,10 @@ export const portfolio: PortfolioItem[] = [
       { headline: 'Eli Lilly expands strategic collaboration with AdvanCell', outlet: 'AdvanCell press release', date: '12 Feb 2025', url: '#' },
       { headline: 'AdvanCell closes Series C financing led by Sanofi', outlet: 'BioCentury',              date: '03 Jul 2025', url: '#' },
     ],
+    quote: '80% PSA50 response. ESMO 2025.',
+    accent: '#0d4d6b',
+    clinical: true,
+    sectorTags: ['Cell therapy', 'Therapeutics']
   },
   {
     slug: 'onyx-axiom',
@@ -179,6 +192,10 @@ export const portfolio: PortfolioItem[] = [
       partners: [],
     },
     news: [],
+    quote: 'Phase IIb under way. Topical efficacy, oral-grade results.',
+    accent: '#1f1f1f',
+    clinical: true,
+    sectorTags: ['Therapeutics']
   },
   {
     slug: 'swan-genomics',
@@ -212,6 +229,10 @@ export const portfolio: PortfolioItem[] = [
       partners: ['UNSW Sydney', 'In‑Q‑Tel (US)', 'Salus VC', 'Ki Tua Fund', 'Investible', 'EGB Capital'],
     },
     news: [],
+    quote: 'A new way to read the molecule. Built in Sydney.',
+    accent: '#1a3a5c',
+    clinical: false,
+    sectorTags: ['Diagnostics']
   },
   {
     slug: 'jumpstart-fertility',
@@ -245,6 +266,10 @@ export const portfolio: PortfolioItem[] = [
       partners: ['Genea Biomedx (Sydney) — GMP manufacturing', 'Case Bioscience (Melbourne) — formulation', 'VU Venture Partners', 'UNSW'],
     },
     news: [],
+    quote: 'Better embryos, by way of cellular energy.',
+    accent: '#8a4a55',
+    clinical: true,
+    sectorTags: ['Fertility', 'Women\'s health']
   },
   {
     slug: 'flo-axiom',
@@ -277,6 +302,10 @@ export const portfolio: PortfolioItem[] = [
       partners: ['Griffith University'],
     },
     news: [],
+    quote: 'A bottleneck in biologics, addressed onshore.',
+    accent: '#2c5e4a',
+    clinical: false,
+    sectorTags: ['Bioprocessing', 'Women\'s health']
   },
   {
     slug: 'herikin',
@@ -307,6 +336,10 @@ export const portfolio: PortfolioItem[] = [
       partners: ['Monash University', 'Bio 10x'],
     },
     news: [],
+    quote: 'RNA, on demand, at the bench.',
+    accent: '#5a3d8a',
+    clinical: false,
+    sectorTags: ['Therapeutics']
   },
   {
     slug: 'cellutech',
@@ -342,6 +375,10 @@ export const portfolio: PortfolioItem[] = [
       partners: ['UNSW Founders B10x', 'Australian agricultural partners (pilot field trials)'],
     },
     news: [],
+    quote: 'Sovereign fertiliser, made by microbes.',
+    accent: '#3a5a2c',
+    clinical: false,
+    sectorTags: ['Cell therapy', 'Bioprocessing']
   },
 ];
 // Team data moved to src/content/team/*.md (Astro content collection).
