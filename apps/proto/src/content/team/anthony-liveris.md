@@ -22,8 +22,8 @@ pullQuote:
   text: "The ambition is straightforward: four CSL-scale companies built from Australian science in twenty years. Everything we do is in service of that arithmetic."
   source: "From the 2026 portfolio letter"
 affiliations:
-  - role: "Chair, 2025 inaugural"
-    org: "St Vincent's Curran Foundation · Pitch for Health"
+  - role: "Chair"
+    org: "St Vincent's Discovery & Innovation Fund"
 ---
 
 Anthony Liveris is the Chief Executive Officer of Proto Axiom. He has helped establish the firm as a distinctive company-creation platform, focused on translating breakthrough science into enduring businesses. Under his leadership, Proto Axiom has built companies including Endo Axiom, Onyx Axiom and Flo Axiom, while also incubating ventures including SWAN Genomics and JumpStart Fertility.
