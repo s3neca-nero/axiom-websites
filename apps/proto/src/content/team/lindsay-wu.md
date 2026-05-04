@@ -18,6 +18,7 @@ press:
 affiliations:
   - role: "Director"
     org: "JumpStart Fertility"
+linkedin: "https://www.linkedin.com/in/lindsay-wu-40743394/"
 ---
 
 Lindsay Wu is Proto Axiom's Chief Science Officer. He has held roles such as Scientific Advisor and Chief Scientific Advisor positions at Life Biosciences, Metro Biotech, Jumpstart Fertility, Intravital. He is an NHMRC Research Fellow and is the Head of the Laboratory for Ageing Research at UNSW Sydney. Lindsay has a background in molecular biology, biochemistry and drug development.
