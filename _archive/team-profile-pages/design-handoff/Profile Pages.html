@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profile pages | Proto Axiom (preview)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="team.css" />
+<link rel="stylesheet" href="profile.css" />
+<style>
+  body { margin: 0; background: #fff; }
+  .preview-nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(13,26,46,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+  }
+  .preview-nav__brand { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 18px; color: #0d1a2e; letter-spacing: 0.02em; }
+  .preview-nav__items { display: flex; gap: 32px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #3a4456; }
+  .preview-nav__items a { color: inherit; text-decoration: none; }
+  .preview-nav__items a.active { color: #0d1a2e; font-weight: 500; }
+  .preview-foot { background: #0a1320; color: rgba(255,255,255,0.7); padding: 56px 48px 40px; font-family: 'DM Sans', sans-serif; font-size: 13px; }
+  .preview-foot__brand { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #fff; }
+  /* Variant switcher */
+  .variant-bar {
+    position: fixed; top: 84px; right: 24px; z-index: 60;
+    display: flex; gap: 6px; padding: 6px;
+    background: rgba(255,255,255,0.96); border: 1px solid rgba(13,26,46,0.10);
+    border-radius: 4px; box-shadow: 0 4px 16px rgba(13,26,46,0.06);
+    font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase;
+  }
+  .variant-bar button {
+    border: 0; background: transparent; cursor: pointer;
+    padding: 8px 14px; font: inherit; color: #3a4456;
+    border-radius: 3px;
+  }
+  .variant-bar button.is-active { background: #0d1a2e; color: #fff; }
+  .variant-bar__lbl { padding: 8px 10px 8px 14px; color: #6b7280; }
+</style>
+</head>
+<body>
+
+<nav class="preview-nav">
+  <div class="preview-nav__brand">Proto&nbsp;<b>Axiom</b></div>
+  <div class="preview-nav__items">
+    <a href="#">Home</a><a href="#">Thesis</a><a href="#">Portfolio</a>
+    <a href="Team Page.html" class="active">Team</a><a href="#">News</a><a href="#">Contact</a>
+  </div>
+</nav>
+
+<div class="variant-bar">
+  <span class="variant-bar__lbl">View</span>
+  <button data-variant="editorial" class="is-active">Editorial · Mgmt/Board</button>
+  <button data-variant="directory">Directory · SAB/Strategic</button>
+</div>
+
+<main>
+
+<!-- ============================================================
+     VARIANT A — EDITORIAL (Management / Board)
+     Example: Anthony Liveris
+     ============================================================ -->
+<div class="pf pf--editorial" data-pane="editorial">
+
+  <!-- HERO -->
+  <section class="pf__hero pf__section--white">
+    <div class="pf__wrap">
+
+      <a class="pf__back" href="Team Page.html">
+        <span class="arr">←</span> All team
+      </a>
+
+      <div class="pf__hero-grid">
+        <!-- Left: portrait -->
+        <div class="pf__portrait">
+          <img src="images/team/anthony-liveris.webp" alt="Anthony Liveris" />
+          <div class="pf__portrait-meta">
+            <span class="pf__portrait-frame">5 : 6</span>
+            <span class="pf__portrait-name">A. Liveris</span>
+          </div>
+        </div>
+
+        <!-- Right: name + meta -->
+        <div class="pf__hero-body">
+          <div class="pf__crumbs">
+            <a href="Team Page.html">Team</a>
+            <span class="sep">/</span>
+            <a href="Team Page.html#management">Management</a>
+            <span class="sep">/</span>
+            <span class="cur">Anthony Liveris</span>
+          </div>
+
+          <div class="pf__sect-id">
+            <span class="num">01 / 04</span>
+            <span class="bar"></span>
+            <span class="lbl">Management</span>
+          </div>
+
+          <h1 class="pf__name">Anthony Liveris</h1>
+          <p class="pf__title"><em>Chief Executive Officer · Founder</em></p>
+
+          <p class="pf__hook">
+            Founder and CEO of Proto Axiom. Previously co-founded Applecart, the New York data-and-technology company that attracted a US$100M investment from Blackstone Growth.
+          </p>
+
+          <!-- Fact strip -->
+          <dl class="pf__facts">
+            <div>
+              <dt>Section</dt>
+              <dd>Management · Board</dd>
+            </div>
+            <div>
+              <dt>At Proto Axiom</dt>
+              <dd>Since 2021 · Founder</dd>
+            </div>
+            <div>
+              <dt>Based</dt>
+              <dd>Sydney</dd>
+            </div>
+            <div>
+              <dt>Reach</dt>
+              <dd>AU · US · Asia</dd>
+            </div>
+          </dl>
+
+          <!-- Expertise chips -->
+          <div class="pf__chips">
+            <span class="pf__chip-lbl">Expertise</span>
+            <span class="pf__chip">Founder-operator</span>
+            <span class="pf__chip">Capital markets</span>
+            <span class="pf__chip">Government &amp; policy</span>
+            <span class="pf__chip">Strategy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pf__divider"></div>
+
+  <!-- BIO BODY -->
+  <section class="pf__section pf__section--white">
+    <div class="pf__wrap">
+      <div class="pf__body-grid">
+        <!-- Side rail -->
+        <aside class="pf__rail">
+          <div class="pf__rail-block">
+            <div class="pf__rail-eyebrow">Cross-membership</div>
+            <p class="pf__rail-cross">
+              <em>Also serves on the Board of Proto Axiom.</em>
+            </p>
+          </div>
+          <div class="pf__rail-block">
+            <div class="pf__rail-eyebrow">Press</div>
+            <ul class="pf__rail-list">
+              <li><a href="#">Australian Financial Review · Profile <span class="ext">↗</span></a></li>
+              <li><a href="#">Sky News Business · Interview <span class="ext">↗</span></a></li>
+            </ul>
+          </div>
+          <div class="pf__rail-block">
+            <div class="pf__rail-eyebrow">Connect</div>
+            <ul class="pf__rail-list">
+              <li><a href="#">LinkedIn <span class="ext">↗</span></a></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Long-form bio -->
+        <article class="pf__bio">
+          <div class="pf__bio-eyebrow">Biography</div>
+          <p class="pf__bio-lede">
+            Anthony has spent his career at the intersection of capital markets, technology and Australian industrial policy. Proto Axiom is the application of that experience to biotech — converting world-class Australian science into companies that can stand alongside the best globally.
+          </p>
+          <p>
+            He co-founded Applecart, the New York-headquartered data-and-technology company, which raised a US$100M investment from Blackstone Growth. He served as a Director of Applecart and was instrumental in scaling the platform across North America before returning to Sydney to launch Proto Axiom.
+          </p>
+          <p>
+            At Proto Axiom, Anthony has assembled a permanent-capital holding company structure backed by 33 private investors — including TIME Ventures (Marc Benioff), Ray Dalio, Ajay Banga, Catalio Capital/KKR, Reliance Life Sciences and HOF Capital. He sits on the boards of every Proto Axiom portfolio company and chairs the firm's investment committee.
+          </p>
+          <p>
+            He represents Australia on a number of bilateral and multilateral fora, including as a board member of the Australian American Association and as an advisor to the Australian Government on industrial and innovation policy.
+          </p>
+
+          <!-- Pull-quote -->
+          <blockquote class="pf__pull">
+            <p>
+              We co-create biotech companies with researchers — from first capital and company formation through preclinical milestones to clinical and commercial reality.
+            </p>
+            <footer>From a 2025 portfolio letter</footer>
+          </blockquote>
+
+          <p>
+            Anthony graduated from Sydney Grammar School and holds degrees from the Wharton School and Northwestern University. He is a Director of the Liveris Academy at the University of Queensland and a Trustee of Sydney Grammar School.
+          </p>
+
+          <!-- Selected affiliations -->
+          <div class="pf__affil">
+            <div class="pf__bio-eyebrow">Selected affiliations</div>
+            <ul>
+              <li><span class="role">Director</span> <span class="org">Australian American Association</span></li>
+              <li><span class="role">Trustee</span> <span class="org">Sydney Grammar School</span></li>
+              <li><span class="role">Director</span> <span class="org">Liveris Academy, University of Queensland</span></li>
+              <li><span class="role">Director (across portfolio)</span> <span class="org">Endo Axiom · SWAN Genomics · Onyx · Flo · JumpStart</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- "More from the operating bench" — same section, quiet 3-up -->
+  <section class="pf__section pf__section--almond">
+    <div class="pf__wrap">
+      <div class="pf__more-head">
+        <div class="pf__sect-id">
+          <span class="num">01 / 04</span>
+          <span class="bar"></span>
+          <span class="lbl">Management</span>
+        </div>
+        <h2 class="pf__more-h">More from the <em>operating bench.</em></h2>
+        <a class="pf__more-all" href="Team Page.html">All team →</a>
+      </div>
+
+      <div class="pf__more-grid">
+        <a class="pf__more-card" href="#">
+          <div class="pf__more-photo"><img src="images/team/lindsay-wu.webp" alt="Lindsay Wu" /></div>
+          <h3 class="pf__more-name">Lindsay Wu, PhD</h3>
+          <div class="pf__more-title">Chief Science Officer</div>
+        </a>
+        <a class="pf__more-card" href="#">
+          <div class="pf__more-photo"><img src="images/team/hugh-mcgonagle.webp" alt="Hugh McGonagle" /></div>
+          <h3 class="pf__more-name">Hugh McGonagle</h3>
+          <div class="pf__more-title">Chief Operating Officer</div>
+        </a>
+        <a class="pf__more-card" href="#">
+          <div class="pf__more-photo"><img src="images/team/john-roach.webp" alt="John Roach" /></div>
+          <h3 class="pf__more-name">John Roach</h3>
+          <div class="pf__more-title">Head of Finance</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============================================================
+     VARIANT B — DIRECTORY-DETAIL (SAB / Strategic)
+     Example: Brian Ledwith
+     ============================================================ -->
+<div class="pf pf--directory" data-pane="directory" hidden>
+
+  <section class="pf__hero pf__hero--lean pf__section--white">
+    <div class="pf__wrap">
+      <a class="pf__back" href="Team Page.html">
+        <span class="arr">←</span> All team
+      </a>
+
+      <div class="pf__lean-grid">
+        <div class="pf__portrait pf__portrait--square">
+          <img src="images/team/brian-ledwith.webp" alt="Brian Ledwith" />
+        </div>
+
+        <div class="pf__lean-body">
+          <div class="pf__crumbs">
+            <a href="Team Page.html">Team</a>
+            <span class="sep">/</span>
+            <a href="Team Page.html#sab">Scientific Advisory Board</a>
+            <span class="sep">/</span>
+            <span class="cur">Brian Ledwith</span>
+          </div>
+
+          <div class="pf__sect-id">
+            <span class="num">03 / 04</span>
+            <span class="bar"></span>
+            <span class="lbl">Scientific Advisory Board</span>
+            <span class="chair">Chair</span>
+          </div>
+
+          <h1 class="pf__name">Brian Ledwith, PhD</h1>
+          <p class="pf__title"><em>Chair, Scientific Advisory Board</em></p>
+
+          <p class="pf__institutions">
+            <span class="pf__inst">Merck Research Laboratories <span class="dot"></span> 30+ years</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pf__divider"></div>
+
+  <section class="pf__section pf__section--white">
+    <div class="pf__wrap">
+      <div class="pf__lean-body-grid">
+        <div class="pf__lean-rail">
+          <div class="pf__rail-eyebrow">Areas</div>
+          <ul class="pf__lean-areas">
+            <li>Vaccines</li>
+            <li>Gene therapy</li>
+            <li>Preclinical safety</li>
+            <li>Pharma R&amp;D leadership</li>
+          </ul>
+          <div class="pf__rail-eyebrow" style="margin-top: 32px;">Education</div>
+          <p class="pf__lean-edu">PhD, Molecular Biology<br />Postdoctoral Fellowship, Yale University</p>
+        </div>
+
+        <article class="pf__bio">
+          <div class="pf__bio-eyebrow">Biography</div>
+          <p class="pf__bio-lede">
+            Brian is a senior pharmaceutical R&amp;D executive with more than three decades at Merck Research Laboratories, where he led safety assessment and translational sciences across the company's vaccine and gene-therapy portfolios.
+          </p>
+          <p>
+            He has led preclinical safety programs for more than 40 vaccine candidates, including programs that advanced to licensure across infectious disease and oncology. His group at Merck pioneered approaches to preclinical evaluation of viral-vector and nucleic-acid based therapies, work which has shaped industry-wide regulatory expectations.
+          </p>
+          <p>
+            Since retiring from Merck, Brian has advised early-stage biotechs and academic spin-outs on translational strategy and regulatory positioning. At Proto Axiom, he chairs the Scientific Advisory Board and leads diligence on incoming research across the Challenger Pitch for Health pipeline.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="pf__section pf__section--almond">
+    <div class="pf__wrap">
+      <div class="pf__more-head">
+        <div class="pf__sect-id">
+          <span class="num">03 / 04</span>
+          <span class="bar"></span>
+          <span class="lbl">Scientific Advisory Board</span>
+        </div>
+        <h2 class="pf__more-h">More <em>scientific advisors.</em></h2>
+        <a class="pf__more-all" href="Team Page.html">All team →</a>
+      </div>
+
+      <div class="pf__more-grid pf__more-grid--4">
+        <a class="pf__more-card" href="#">
+          <div class="pf__more-photo"><img src="images/team/sara-althari.png" alt="Sara Althari" /></div>
+          <h3 class="pf__more-name">Sara Althari, PhD</h3>
+          <div class="pf__more-title">Scientific Advisor</div>
+        </a>
+        <a class="pf__more-card" href="#">
+          <div class="pf__more-photo"><img src="images/team/russell-basser.png" alt="Russell Basser" /></div>
+          <h3 class="pf__more-name">Russell Basser, PhD</h3>
+          <div class="pf__more-title">Scientific Advisor</div>
+        </a>
+        <a class="pf__more-card" href="#">
+          <div class="pf__more-photo"><img src="images/team/william-marshall.png" alt="William Marshall" /></div>
+          <h3 class="pf__more-name">William Marshall, MD</h3>
+          <div class="pf__more-title">Scientific Advisor</div>
+        </a>
+        <a class="pf__more-card" href="#">
+          <div class="pf__more-photo"><img src="images/team/michael-sierra.webp" alt="Michael Sierra" /></div>
+          <h3 class="pf__more-name">Michael Sierra, PhD</h3>
+          <div class="pf__more-title">Scientific Advisor</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<footer class="preview-foot">
+  <div class="preview-foot__brand">Proto Axiom</div>
+  <div style="margin-top: 8px; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 14px;">Australian biotech company creation.</div>
+</footer>
+
+<script>
+  // Variant switcher
+  (function(){
+    const buttons = document.querySelectorAll('.variant-bar button');
+    const panes = document.querySelectorAll('[data-pane]');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const v = btn.dataset.variant;
+        buttons.forEach(b => b.classList.toggle('is-active', b === btn));
+        panes.forEach(function(p){
+          if (p.dataset.pane === v) p.removeAttribute('hidden');
+          else p.setAttribute('hidden', '');
+        });
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
