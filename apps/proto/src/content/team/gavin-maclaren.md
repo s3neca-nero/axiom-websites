@@ -10,7 +10,7 @@ chips: ["Legal", "Asia-Pacific", "Sovereign & PE"]
 hook: "20+ years as a lawyer, a decade based in Asia. Named an Innovative Leader in the 2020 FT Innovative Lawyers Awards Asia Pacific."
 linkedin: "https://www.linkedin.com/in/gavinmaclaren/"
 pullQuote:
-  text: "A holding company's job is patience. We do not invest against a fund timer — we invest against a research timeline, and let the science set the pace."
+  text: "A holding company's role is patience and careful allocation. We do not invest against a fund timer — we invest against a research timeline, and let scientific success set the pace."
   source: "From the 2026 board letter"
 ---
 
