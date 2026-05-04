@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News | Proto Axiom — Design preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
+  />
+  <link rel="stylesheet" href="news.css" />
+  <style>
+    /* Stand-in for BaseLayout chrome — only used in this design preview. */
+    html, body { margin: 0; padding: 0; background: #fff; }
+    .preview-nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 56px; z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(13,26,46,0.08);
+      display: flex; align-items: center;
+      padding: 0 clamp(24px, 5vw, 56px);
+      font-family: 'DM Mono', ui-monospace, monospace;
+      font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #3a4456;
+    }
+    .preview-nav__brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 400; font-size: 18px;
+      letter-spacing: 0.02em; text-transform: none;
+      color: #0d1a2e;
+    }
+    .preview-nav__items { margin-left: auto; display: flex; gap: 28px; }
+    .preview-nav__items span { color: #6b7280; }
+    .preview-nav__items .is-active { color: #0d1a2e; }
+    .preview-foot {
+      padding: 64px 56px;
+      background: #0a1320;
+      color: rgba(255,255,255,0.55);
+      font-family: 'DM Mono', ui-monospace, monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    main { padding-top: 0; }
+  </style>
+</head>
+<body>
+
+  <header class="preview-nav" aria-hidden="true">
+    <span class="preview-nav__brand">Proto Axiom</span>
+    <nav class="preview-nav__items">
+      <span>Home</span><span>Thesis</span><span>Portfolio</span><span>Team</span>
+      <span class="is-active">News</span><span>Contact</span>
+    </nav>
+  </header>
+
+  <main>
+    <div class="nx" id="nx-page">
+
+      <!-- ===== HERO ===== -->
+      <section class="hero">
+        <div class="helix-watermark" aria-hidden="true">
+          <svg viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#0d1a2e" stroke-width="1.1" fill="none">
+              <path d="M120,0 C260,100 80,200 220,300 C360,400 80,500 220,600 C360,700 120,750 200,800" />
+              <path d="M280,0 C140,100 320,200 180,300 C40,400 320,500 180,600 C40,700 280,750 200,800" />
+            </g>
+            <g fill="#00B3AB">
+              <circle cx="180" cy="50" r="2.5"/>
+              <circle cx="220" cy="50" r="2.5"/>
+              <circle cx="160" cy="150" r="2.5"/>
+              <circle cx="240" cy="150" r="2.5"/>
+              <circle cx="200" cy="250" r="2.5"/>
+              <circle cx="200" cy="350" r="2.5"/>
+              <circle cx="160" cy="450" r="2.5"/>
+              <circle cx="240" cy="450" r="2.5"/>
+              <circle cx="200" cy="550" r="2.5"/>
+              <circle cx="220" cy="650" r="2.5"/>
+              <circle cx="180" cy="750" r="2.5"/>
+            </g>
+          </svg>
+        </div>
+        <div class="wrap">
+          <div class="hero__eyebrow">
+            <span class="dot"></span>
+            <span>News</span>
+            <span class="num"><em>·</em>&nbsp;<span id="hero-count-1">12</span> items</span>
+          </div>
+          <h1 class="hero__h">What the world has <span class="em">written</span> about us.</h1>
+          <p class="hero__lead">
+            Press, podcasts and firm announcements covering Proto Axiom and the companies we have helped form. A working archive — most recent first, year by year, back to 2021.
+          </p>
+          <ul class="hero__strip">
+            <li>
+              <span class="v"><span id="hero-count-2">12</span></span>
+              <span class="l">Press items</span>
+            </li>
+            <li>
+              <span class="v"><span id="hero-pubs">10</span></span>
+              <span class="l">Publications</span>
+            </li>
+            <li>
+              <span class="v">2021<span class="em">→</span>2026</span>
+              <span class="l">Active vintage</span>
+            </li>
+            <li>
+              <span class="v">Connect</span>
+              <span class="l">Low-frequency updates</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ===== FEATURED ===== -->
+      <section class="featured" id="featured-section">
+        <div class="wrap">
+          <div class="featured__inner" id="featured-inner">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== FILTER RAIL (sticky) ===== -->
+      <div class="filterbar" id="filterbar">
+        <div class="wrap">
+          <div class="filterbar__row">
+            <span class="filterbar__lbl">Filter</span>
+            <button class="pill is-active" data-filter="all">All</button>
+            <button class="pill" data-filter="Press">Press</button>
+            <button class="pill" data-filter="Podcast">Podcast</button>
+            <button class="pill" data-filter="Firm announcement">Firm announcement</button>
+            <span class="filterbar__counter">
+              Showing <span id="counter-shown">12</span> of <span id="counter-total">12</span>
+              &nbsp;<em class="em">· Most recent first</em>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== YEAR-GROUPED SEQUENCE (rendered by JS) ===== -->
+      <div id="years-root"></div>
+
+      <!-- ===== CONNECT CTA ===== -->
+      <section class="connect">
+        <div class="wrap">
+          <div class="connect__inner">
+            <p class="connect__text">Get the next item in your inbox?</p>
+            <a class="connect__link" href="/applications/membership">
+              Subscribe to Proto Axiom Connect <span class="arr">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="preview-foot" aria-hidden="true">
+    Proto Axiom · Sydney · 2021–2026 — design preview, /news
+  </footer>
+
+  <script>
+  /* =====================================================================
+     DATA — the existing 6 items from src/data/site.ts, with the
+     proposed schema additions (`summary`, `featured`) populated for the
+     design preview. Plus 6 invented items (clearly marked) to demonstrate
+     the year-grouped rhythm across 2021–2026. The astro implementation
+     will read directly from data/site.ts.
+
+     IMPORTANT: items marked DESIGN-PREVIEW are placeholders to fill out
+     the rhythm. Real implementation pulls from site.ts.
+     ===================================================================== */
+  const NEWS = [
+    // 2026
+    { date: '14 Mar 2026', source: 'Forbes Australia', kind: 'Press',
+      title: 'Inside the Sydney firm building biotech companies — not just funding them',
+      summary: 'A long-form profile of the Proto Axiom model: permanent capital, milestone-gated tranches and a shared operating bench across eight companies.',
+      featured: true,
+      href: '#',
+      _designPreview: true },
+    { date: '02 Feb 2026', source: 'Sky News Business',  kind: 'Podcast',
+      title: 'Anthony Liveris on patient capital and the translation gap',
+      summary: 'In conversation with Sky News Business — why Australia\'s biomedical research deserves an accountable builder, not just a funder.',
+      href: '#',
+      _designPreview: true },
+
+    // 2025
+    { date: '20 Oct 2025', source: 'ESMO Congress',       kind: 'Press',
+      title: '²¹²Pb-ADVC001 Phase 1b reads out: 80% PSA50 response',
+      summary: 'Portfolio company AdvanCell presents Phase 1b TheraPb data at ESMO — eighty percent PSA50 at doses ≥160 MBq, two complete responses, no dose-limiting toxicities.',
+      href: '#',
+      _designPreview: true },
+    { date: '03 Jul 2025', source: 'BioCentury',          kind: 'Press',
+      title: 'AdvanCell closes Series C financing led by Sanofi',
+      summary: 'Sanofi-led Series C extends AdvanCell\'s Lead-212 manufacturing footprint into Brisbane and Boston, ahead of Phase 2 expansion across mHSPC and mCRPC.',
+      href: '#',
+      _designPreview: true },
+
+    // 2024
+    { date: '12 Aug 2024', source: 'Australian Financial Review', kind: 'Press',
+      title: 'Billionaire Salesforce boss tips into Sydney biotech incubator',
+      summary: 'Marc Benioff\'s TIME Ventures joins Ray Dalio, Ajay Banga, Catalio and Reliance Life Sciences in the Series B Extension — bringing Proto Axiom\'s investor list to thirty-three.',
+      href: 'https://www.afr.com/street-talk/salesforce-chief-tips-into-biotech-incubator-series-b-20240812-p5k1pq' },
+    { date: '11 Mar 2024', source: 'BioSpectrum Asia',    kind: 'Press',
+      title: 'Endo Axiom advances oral insulin platform toward IND-enabling studies',
+      summary: 'EA-100 — a liver-targeting nanotechnology delivering insulin orally — moves toward IND-enabling studies, three years from company formation.',
+      href: '#',
+      _designPreview: true },
+
+    // 2023
+    { date: '17 Apr 2023', source: 'TechNode Global',     kind: 'Firm announcement',
+      title: 'Proto Axiom raises US$15M Series A to back Australian biotech company creation',
+      summary: 'Series A closes with US institutional and strategic investors. Capital is permanent — no fund life, no management fees, no carry — and is deployed in milestone-gated tranches.',
+      href: 'https://technode.global/2023/04/17/australian-biomedical-technology-incubator-proto-axiom-raises-15m-in-series-a-funding/' },
+    { date: '05 Apr 2023', source: 'University of Sydney', kind: 'Firm announcement',
+      title: 'Sydney researchers spin out company to deliver insulin in a pill',
+      summary: 'Proto Axiom forms Endo Axiom with Professor Victoria Cogger, Professor David Le Couteur AO and Dr Nicholas Hunt — licensing IP from the University of Sydney and the ANZAC Research Institute.',
+      href: '#',
+      _designPreview: true },
+    { date: '06 Mar 2023', source: 'Balance the Grind',   kind: 'Podcast',
+      title: 'Balancing the Grind with Anthony Liveris, CEO of Proto Axiom',
+      summary: 'The CEO interview series sits down with Anthony on operating cadence, founder selection and what a Sydney-based biotech holding company looks like up close.',
+      href: 'https://balancethegrind.co/interviews/anthony-liveris-ceo-of-proto-axiom/' },
+
+    // 2022
+    { date: '04 Oct 2022', source: 'Biotech Dispatch',    kind: 'Firm announcement',
+      title: 'Australian biotechnology incubator Proto Axiom completes initial fundraising',
+      summary: 'Initial fundraising closes from a small group of Australian and international private investors, formalising Proto Axiom as a permanent-capital biotech company-creation platform.',
+      href: 'https://biotechdispatch.com.au/news/australian-biotechnology-incubator-proto-axiom-completes-initial' },
+    { date: '30 Sep 2022', source: 'The Australian',      kind: 'Press',
+      title: 'Backing biotechs with US-style entrepreneurialism',
+      summary: 'A national-paper feature on a new Sydney firm forming companies around Australian translational science, rather than waiting for them to appear.',
+      href: 'https://www.theaustralian.com.au/business/backing-biotechs-with-usstyle-entrepreneurialism/news-story/4b5b76f83fcd2e1fa2ed00d5d84f0bd8' },
+    { date: '15 Sep 2022', source: 'The Evolved Leadership Podcast', kind: 'Podcast',
+      title: 'A ground-breaking approach to biotech innovation',
+      summary: 'Anthony Liveris on the founding decision: build a holding company that owns the operating responsibility, not a fund that allocates around it.',
+      href: 'https://podcasts.apple.com/au/podcast/12-a-ground-breaking-approach-to-biotech-innovation/id1628961242?i=1000587200848' },
+  ];
+
+  /* =====================================================================
+     RENDER — featured + year groups + filter behaviour
+     ===================================================================== */
+  function parseDate(s) {
+    // "12 Aug 2024" -> Date
+    const [d, m, y] = s.split(' ');
+    const months = { Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11 };
+    return new Date(parseInt(y), months[m], parseInt(d));
+  }
+  function yearOf(item) { return parseDate(item.date).getFullYear(); }
+
+  // Sort newest first
+  const items = [...NEWS].sort((a,b) => parseDate(b.date) - parseDate(a.date));
+
+  // Pick featured: featured:true newest, else newest item overall
+  const featured =
+    items.find(n => n.featured) || items[0];
+
+  // Render featured ----------------------------------------------------
+  const fInner = document.getElementById('featured-inner');
+  fInner.innerHTML = `
+    <a class="featured__link" href="${featured.href || '#'}" ${featured.href ? 'target="_blank" rel="noopener noreferrer"' : ''}>
+      <div class="featured__rail">
+        <span class="featured__chip"><span class="bar"></span>Featured · most recent</span>
+        <h3 class="featured__date">${featured.date}</h3>
+        <span class="featured__source">${featured.source}</span>
+        <span class="featured__kind">${featured.kind}</span>
+      </div>
+      <div class="featured__body">
+        <h2 class="featured__title">${featured.title}</h2>
+        ${featured.summary ? `<p class="featured__summary">${featured.summary}</p>` : ''}
+        <span class="featured__cta">
+          ${featured.href && !featured.href.startsWith('/') ? 'Read at ' + featured.source : 'Read full article'}
+          <span class="arr">→</span>
+        </span>
+      </div>
+    </a>
+  `;
+
+  // Render year groups -------------------------------------------------
+  const remainder = items.filter(n => n !== featured);
+  const byYear = {};
+  for (const n of remainder) {
+    const y = yearOf(n);
+    (byYear[y] = byYear[y] || []).push(n);
+  }
+  const years = Object.keys(byYear).map(Number).sort((a,b) => b - a);
+  const totalYears = years.length;
+  const root = document.getElementById('years-root');
+
+  // Counts for hero strip
+  document.getElementById('hero-count-1').textContent = NEWS.length;
+  document.getElementById('hero-count-2').textContent = NEWS.length;
+  document.getElementById('hero-pubs').textContent = new Set(NEWS.map(n => n.source)).size;
+  document.getElementById('counter-shown').textContent = NEWS.length;
+  document.getElementById('counter-total').textContent = NEWS.length;
+
+  years.forEach((y, idx) => {
+    const yearIdx = String(idx + 1).padStart(2, '0');
+    const yearTotal = String(totalYears).padStart(2, '0');
+    const tinted = idx % 2 === 1; // alternate: first year white, second almond
+    const sec = document.createElement('section');
+    sec.className = 'year ' + (tinted ? 'year--almond' : 'year--white');
+    sec.dataset.year = y;
+    sec.innerHTML = `
+      <div class="wrap">
+        <header class="year__head">
+          <span class="year__num">${yearIdx} / ${yearTotal}</span>
+          <span class="year__name">${y}</span>
+          <span class="year__count">${byYear[y].length} item${byYear[y].length === 1 ? '' : 's'}</span>
+        </header>
+        <ul class="items">
+          ${byYear[y].map(n => itemRow(n)).join('')}
+        </ul>
+      </div>
+    `;
+    root.appendChild(sec);
+  });
+
+  function itemRow(n) {
+    const isFirm = n.kind === 'Firm announcement';
+    const external = n.href && !n.href.startsWith('/');
+    const arr = external ? '<span class="arr">↗</span>' : '';
+    const linkOpen = n.href
+      ? `<a class="item__link" href="${n.href}" ${external ? 'target="_blank" rel="noopener noreferrer"' : ''} data-kind="${n.kind}">`
+      : `<div class="item__link" data-kind="${n.kind}">`;
+    const linkClose = n.href ? `</a>` : `</div>`;
+    return `
+      <li class="item reveal" data-kind="${n.kind}">
+        ${linkOpen}
+          <div class="item__meta">
+            <span class="item__date">${n.date}</span>
+            <span class="item__source">${n.source}</span>
+            <span class="item__kind ${isFirm ? 'item__kind--firm' : ''}">${n.kind}</span>
+          </div>
+          <div class="item__body">
+            <h3 class="item__title">${n.title} ${arr}</h3>
+            ${n.summary ? `<p class="item__summary">${n.summary}</p>` : ''}
+          </div>
+        ${linkClose}
+      </li>
+    `;
+  }
+
+  // Filter behaviour ---------------------------------------------------
+  const pills = document.querySelectorAll('.pill');
+  pills.forEach(p => p.addEventListener('click', () => {
+    pills.forEach(o => o.classList.remove('is-active'));
+    p.classList.add('is-active');
+    applyFilter(p.dataset.filter);
+  }));
+
+  function applyFilter(kind) {
+    const allItems = document.querySelectorAll('.item');
+    let shown = 0;
+    // Phase 1 — fade out
+    allItems.forEach(el => el.classList.add('is-hiding'));
+    setTimeout(() => {
+      allItems.forEach(el => {
+        const match = (kind === 'all') || (el.dataset.kind === kind);
+        if (match) {
+          el.classList.remove('is-hidden');
+          shown++;
+        } else {
+          el.classList.add('is-hidden');
+        }
+      });
+      // Hide year sections that are now empty
+      document.querySelectorAll('.year').forEach(sec => {
+        const visible = sec.querySelectorAll('.item:not(.is-hidden)').length;
+        sec.classList.toggle('is-hidden', visible === 0);
+      });
+      // Phase 2 — fade in
+      setTimeout(() => {
+        allItems.forEach(el => el.classList.remove('is-hiding'));
+        document.getElementById('counter-shown').textContent = shown;
+      }, 50);
+    }, 200);
+  }
+
+  // Reveal-on-scroll ---------------------------------------------------
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
