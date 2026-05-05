@@ -1,7 +1,7 @@
 ---
 name: "Tony Haddad"
 title: "Operating Partner"
-photo: "/images/team/tony-haddad.jpeg"
+photo: "/images/team/tony-haddad-new.jpeg"
 sections:
   - section: management
     order: 40
