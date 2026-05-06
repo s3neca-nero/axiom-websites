@@ -11,9 +11,9 @@ pullQuote:
   source: "Anand Gautum"
 ---
 
-Anand is the Founder of G2OME Consulting (est. 2024), where he advises biotech companies, research institutes, and innovation-driven organisations on translating academic discovery into clinically impactful medicines.
+Anand has held senior leadership roles at Pfizer and Novo Nordisk, leading strategic partnerships and building therapeutic pipelines across Europe and Asia-Pacific that are now valued at over $5 billion. Earlier in his career, he served as Vice President of R&D at Progen in Brisbane, directing global clinical programs, and as Senior Vice President at Pharmexa in Denmark, where he led research and external partnerships across the full drug development lifecycle.
 
-He previously held senior leadership roles at Pfizer and Novo Nordisk, leading strategic partnerships and building therapeutic pipelines across Europe and Asia-Pacific that are now valued at over $5 billion. Before that, he served as Vice President of R&D at Progen in Brisbane, directing global clinical programs, and as Senior Vice President at Pharmexa in Denmark, where he led research and external partnerships across the full drug development lifecycle.
+He is now Founder of G2OME Consulting (est. 2024), advising biotech companies, research institutes, and innovation-driven organisations on translating academic discovery into clinically impactful medicines.
 
 Anand remains deeply embedded in the innovation ecosystem. He chairs Proto Axiom's Strategic Advisory Board, sits on A*STAR's Target Translation Committee in Singapore, and advises leading academic and biotech organisations across Australia. He mentors with AusBiotech and serves as an independent expert for major translational funding bodies, including MRFF-supported programs.
 
