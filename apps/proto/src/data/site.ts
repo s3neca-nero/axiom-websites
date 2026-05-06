@@ -256,7 +256,6 @@ export const portfolio: PortfolioItem[] = [
     narrative: [
       'JumpStart Fertility is a platform biotechnology company developing NAD+ (nicotinamide adenine dinucleotide) technologies to modulate cellular energy, metabolism and ageing biology. The lead clinical and commercial application is IVF laboratory media; consumer and animal health streams are also progressing.',
       'The company was founded by Dr Lindsay Wu (Chief Science Officer of Proto Axiom and Head of the Laboratory for Ageing Research at UNSW Sydney). Proto Axiom re‑domiciled JumpStart Fertility to Australia from the United States — all IP and employees now sit within the Australian entity. CEO Dr Stephanie Allen joined to lead commercial strategy, partnerships and capital‑raising.',
-      { headline: 'UNSW puts $35 million into uni startup spinouts', outlet: 'Startup Daily', date: '2025', url: 'https://www.startupdaily.net/topic/funding/unsw-puts-35-million-into-uni-startup-spinouts/' },
     ],
     leadership: [
       { name: 'Dr. Stephanie Allen', title: 'Chief Executive Officer', institution: 'Joined July 2025', photo: '/images/team/stephanie-allen.jpg' },
@@ -294,9 +293,6 @@ export const portfolio: PortfolioItem[] = [
     narrative: [
       'Flo Axiom (formerly BioProSep) is a bioprocessing technology company developing novel downstream purification materials and workflows to improve the efficiency, cost and scalability of biologics manufacturing. The platform is designed to integrate into existing pharmaceutical manufacturing processes, with applications across biologics and advanced therapies.',
       'The thesis is a capital‑efficient enabling platform addressing a critical bottleneck in biologics manufacturing — with potential to generate earlier revenue through research‑use and process‑development applications, while supporting Australian sovereign capability and reducing reliance on offshore purification technologies.',
-      { headline: 'UNSW spin-off JumpStart Fertility lands US backer', outlet: 'Australian Financial Review', date: '09 Jun 2025', url: 'https://www.afr.com/street-talk/unsw-spin-off-jumpstart-fertility-lands-us-backer-20250609-p5m5xb' },
-      { headline: "JumpStart's Aussie IVF treatment targets age decline", outlet: 'Forbes Australia', date: '2025', url: 'https://www.forbes.com.au/news/innovation/jumpstarts-aussie-ivf-treatment-targets-age-decline/' },
-      { headline: 'UNSW puts $35 million into uni startup spinouts', outlet: 'Startup Daily', date: '2025', url: 'https://www.startupdaily.net/topic/funding/unsw-puts-35-million-into-uni-startup-spinouts/' },
     ],
     leadership: [
       { name: 'Tony Haddad', title: 'Chief Executive Officer', institution: 'Operating Partner, Proto Axiom', photo: '/images/team/tony-haddad-new.jpeg' },
