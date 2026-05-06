@@ -6,10 +6,15 @@ sections:
   - section: strategic
     order: 310
 caption: "Pfizer · Novo Nordisk"
+pullQuote:
+  text: "Working alongside an open-minded team and exceptional experts, I'm driven by the chance to back frontier medical science with disciplined capital — translating bold ideas into enduring companies that move biotech forward."
+  source: "Anand Gautum"
 ---
 
-Anand is the former Executive Director and Head of External Science & Innovation (ES&I) at Pfizer, responsible for building academic and industry partnerships in Australia, New Zealand, and Southeast Asia, to fill the company's pipeline with novel therapeutics. Prior to Pfizer, Anand worked as Senior Director for R&D Innovation Sourcing at Novo Nordisk, Denmark, setting direction of innovative sourcing strategy at the company; formed OmGenix BioSolutions, a consultancy company; and worked as a vice-president of research and development at Progen in Brisbane, where he managed and initiated Phase I to III clinical trials. He has also worked as a senior vice-president at Pharmexa, Denmark, where he headed research and external collaborations.
+Anand is the Founder of G2OME Consulting (est. 2024), where he advises biotech companies, research institutes, and innovation-driven organisations on translating academic discovery into clinically impactful medicines.
 
-Anand has a strong background in scientific and commercial management of research at various academic institutions and biotechnology companies around the world. In addition, he brings direct experience in drug discovery, drug development with late-stage clinical trials, and commercialisation of translatable science from academia.
+He previously held senior leadership roles at Pfizer and Novo Nordisk, leading strategic partnerships and building therapeutic pipelines across Europe and Asia-Pacific that are now valued at over $5 billion. Before that, he served as Vice President of R&D at Progen in Brisbane, directing global clinical programs, and as Senior Vice President at Pharmexa in Denmark, where he led research and external partnerships across the full drug development lifecycle.
 
-Anand completed his PhD from University of London in Immunology, undertook postdoctoral training in immunology at Stanford University in California, US. He was then appointed as a research fellow, and later a leader, at the John Curtin School of Medical Research, The Australian National University. He was also appointed as an associate professor at UQ's former Diamantina Centre for Immunology and Cancer Research.
+Anand remains deeply embedded in the innovation ecosystem. He chairs Proto Axiom's Strategic Advisory Board, sits on A*STAR's Target Translation Committee in Singapore, and advises leading academic and biotech organisations across Australia. He mentors with AusBiotech and serves as an independent expert for major translational funding bodies, including MRFF-supported programs.
+
+He holds a PhD in Immunology from the University of London and completed postdoctoral training at Stanford. He has held senior academic appointments at ANU and the University of Queensland, where he is an adjunct professor and an ambassador for Life Sciences Queensland.
