@@ -299,7 +299,7 @@ export const portfolio: PortfolioItem[] = [
       { headline: 'UNSW puts $35 million into uni startup spinouts', outlet: 'Startup Daily', date: '2025', url: 'https://www.startupdaily.net/topic/funding/unsw-puts-35-million-into-uni-startup-spinouts/' },
     ],
     leadership: [
-      { name: 'Anthony Haddad', title: 'Chief Executive Officer', institution: 'Operating Partner, Proto Axiom', photo: '/images/team/tony-haddad-new.jpeg' },
+      { name: 'Tony Haddad', title: 'Chief Executive Officer', institution: 'Operating Partner, Proto Axiom', photo: '/images/team/tony-haddad-new.jpeg' },
       { name: 'Dr. Stefanie Buchholz', title: 'Co‑founder & Chief Scientific Officer', institution: 'Griffith University', photo: '/images/team/stefanie-buchholz.jpg' },
       { name: 'Dr. Bernd Rehm', title: 'Co‑founder', institution: 'Griffith University', photo: '/images/team/bernd-rehm.jpg' },
       { name: 'Hugh McGonagle', title: 'Director & Public Officer', institution: 'Chief Operating Officer, Proto Axiom', photo: '/images/team/hugh-mcgonagle.webp' },
