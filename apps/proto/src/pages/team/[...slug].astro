@@ -4,7 +4,7 @@
  *
  * Two layouts driven by the member's primary section:
  *   editorial   → Management / Board (rich hero + side-rail + chips + pull-quote + affiliations)
- *   directory   → SAB / Strategic    (lean hero + areas/education rail)
+ *   directory   → SAB / Strategic    (lean hero + areas/education rail + optional pull-quote)
  *
  * All layout, prose, attribution and metadata renders from the member's
  * frontmatter in apps/proto/src/content/team/*.md plus the markdown body.
@@ -305,6 +305,13 @@ const description = entry.data.hook ?? entry.data.title;
               <article class="pf__bio">
                 <div class="pf__bio-eyebrow">Biography</div>
                 <Content />
+
+                {entry.data.pullQuote && (
+                  <blockquote class="pf__pull">
+                    <p>{entry.data.pullQuote.text}</p>
+                    <footer>{entry.data.pullQuote.source}</footer>
+                  </blockquote>
+                )}
               </article>
             </div>
           </div>
