@@ -860,7 +860,7 @@ a.pa-team-card { color: inherit !important; }
   display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: end;
   padding-bottom: 64px; border-bottom: 1px solid var(--pa-hairline);
 }
-.pa-page-head__h { font: 600 clamp(48px, 5.6vw, 84px)/0.98 var(--font-sans); letter-spacing: -0.035em; color: var(--pa-primary); margin: 24px 0 0; text-wrap: balance; }
+.pa-page-head__h { font: 500 clamp(48px, 5.6vw, 84px)/1.02 var(--font-serif); letter-spacing: -0.012em; color: var(--pa-primary); margin: 24px 0 0; text-wrap: balance; }
 .pa-page-head__lead { font: 400 19px/1.55 var(--font-sans); color: var(--pa-ink-muted); margin: 0; }
 
 /* ---- Texture mark ------------------------------------------------------ */
